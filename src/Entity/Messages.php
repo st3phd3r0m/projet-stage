@@ -28,7 +28,7 @@ class Messages
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=12)
+     * @ORM\Column(type="string", length=20)
      */
     private $phone;
 

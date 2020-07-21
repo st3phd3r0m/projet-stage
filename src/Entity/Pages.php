@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PagesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * @ORM\Entity(repositoryClass=PagesRepository::class)
@@ -63,9 +65,16 @@ class Pages
     private $updated_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="pages")
+     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="pages")
      */
     private $user;
+
+    
+    /**
+     * @Gedmo\Slug(fields={"title"})
+     * @ORM\Column(length=255, unique=true)
+     */
+    private $slug;
 
     public function getId(): ?int
     {
@@ -180,14 +189,26 @@ class Pages
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?Users
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?Users $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
