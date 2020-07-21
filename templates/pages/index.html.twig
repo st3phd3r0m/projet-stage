@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pages index{% endblock %}
+
+{% block body %}
+    <h1>Pages index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Image</th>
+                <th>Keywords</th>
+                <th>Meta_tag_title</th>
+                <th>Meta_tag_description</th>
+                <th>Meta_tag_keywords</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>Slug</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for page in pages %}
+            <tr>
+                <td>{{ page.id }}</td>
+                <td>{{ page.title }}</td>
+                <td>{{ page.content }}</td>
+                <td>{{ page.image ? page.image|json_encode : '' }}</td>
+                <td>{{ page.keywords ? page.keywords|json_encode : '' }}</td>
+                <td>{{ page.metaTagTitle }}</td>
+                <td>{{ page.metaTagDescription }}</td>
+                <td>{{ page.metaTagKeywords ? page.metaTagKeywords|json_encode : '' }}</td>
+                <td>{{ page.createdAt ? page.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ page.updatedAt ? page.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ page.slug }}</td>
+                <td>
+                    <a href="{{ path('pages_show', {'id': page.id}) }}">show</a>
+                    <a href="{{ path('pages_edit', {'id': page.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('pages_new') }}">Create new</a>
+{% endblock %}

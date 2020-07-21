@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products index{% endblock %}
+
+{% block body %}
+    <h1>Products index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Hangout_location</th>
+                <th>Keywords</th>
+                <th>Image</th>
+                <th>Meta_tag_title</th>
+                <th>Meta_tag_description</th>
+                <th>Meta_tag_keywords</th>
+                <th>Reference</th>
+                <th>Weezeevent</th>
+                <th>Created_at</th>
+                <th>Updated_at</th>
+                <th>Pre_tax_price</th>
+                <th>Tax_included_price</th>
+                <th>Slug</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.title }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.hangoutLocation }}</td>
+                <td>{{ product.keywords ? product.keywords|json_encode : '' }}</td>
+                <td>{{ product.image ? product.image|json_encode : '' }}</td>
+                <td>{{ product.metaTagTitle }}</td>
+                <td>{{ product.metaTagDescription }}</td>
+                <td>{{ product.metaTagKeywords ? product.metaTagKeywords|json_encode : '' }}</td>
+                <td>{{ product.reference }}</td>
+                <td>{{ product.weezeevent }}</td>
+                <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.preTaxPrice }}</td>
+                <td>{{ product.taxIncludedPrice }}</td>
+                <td>{{ product.slug }}</td>
+                <td>
+                    <a href="{{ path('products_show', {'id': product.id}) }}">show</a>
+                    <a href="{{ path('products_edit', {'id': product.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="17">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('products_new') }}">Create new</a>
+{% endblock %}
