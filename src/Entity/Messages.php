@@ -42,6 +42,11 @@ class Messages
      */
     private $message;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $sent_at;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class Messages
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getSentAt(): ?\DateTimeInterface
+    {
+        return $this->sent_at;
+    }
+
+    public function setSentAt(\DateTimeInterface $sent_at): self
+    {
+        $this->sent_at = $sent_at;
 
         return $this;
     }

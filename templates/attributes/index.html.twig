@@ -3,35 +3,57 @@
 {% block title %}Attributes index{% endblock %}
 
 {% block body %}
-    <h1>Attributes index</h1>
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Ludo et Sophie - Liste des attributs</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Attributs</li>
+                </ol>
+            </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Value</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for attribute in attributes %}
-            <tr>
-                <td>{{ attribute.id }}</td>
-                <td>{{ attribute.name }}</td>
-                <td>{{ attribute.value }}</td>
-                <td>
-                    <a href="{{ path('attributes_show', {'id': attribute.id}) }}">show</a>
-                    <a href="{{ path('attributes_edit', {'id': attribute.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
 
-    <a href="{{ path('attributes_new') }}">Create new</a>
-{% endblock %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for attribute in attributes %}
+                    <tr>
+                        <td>{{ attribute.id }}</td>
+                        <td>{{ attribute.name }}</td>
+                        <td>{{ attribute.value }}</td>
+                        <td>
+                            <a href="{{ path('attributes_show', {'id': attribute.id}) }}">show</a>
+                            <a href="{{ path('attributes_edit', {'id': attribute.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('attributes_new') }}">Create new</a>
+
+
+</div></div>{% endblock %}

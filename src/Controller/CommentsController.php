@@ -26,55 +26,12 @@ class CommentsController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="comments_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $comment = new Comments();
-        $form = $this->createForm(CommentsType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($comment);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('comments_index');
-        }
-
-        return $this->render('comments/new.html.twig', [
-            'comment' => $comment,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="comments_show", methods={"GET"})
      */
     public function show(Comments $comment): Response
     {
         return $this->render('comments/show.html.twig', [
             'comment' => $comment,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="comments_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Comments $comment): Response
-    {
-        $form = $this->createForm(CommentsType::class, $comment);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('comments_index');
-        }
-
-        return $this->render('comments/edit.html.twig', [
-            'comment' => $comment,
-            'form' => $form->createView(),
         ]);
     }
 

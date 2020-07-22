@@ -3,11 +3,32 @@
 {% block title %}Edit Languages{% endblock %}
 
 {% block body %}
-    <h1>Edit Languages</h1>
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Ludo et Sophie - Nouvel attribut</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Attributs</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 
-    {{ include('languages/_form.html.twig', {'button_label': 'Update'}) }}
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">Edit Languages</h1>
 
-    <a href="{{ path('languages_index') }}">back to list</a>
+        {{ include('languages/_form.html.twig', {'button_label': 'Update'}) }}
 
-    {{ include('languages/_delete_form.html.twig') }}
-{% endblock %}
+        <a href="{{ path('languages_index') }}">back to list</a>
+
+        {{ include('languages/_delete_form.html.twig') }}
+    </div>
+</div>{% endblock %}

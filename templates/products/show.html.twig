@@ -2,8 +2,28 @@
 
 {% block title %}Products{% endblock %}
 
-{% block body %}
-    <h1>Products</h1>
+{% block body %}    
+<!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Ludo et Sophie - Nouvel attribut</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active">Attributs</li>
+                </ol>
+            </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">Products</h1>
 
     <table class="table">
         <tbody>
@@ -79,4 +99,4 @@
     <a href="{{ path('products_edit', {'id': product.id}) }}">edit</a>
 
     {{ include('products/_delete_form.html.twig') }}
-{% endblock %}
+</div></div>{% endblock %}

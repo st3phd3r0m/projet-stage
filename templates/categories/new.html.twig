@@ -3,9 +3,32 @@
 {% block title %}New Categories{% endblock %}
 
 {% block body %}
-    <h1>Create new Categories</h1>
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Ludo et Sophie - Nouvel attribut</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Attributs</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 
-    {{ include('categories/_form.html.twig') }}
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">Create new Categories</h1>
 
-    <a href="{{ path('categories_index') }}">back to list</a>
+        {{ include('categories/_form.html.twig') }}
+
+        <a href="{{ path('categories_index') }}">back to list</a>
+
+    </div>
+</div>
 {% endblock %}
