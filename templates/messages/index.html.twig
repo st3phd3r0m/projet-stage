@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-admin.html.twig' %}
 
 {% block title %}Messages index{% endblock %}
 
@@ -8,36 +8,27 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Phone</th>
                 <th>Subject</th>
-                <th>Message</th>
-                <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for message in messages %}
             <tr>
-                <td>{{ message.id }}</td>
                 <td>{{ message.name }}</td>
                 <td>{{ message.email }}</td>
-                <td>{{ message.phone }}</td>
                 <td>{{ message.subject }}</td>
-                <td>{{ message.message }}</td>
                 <td>
-                    <a href="{{ path('messages_show', {'id': message.id}) }}">show</a>
-                    <a href="{{ path('messages_edit', {'id': message.id}) }}">edit</a>
+                    <a href="{{ path('messages_show', {'id': message.id}) }}">Lire</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="4">Aucun message</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('messages_new') }}">Create new</a>
 {% endblock %}

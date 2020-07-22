@@ -26,55 +26,12 @@ class MessagesController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="messages_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $message = new Messages();
-        $form = $this->createForm(MessagesType::class, $message);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($message);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('messages_index');
-        }
-
-        return $this->render('messages/new.html.twig', [
-            'message' => $message,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="messages_show", methods={"GET"})
      */
     public function show(Messages $message): Response
     {
         return $this->render('messages/show.html.twig', [
             'message' => $message,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="messages_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Messages $message): Response
-    {
-        $form = $this->createForm(MessagesType::class, $message);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('messages_index');
-        }
-
-        return $this->render('messages/edit.html.twig', [
-            'message' => $message,
-            'form' => $form->createView(),
         ]);
     }
 
