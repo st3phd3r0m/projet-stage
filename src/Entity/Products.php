@@ -118,10 +118,16 @@ class Products
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Messages::class, mappedBy="product")
+     */
+    private $messages;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->attribute = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -386,6 +392,37 @@ class Products
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Messages[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Messages $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Messages $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getProduct() === $this) {
+                $message->setProduct(null);
+            }
+        }
 
         return $this;
     }

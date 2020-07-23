@@ -18,10 +18,16 @@ class MessagesController extends AbstractController
     /**
      * @Route("/", name="messages_index", methods={"GET"})
      */
-    public function index(MessagesRepository $messagesRepository): Response
+    public function index(MessagesRepository $messagesRepository, Request $request): Response
     {
+        if($request->get('productId')){
+            $messages = $messagesRepository->findBy(['product'=>$request->get('productId')]);
+        }else{
+            $messages = $messagesRepository->findAll();
+        }
+
         return $this->render('messages/index.html.twig', [
-            'messages' => $messagesRepository->findAll(),
+            'messages' => $messages
         ]);
     }
 

@@ -51,6 +51,7 @@
 							<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
 							<td>
 							{{ user.pages|length }}
+							<a title="Voir les {{ user.pages|length }} publications de {{ user.firstname }}" href="{{ path('pages_index', {userId: user.id }) }}">Voir</a>
 							</td>							
 							<td>
 								<a href="{{ path('users_show', {'id': user.id}) }}">Voir</a>

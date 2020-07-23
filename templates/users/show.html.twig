@@ -54,6 +54,13 @@
 						<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
 					</tr>
 
+					<tr>
+						<th>Publications</th>
+						<td>
+							{{ user.pages|length }}
+							<a title="Voir les {{ user.pages|length }} publications de {{ user.firstname }}" href="{{ path('pages_index', {userId: user.id }) }}">Voir</a>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 
@@ -64,7 +71,8 @@
 			{{ include('users/_delete_form.html.twig') }}
 
 			<section>
-				<h2>Publications de {{ user.firstname }}</h2>
+				<h2>Publications de
+					{{ user.firstname }}</h2>
 				{% for page in user.pages %}
 					<article>
 						<div class="card card-primary card-outline">
@@ -98,19 +106,19 @@
 								</p>
 								<p>
 									<span class="font-weight-bold">Date de création :</span>
-									{{ page.createdAt | date('d-m-Y') }}
+									{{ page.createdAt | date('d-m-Y H:i:s') }}
 									<span class="font-weight-bold">Date de modification :</span>
-									{{ page.updatedAt | date('d-m-Y') }}
+									{{ page.updatedAt | date('d-m-Y H:i:s') }}
 								</p>
 								<a href="{{ path('pages_show', {id: page.id}) }}" class="card-link">Voir</a>
 								<a href="{{ path('pages_edit', {id: page.id}) }}" class="card-link">Modifier</a>
 								{{ include('pages/_delete_form.html.twig') }}
-						</div>
-						<!-- /.card -->
-					</article>
-				{% endfor %}
-			</section>
+							</div>
+							<!-- /.card -->
+						</article>
+					{% endfor %}
+				</section>
 
+			</div>
 		</div>
-	</div>
-{% endblock %}
+	{% endblock %}

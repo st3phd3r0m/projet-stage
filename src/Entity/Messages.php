@@ -47,6 +47,11 @@ class Messages
      */
     private $sent_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Products::class, inversedBy="messages")
+     */
+    private $product;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +125,18 @@ class Messages
     public function setSentAt(\DateTimeInterface $sent_at): self
     {
         $this->sent_at = $sent_at;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Products
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Products $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

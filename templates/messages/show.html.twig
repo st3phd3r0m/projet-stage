@@ -1,6 +1,9 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Ludo et Sophie - Message {{ message.subject }}
+{% block title %}Ludo et Sophie - Message de
+	{{ message.name }}
+	le
+	{{ message.sentAt|date('d-m-Y H:i:s') }}
 {% endblock %}
 
 {% block body %}
@@ -9,7 +12,10 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1 class="m-0 text-dark">Ludo et Sophie - Message {{ message.subject }}</h1>
+					<h1 class="m-0 text-dark">Ludo et Sophie - Message de
+						{{ message.name }}
+						le
+						{{ message.sentAt|date('d-m-Y H:i:s') }}</h1>
 				</div>
 				<!-- /.col -->
 				<div class="col-sm-6">
@@ -50,9 +56,21 @@
 						<th>Objet</th>
 						<td>{{ message.subject }}</td>
 					</tr>
+					{% if message.product != null %}
+						<tr>
+							<th>Concernant la sortie</th>
+							<td>
+								<a title="Voir la sortie associée" href="{{ path('products_show', {id:message.product.id}) }}">{{ message.product.title }}</a>
+							</td>
+						</tr>
+					{% endif %}
 					<tr>
 						<th>Message</th>
 						<td>{{ message.message }}</td>
+					</tr>
+					<tr>
+						<th>Envoyé le</th>
+						<td>{{ message.sentAt | date('d.m.Y H:i:s') }}</td>
 					</tr>
 				</tbody>
 			</table>

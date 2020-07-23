@@ -35,44 +35,42 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Id</th>
 						<th>Titre</th>
-						<th>Description</th>
 						<th>Lieu de sortie</th>
-						<th>Mots-clés</th>
-						<th>Image</th>
-						<th>Titre en méta donnée</th>
-						<th>Description en méta donnée</th>
-						<th>Mots-clés en méta donnée</th>
 						<th>Reference</th>
-						<th>Weezeevent</th>
 						<th>Créé le</th>
 						<th>Modifié le</th>
-						<th>Pre_tax_price</th>
-						<th>Tax_included_price</th>
-						<th>Slug</th>
+						<th>Prix HT</th>
+						<th>Prix TTC</th>
+						<th>Nombre d'avis clients</th>
+						<th>Nombre de messages clients</th>
 						<th>actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for product in products %}
 						<tr>
-							<td>{{ product.id }}</td>
 							<td>{{ product.title }}</td>
-							<td>{{ product.description }}</td>
 							<td>{{ product.hangoutLocation }}</td>
-							<td>{{ product.keywords ? product.keywords|json_encode : '' }}</td>
-							<td>{{ product.image ? product.image|json_encode : '' }}</td>
-							<td>{{ product.metaTagTitle }}</td>
-							<td>{{ product.metaTagDescription }}</td>
-							<td>{{ product.metaTagKeywords ? product.metaTagKeywords|json_encode : '' }}</td>
 							<td>{{ product.reference }}</td>
-							<td>{{ product.weezeevent }}</td>
 							<td>{{ product.createdAt ? product.createdAt|date('d-m-Y H:i:s') : '' }}</td>
 							<td>{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
-							<td>{{ product.preTaxPrice }}</td>
-							<td>{{ product.taxIncludedPrice }}</td>
-							<td>{{ product.slug }}</td>
+							<td>{{ product.preTaxPrice }}
+								&euro;</td>
+							<td>{{ product.taxIncludedPrice }}
+								&euro;</td>
+							<td>{{ product.comments | length }}
+								{% if product.comments | length > 0 %}
+									<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}">Voir</a>
+								{% endif %}
+
+							</td>
+							<td>{{ product.messages | length }}
+
+								{% if product.messages | length > 0 %}
+									<a title="Voir les messages clients pour cette sortie" href="{{ path('messages_index', {productId:product.id}) }}">Voir</a>
+								{% endif %}
+							</td>
 							<td>
 								<a href="{{ path('products_show', {'id': product.id}) }}">Voir</a>
 								<a href="{{ path('products_edit', {'id': product.id}) }}">Modifier</a>
@@ -80,7 +78,7 @@
 						</tr>
 					{% else %}
 						<tr>
-							<td colspan="17">no records found</td>
+							<td colspan="17">Aucune sortie enregistrée</td>
 						</tr>
 					{% endfor %}
 				</tbody>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comments;
+use App\Entity\Products;
 use App\Form\CommentsType;
 use App\Repository\CommentsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,10 +19,17 @@ class CommentsController extends AbstractController
     /**
      * @Route("/", name="comments_index", methods={"GET"})
      */
-    public function index(CommentsRepository $commentsRepository): Response
+    public function index(CommentsRepository $commentsRepository, Request $request): Response
     {
+        
+        if($request->get('productId')){
+            $comments = $commentsRepository->findBy(['product'=>$request->get('productId')]);
+        }else{
+            $comments = $commentsRepository->findAll();
+        }
+
         return $this->render('comments/index.html.twig', [
-            'comments' => $commentsRepository->findAll(),
+            'comments' => $comments
         ]);
     }
 

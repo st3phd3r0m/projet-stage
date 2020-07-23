@@ -35,8 +35,10 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Pseudo</th>
+						<th>Ecrit par</th>
 						<th>Contenu</th>
+						<th>Concernant la sortie</th>
+						<th>Date</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -46,7 +48,12 @@
 							<td>{{ comment.pseudo }}</td>
 							<td>{{ comment.content }}</td>
 							<td>
+								<a title="Voir la sortie associée" href="{{ path('products_show', {id:comment.product.id}) }}">{{ comment.product.title }}</a>
+							</td>
+							<td>{{ comment.createdAt|date('d-m-Y H:i:s') }}</td>
+							<td>
 								<a href="{{ path('comments_show', {'id': comment.id}) }}">Voir</a>
+								<a href="{{ path('comments_edit', {'id': comment.id}) }}">Modérer</a>
 							</td>
 						</tr>
 					{% else %}

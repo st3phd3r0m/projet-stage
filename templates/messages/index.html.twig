@@ -38,6 +38,7 @@
 						<th>Adresse email</th>
 						<th>Nom</th>
 						<th>Objet</th>
+						<th>Concernant la sortie</th>
 						<th>Envoyé le</th>
 					</tr>
 				</thead>
@@ -47,7 +48,14 @@
 							<td>{{ message.email }}</td>
 							<td>{{ message.name }}</td>
 							<td>{{ message.subject }}</td>
-							<td>{{ message.sentAt | date('d.m.Y') }}</td>
+							<td>
+								{% if message.product != null %}
+								<a title="Voir la sortie associée" href="{{ path('products_show', {id:message.product.id}) }}">{{ message.product.title }}</a>
+								{% else %}
+									associé à aucune sortie
+								{% endif %}
+							</td>
+							<td>{{ message.sentAt | date('d.m.Y H:i:s') }}</td>
 							<td>
 								<a href="{{ path('messages_show', {'id': message.id}) }}">Lire</a>
 							</td>

@@ -18,10 +18,17 @@ class PagesController extends AbstractController
     /**
      * @Route("/", name="pages_index", methods={"GET"})
      */
-    public function index(PagesRepository $pagesRepository): Response
+    public function index(PagesRepository $pagesRepository, Request $request): Response
     {
+
+        if($request->get('userId')){
+            $pages = $pagesRepository->findBy(['user'=>$request->get('userId')]);
+        }else{
+            $pages = $pagesRepository->findAll();
+        }
+
         return $this->render('pages/index.html.twig', [
-            'pages' => $pagesRepository->findAll(),
+            'pages' => $pages
         ]);
     }
 

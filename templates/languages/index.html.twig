@@ -35,7 +35,6 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Id</th>
 						<th>Nom</th>
 						<th>Flag</th>
 						<th>actions</th>
@@ -44,9 +43,10 @@
 				<tbody>
 					{% for language in languages %}
 						<tr>
-							<td>{{ language.id }}</td>
 							<td>{{ language.name }}</td>
-							<td>{{ language.flag }}</td>
+							<td>
+								<img src="{{ asset('images/'~ language.flag ) | imagine_filter('miniatures') }}" alt="Drapeau associé à la langue {{ language.name }}">
+							</td>
 							<td>
 								<a href="{{ path('languages_edit', {'id': language.id}) }}">Editer</a>
 							</td>

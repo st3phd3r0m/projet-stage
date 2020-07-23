@@ -32,81 +32,119 @@
 	<div class="content">
 		<div class="container-fluid">
 
-		<table class="table">
-			<tbody>
-				<tr>
-					<th>Id</th>
-					<td>{{ product.id }}</td>
-				</tr>
-				<tr>
-					<th>Titre</th>
-					<td>{{ product.title }}</td>
-				</tr>
-				<tr>
-					<th>Description</th>
-					<td>{{ product.description }}</td>
-				</tr>
-				<tr>
-					<th>Lieu de sortie</th>
-					<td>{{ product.hangoutLocation }}</td>
-				</tr>
-				<tr>
-					<th>Mots-clés</th>
-					<td>{{ product.keywords ? product.keywords|json_encode : '' }}</td>
-				</tr>
-				<tr>
-					<th>Image</th>
-					<td>{{ product.image ? product.image|json_encode : '' }}</td>
-				</tr>
-				<tr>
-					<th>Titre en méta donnée</th>
-					<td>{{ product.metaTagTitle }}</td>
-				</tr>
-				<tr>
-					<th>Description en méta donnée</th>
-					<td>{{ product.metaTagDescription }}</td>
-				</tr>
-				<tr>
-					<th>Mots-clés en méta donnée</th>
-					<td>{{ product.metaTagKeywords ? product.metaTagKeywords|json_encode : '' }}</td>
-				</tr>
-				<tr>
-					<th>Reference</th>
-					<td>{{ product.reference }}</td>
-				</tr>
-				<tr>
-					<th>Weezeevent</th>
-					<td>{{ product.weezeevent }}</td>
-				</tr>
-				<tr>
-					<th>Créé le</th>
-					<td>{{ product.createdAt ? product.createdAt|date('d-m-Y H:i:s') : '' }}</td>
-				</tr>
-				<tr>
-					<th>Modifié le</th>
-					<td>{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
-				</tr>
-				<tr>
-					<th>Pre_tax_price</th>
-					<td>{{ product.preTaxPrice }}</td>
-				</tr>
-				<tr>
-					<th>Tax_included_price</th>
-					<td>{{ product.taxIncludedPrice }}</td>
-				</tr>
-				<tr>
-					<th>Slug</th>
-					<td>{{ product.slug }}</td>
-				</tr>
-			</tbody>
-		</table>
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>Id</th>
+						<td>{{ product.id }}</td>
+					</tr>
+					<tr>
+						<th>Titre</th>
+						<td>{{ product.title }}</td>
+					</tr>
+					<tr>
+						<th>Description</th>
+						<td>{{ product.description }}</td>
+					</tr>
+					<tr>
+						<th>Image</th>
+						<td>{{ product.image ? product.image|json_encode : '' }}</td>
+					</tr>
+					<tr>
+						<th>Lieu de sortie</th>
+						<td>{{ product.hangoutLocation }}</td>
+					</tr>
+					<tr>
+						<th>Mots-clés</th>
+						<td>{{ product.keywords ? product.keywords|json_encode : '' }}</td>
+					</tr>
+					<tr>
+						<th>Titre en méta donnée</th>
+						<td>{{ product.metaTagTitle }}</td>
+					</tr>
+					<tr>
+						<th>Description en méta donnée</th>
+						<td>{{ product.metaTagDescription }}</td>
+					</tr>
+					<tr>
+						<th>Mots-clés en méta donnée</th>
+						<td>{{ product.metaTagKeywords ? product.metaTagKeywords|json_encode : '' }}</td>
+					</tr>
+					<tr>
+						<th>Reference</th>
+						<td>{{ product.reference }}</td>
+					</tr>
+					<tr>
+						<th>Weezeevent</th>
+						<td>{{ product.weezeevent }}</td>
+					</tr>
+					<tr>
+						<th>Créé le</th>
+						<td>{{ product.createdAt ? product.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+					</tr>
+					<tr>
+						<th>Modifié le</th>
+						<td>{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+					</tr>
+					<tr>
+						<th>Prix HT</th>
+						<td>{{ product.preTaxPrice }}
+							&euro;</td>
+					</tr>
+					<tr>
+						<th>Prix TTC</th>
+						<td>{{ product.taxIncludedPrice }}
+							&euro;</td>
+					</tr>
+					<tr>
+						<th>Nombre d'avis clients</th>
+						<td>{{ product.comments | length }}
+							{% if product.comments | length > 0 %}
+								<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}">Voir</a>
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th>Nombre de messages clients</th>
+						<td>{{ product.messages | length }}
+							{% if product.messages | length > 0 %}
+								<a title="Voir les messages clients pour cette sortie" href="{{ path('messages_index', {productId:product.id}) }}">Voir</a>
+							{% endif %}
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
-		<a href="{{ path('products_index') }}">Retour à la liste</a>
+			<a href="{{ path('products_index') }}">Retour à la liste</a>
 
-		<a href="{{ path('products_edit', {'id': product.id}) }}">Modifier</a>
+			<a href="{{ path('products_edit', {'id': product.id}) }}">Modifier</a>
 
-		{{ include('products/_delete_form.html.twig') }}
-        </div>
-    </div>
+			{{ include('products/_delete_form.html.twig') }}
+		</div>
 
-{% endblock %}
+		<section>
+			<h2>{{ product.comments | length }}
+				avis clients pour cette sortie</h2>
+			{% for comment in product.comments %}
+				<article>
+					<div class="card card-primary card-outline">
+						<div class="card-body">
+							<h3 class="card-title">Commentaire de
+								<span class="font-weight-bold">{{ comment.pseudo }}</span>
+								le
+								{{ comment.createdAt|date('d-m-Y H:i:s') }}
+							</h3>
+							<p class="card-text">
+								{{ comment.content }}
+							</p>
+							<a href="{{ path('comments_show', {id: comment.id}) }}" class="card-link">Voir</a>
+							<a href="{{ path('comments_edit', {id: comment.id}) }}" class="card-link">Modifier</a>
+							{{ include('comments/_delete_form.html.twig') }}
+						</div>
+						<!-- /.card -->
+					</article>
+				{% endfor %}
+			</section>
+		</div>
+
+	{% endblock %}
