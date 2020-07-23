@@ -10,7 +10,9 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1 class="m-0 text-dark">Ludo et Sophie - Utilisateur {{ user.firstname }} {{ user.lastname }}</h1>
+					<h1 class="m-0 text-dark">Ludo et Sophie - Utilisateur
+						{{ user.firstname }}
+						{{ user.lastname }}</h1>
 				</div>
 				<!-- /.col -->
 				<div class="col-sm-6">
@@ -46,7 +48,7 @@
 					<tr>
 						<th>Nom</th>
 						<td>{{ user.lastname }}</td>
-					</tr>					
+					</tr>
 					<tr>
 						<th>Roles</th>
 						<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
@@ -60,6 +62,54 @@
 			<a href="{{ path('users_edit', {'id': user.id}) }}">Editer</a>
 
 			{{ include('users/_delete_form.html.twig') }}
+
+			<section>
+				<h2>Publications de {{ user.firstname }}</h2>
+				{% for page in user.pages %}
+					<article>
+						<div class="card card-primary card-outline">
+							<div class="card-body">
+								<h3 class="card-title">
+									<span class="font-weight-bold">Titre :</span>
+									{{ page.title }}</h3>
+								<p class="card-text">
+									<span class="font-weight-bold">Titre en méta donnée :</span>
+									{{ page.metaTagTitle }}
+								</p>
+
+								<p class="card-text">
+									<span class="font-weight-bold">Description en méta donnée :</span>
+									{{ page.metaTagDescription }}
+								</p>
+
+								<p>
+									<span class="font-weight-bold">Mots clés :</span>
+									{% for keyword in page.keywords %}
+										#{{ keyword }}
+									{% else %}
+										Pas de mot clés
+									{% endfor %}
+									<span class="font-weight-bold">Méta tags :</span>
+									{% for keyword in page.metaTagKeywords %}
+										#{{ keyword }}
+									{% else %}
+										Pas de mot clés
+									{% endfor %}
+								</p>
+								<p>
+									<span class="font-weight-bold">Date de création :</span>
+									{{ page.createdAt | date('d-m-Y') }}
+									<span class="font-weight-bold">Date de modification :</span>
+									{{ page.updatedAt | date('d-m-Y') }}
+								</p>
+								<a href="{{ path('pages_show', {id: page.id}) }}" class="card-link">Voir</a>
+								<a href="{{ path('pages_edit', {id: page.id}) }}" class="card-link">Modifier</a>
+								{{ include('pages/_delete_form.html.twig') }}
+						</div>
+						<!-- /.card -->
+					</article>
+				{% endfor %}
+			</section>
 
 		</div>
 	</div>

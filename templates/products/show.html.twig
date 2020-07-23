@@ -39,7 +39,7 @@
 					<td>{{ product.id }}</td>
 				</tr>
 				<tr>
-					<th>Title</th>
+					<th>Titre</th>
 					<td>{{ product.title }}</td>
 				</tr>
 				<tr>
@@ -47,11 +47,11 @@
 					<td>{{ product.description }}</td>
 				</tr>
 				<tr>
-					<th>Hangout_location</th>
+					<th>Lieu de sortie</th>
 					<td>{{ product.hangoutLocation }}</td>
 				</tr>
 				<tr>
-					<th>Keywords</th>
+					<th>Mots-clés</th>
 					<td>{{ product.keywords ? product.keywords|json_encode : '' }}</td>
 				</tr>
 				<tr>
@@ -59,15 +59,15 @@
 					<td>{{ product.image ? product.image|json_encode : '' }}</td>
 				</tr>
 				<tr>
-					<th>Meta_tag_title</th>
+					<th>Titre en méta donnée</th>
 					<td>{{ product.metaTagTitle }}</td>
 				</tr>
 				<tr>
-					<th>Meta_tag_description</th>
+					<th>Description en méta donnée</th>
 					<td>{{ product.metaTagDescription }}</td>
 				</tr>
 				<tr>
-					<th>Meta_tag_keywords</th>
+					<th>Mots-clés en méta donnée</th>
 					<td>{{ product.metaTagKeywords ? product.metaTagKeywords|json_encode : '' }}</td>
 				</tr>
 				<tr>
@@ -79,12 +79,12 @@
 					<td>{{ product.weezeevent }}</td>
 				</tr>
 				<tr>
-					<th>Created_at</th>
-					<td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+					<th>Créé le</th>
+					<td>{{ product.createdAt ? product.createdAt|date('d-m-Y H:i:s') : '' }}</td>
 				</tr>
 				<tr>
-					<th>Updated_at</th>
-					<td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+					<th>Modifié le</th>
+					<td>{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
 				</tr>
 				<tr>
 					<th>Pre_tax_price</th>

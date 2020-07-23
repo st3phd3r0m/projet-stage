@@ -35,24 +35,23 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Id</th>
-						<th>Title</th>
-						<th>Content</th>
+						<th>Titre</th>
+						<th>Contenu</th>
 						<th>Image</th>
-						<th>Keywords</th>
-						<th>Meta_tag_title</th>
-						<th>Meta_tag_description</th>
-						<th>Meta_tag_keywords</th>
-						<th>Created_at</th>
-						<th>Updated_at</th>
+						<th>Mots-clés</th>
+						<th>Titre en méta donnée</th>
+						<th>Description en méta donnée</th>
+						<th>Mots-clés en méta donnée</th>
+						<th>Créé le</th>
+						<th>Modifié le</th>
 						<th>Slug</th>
+						<th>Auteur</th>
 						<th>actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for page in pages %}
 						<tr>
-							<td>{{ page.id }}</td>
 							<td>{{ page.title }}</td>
 							<td>{{ page.content }}</td>
 							<td>{{ page.image ? page.image|json_encode : '' }}</td>
@@ -60,9 +59,10 @@
 							<td>{{ page.metaTagTitle }}</td>
 							<td>{{ page.metaTagDescription }}</td>
 							<td>{{ page.metaTagKeywords ? page.metaTagKeywords|json_encode : '' }}</td>
-							<td>{{ page.createdAt ? page.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-							<td>{{ page.updatedAt ? page.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>{{ page.createdAt ? page.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+							<td>{{ page.updatedAt ? page.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
 							<td>{{ page.slug }}</td>
+							<td>{{ page.user.firstname }} {{ page.user.lastname }}</td>
 							<td>
 								<a href="{{ path('pages_show', {'id': page.id}) }}">Voir</a>
 								<a href="{{ path('pages_edit', {'id': page.id}) }}">Modifier</a>

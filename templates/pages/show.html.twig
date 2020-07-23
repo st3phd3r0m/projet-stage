@@ -39,11 +39,11 @@
 						<td>{{ page.id }}</td>
 					</tr>
 					<tr>
-						<th>Title</th>
+						<th>Titre</th>
 						<td>{{ page.title }}</td>
 					</tr>
 					<tr>
-						<th>Content</th>
+						<th>Contenu</th>
 						<td>{{ page.content }}</td>
 					</tr>
 					<tr>
@@ -51,28 +51,32 @@
 						<td>{{ page.image ? page.image|json_encode : '' }}</td>
 					</tr>
 					<tr>
-						<th>Keywords</th>
+						<th>Mots-clés</th>
 						<td>{{ page.keywords ? page.keywords|json_encode : '' }}</td>
 					</tr>
 					<tr>
-						<th>Meta_tag_title</th>
+						<th>Titre en méta donnée</th>
 						<td>{{ page.metaTagTitle }}</td>
 					</tr>
 					<tr>
-						<th>Meta_tag_description</th>
+						<th>Description en méta donnée</th>
 						<td>{{ page.metaTagDescription }}</td>
 					</tr>
 					<tr>
-						<th>Meta_tag_keywords</th>
+						<th>Mots-clés en méta donnée</th>
 						<td>{{ page.metaTagKeywords ? page.metaTagKeywords|json_encode : '' }}</td>
 					</tr>
 					<tr>
-						<th>Created_at</th>
-						<td>{{ page.createdAt ? page.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+						<th>Créé le</th>
+						<td>{{ page.createdAt ? page.createdAt|date('d-m-Y H:i:s') : '' }}</td>
 					</tr>
 					<tr>
-						<th>Updated_at</th>
-						<td>{{ page.updatedAt ? page.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+						<th>Modifié le</th>
+						<td>{{ page.updatedAt ? page.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+					</tr>
+					<tr>
+						<th>Auteur</th>
+						<td>{{ page.user.firstname}} {{ page.user.lastname}}</td>
 					</tr>
 					<tr>
 						<th>Slug</th>
