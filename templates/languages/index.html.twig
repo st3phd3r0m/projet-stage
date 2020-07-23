@@ -49,6 +49,7 @@
 							</td>
 							<td>
 								<a href="{{ path('languages_edit', {'id': language.id}) }}">Editer</a>
+								{{ include('languages/_delete_form.html.twig') }}
 							</td>
 						</tr>
 					{% else %}

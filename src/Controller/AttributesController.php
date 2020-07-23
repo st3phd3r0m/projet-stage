@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Attributes;
 use App\Form\AttributesType;
 use App\Repository\AttributesRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,19 @@ class AttributesController extends AbstractController
     /**
      * @Route("/", name="attributes_index", methods={"GET"})
      */
-    public function index(AttributesRepository $attributesRepository): Response
+    public function index(AttributesRepository $attributesRepository, PaginatorInterface $paginator, Request $request ): Response
     {
+        $attributes = $paginator->paginate(
+            //Appel de la méthode de requete DQL de recherche
+            $attributesRepository->findAll(),
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
+
         return $this->render('attributes/index.html.twig', [
-            'attributes' => $attributesRepository->findAll(),
+            'attributes' => $attributes
         ]);
     }
 

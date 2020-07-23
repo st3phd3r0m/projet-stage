@@ -66,8 +66,12 @@
 						<td>{{ category.image ? category.image|json_encode : '' }}</td>
 					</tr>
 					<tr>
-						<th>Slug</th>
-						<td>{{ category.slug }}</td>
+						<th>Créée le</th>
+						<td>{{ category.createdAt|date('d-m-Y H:i:s') }}</td>
+					</tr>
+					<tr>
+						<th>Modifiée le</th>
+						<td>{{ category.updatedAt|date('d-m-Y H:i:s') }}</td>
 					</tr>
 				</tbody>
 			</table>

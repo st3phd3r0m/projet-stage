@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Pages;
 use App\Form\PagesType;
 use App\Repository\PagesRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,14 +19,22 @@ class PagesController extends AbstractController
     /**
      * @Route("/", name="pages_index", methods={"GET"})
      */
-    public function index(PagesRepository $pagesRepository, Request $request): Response
+    public function index(PagesRepository $pagesRepository, PaginatorInterface $paginator, Request $request): Response
     {
-
         if($request->get('userId')){
-            $pages = $pagesRepository->findBy(['user'=>$request->get('userId')]);
+            $pagesBuffer = $pagesRepository->findBy(['user'=>$request->get('userId')],['created_at'=>'DESC']);
         }else{
-            $pages = $pagesRepository->findAll();
-        }
+            $pagesBuffer = $pagesRepository->findBy([], ['created_at' => 'DESC']);
+        }       
+        
+        $pages = $paginator->paginate(
+            //Appel de la méthode de requete DQL de recherche
+            $pagesBuffer,
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
 
         return $this->render('pages/index.html.twig', [
             'pages' => $pages

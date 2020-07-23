@@ -60,7 +60,13 @@
 						</tr>
 					{% endfor %}
 				</tbody>
+				<div>
+					{{ knp_pagination_render(pages) }}
+				</div>
 			</table>
+			<div>
+				{{ knp_pagination_render(pages) }}
+			</div>
 
 			<a href="{{ path('pages_new') }}">Créer nouvelle publication</a>
 		</div>

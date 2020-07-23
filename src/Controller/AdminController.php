@@ -17,8 +17,6 @@ class AdminController extends AbstractController
      */
     public function index(ProductsRepository $productsRepository, CategoriesRepository $categoriesRepository, CommentsRepository $commentsRepository, MessagesRepository $messagesRepository, PagesRepository $pagesRepository)
     {
-
-
         $nbrProducts = count($productsRepository->findAll());
         $nbrCategories = count($categoriesRepository->findAll());
         $nbrPages = count($pagesRepository->findAll());

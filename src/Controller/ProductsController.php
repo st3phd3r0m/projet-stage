@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Products;
 use App\Form\ProductsType;
 use App\Repository\ProductsRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,18 @@ class ProductsController extends AbstractController
     /**
      * @Route("/", name="products_index", methods={"GET"})
      */
-    public function index(ProductsRepository $productsRepository): Response
+    public function index(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $products = $paginator->paginate(
+            //Appel de la méthode de requete DQL de recherche
+            $productsRepository->findBy([], ['created_at' => 'DESC']),
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
         return $this->render('products/index.html.twig', [
-            'products' => $productsRepository->findAll(),
+            'products' => $products
         ]);
     }
 

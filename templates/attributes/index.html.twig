@@ -34,7 +34,6 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Id</th>
 						<th>Nom</th>
 						<th>Valeur</th>
 						<th>actions</th>
@@ -43,7 +42,6 @@
 				<tbody>
 					{% for attribute in attributes %}
 						<tr>
-							<td>{{ attribute.id }}</td>
 							<td>{{ attribute.name }}</td>
 							<td>{{ attribute.value }}</td>
 							<td>
@@ -57,7 +55,13 @@
 						</tr>
 					{% endfor %}
 				</tbody>
+				<div>
+					{{ knp_pagination_render(attributes) }}
+				</div>
 			</table>
+			<div>
+				{{ knp_pagination_render(attributes) }}
+			</div>
 
 			<a href="{{ path('attributes_new') }}">Créer nouvel attribut</a>
 

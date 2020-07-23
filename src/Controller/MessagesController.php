@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Messages;
 use App\Form\MessagesType;
 use App\Repository\MessagesRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,17 +19,26 @@ class MessagesController extends AbstractController
     /**
      * @Route("/", name="messages_index", methods={"GET"})
      */
-    public function index(MessagesRepository $messagesRepository, Request $request): Response
+    public function index(MessagesRepository $messagesRepository, PaginatorInterface $paginator, Request $request): Response
     {
         if($request->get('productId')){
-            $messages = $messagesRepository->findBy(['product'=>$request->get('productId')]);
+            $messagesBuffer = $messagesRepository->findBy(['product'=>$request->get('productId')]);
         }else{
-            $messages = $messagesRepository->findAll();
+            $messagesBuffer = $messagesRepository->findBy([], ['sent_at' => 'DESC']);
         }
+
+        $messages = $paginator->paginate(
+            //Appel de la méthode de requete DQL de recherche
+            $messagesBuffer,
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
 
         return $this->render('messages/index.html.twig', [
             'messages' => $messages
-        ]);
+        ]);   
     }
 
     /**

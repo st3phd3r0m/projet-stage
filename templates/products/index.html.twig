@@ -82,7 +82,14 @@
 						</tr>
 					{% endfor %}
 				</tbody>
+
+				<div>
+					{{ knp_pagination_render(products) }}
+				</div>
 			</table>
+			<div>
+				{{ knp_pagination_render(products) }}
+			</div>
 
 			<a href="{{ path('products_new') }}">Créer nouvelle sortie</a>
 

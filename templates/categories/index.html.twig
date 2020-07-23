@@ -1,6 +1,7 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Ludo et Sophie - Index des catégories{% endblock %}
+{% block title %}Ludo et Sophie - Index des catégories
+{% endblock %}
 
 {% block body %}
 	<!-- Content Header (Page header) -->
@@ -35,9 +36,8 @@
 				<thead>
 					<tr>
 						<th>Titre</th>
-						<th>Mots-clés</th>
-						<th>Titre en méta donnée</th>
-						<th>Mots-clés en méta donnée</th>
+						<th>Créée le</th>
+						<th>Modifié le</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -45,9 +45,9 @@
 					{% for category in categories %}
 						<tr>
 							<td>{{ category.title }}</td>
-							<td>{{ category.keywords ? category.keywords|json_encode : '' }}</td>
-							<td>{{ category.metaTagTitle }}</td>
-							<td>{{ category.metaTagKeywords ? category.metaTagKeywords|json_encode : '' }}</td>
+							<td>{{ category.createdAt|date('d-m-Y H:i:s') }}</td>
+							<td>{{ category.updatedAt|date('d-m-Y H:i:s') }}</td>
+							<td></td>
 							<td>
 								<a href="{{ path('categories_show', {'id': category.id}) }}">Voir</a>
 								<a href="{{ path('categories_edit', {'id': category.id}) }}">Modifier</a>
@@ -59,7 +59,13 @@
 						</tr>
 					{% endfor %}
 				</tbody>
+				<div>
+					{{ knp_pagination_render(categories) }}
+				</div>
 			</table>
+			<div>
+				{{ knp_pagination_render(categories) }}
+			</div>
 
 			<a href="{{ path('categories_new') }}">Créer nouvelle catégorie</a>
 
