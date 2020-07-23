@@ -36,18 +36,22 @@
 				<thead>
 					<tr>
 						<th>Email</th>
+						<th>Prénom</th>
+						<th>Nom</th>						
 						<th>Roles</th>
-						<th>Firstname</th>
-						<th>Lastname</th>
+						<th>Nombre de publication</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for user in users %}
 						<tr>
 							<td>{{ user.email }}</td>
-							<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
 							<td>{{ user.firstname }}</td>
-							<td>{{ user.lastname }}</td>
+							<td>{{ user.lastname }}</td>							
+							<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+							<td>
+							{{ user.pages|length }}
+							</td>							
 							<td>
 								<a href="{{ path('users_show', {'id': user.id}) }}">Voir</a>
 								<a href="{{ path('users_edit', {'id': user.id}) }}">Modifier</a>
