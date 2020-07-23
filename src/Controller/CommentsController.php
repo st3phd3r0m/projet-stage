@@ -35,6 +35,28 @@ class CommentsController extends AbstractController
         ]);
     }
 
+
+
+    /**
+     * @Route("/{id}/edit", name="comments_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Comments $comment): Response
+    {
+        $form = $this->createForm(CommentsType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('comments_index');
+        }
+
+        return $this->render('products/edit.html.twig', [
+            'comment' => $comment,
+            'form' => $form->createView(),
+        ]);
+    }
+
     /**
      * @Route("/{id}", name="comments_delete", methods={"DELETE"})
      */

@@ -1,6 +1,6 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Ludo et Sophie - Editer langue de publication des ***REMOVED***
+{% block title %}Ludo et Sophie - Modérer avis clients
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,8 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1 class="m-0 text-dark">Ludo et Sophie - Editer langue de publication</h1>
+					<h1 class="m-0 text-dark">Ludo et Sophie - Modérer avis client
+						{{ comment.id }}</h1>
 				</div>
 				<!-- /.col -->
 				<div class="col-sm-6">
@@ -17,7 +18,7 @@
 						<li class="breadcrumb-item">
 							<a href="{{ path('admin') }}">Dashboard</a>
 						</li>
-						<li class="breadcrumb-item active">Langues de publication des ***REMOVED***</li>
+						<li class="breadcrumb-item active">Avis clients</li>
 					</ol>
 				</div>
 				<!-- /.col -->
@@ -32,11 +33,11 @@
 	<div class="content">
 		<div class="container-fluid">
 
-			{{ include('languages/_form.html.twig', {'button_label': 'Update'}) }}
+			{{ include('comments/_form.html.twig', {'button_label': 'Update'}) }}
 
-			<a href="{{ path('languages_index') }}">Retour à la liste</a>
+			<a href="{{ path('comments_index') }}">Retour à la liste</a>
 
-			{{ include('languages/_delete_form.html.twig') }}
+			{{ include('comments/_delete_form.html.twig') }}
 		</div>
 	</div>
 {% endblock %}

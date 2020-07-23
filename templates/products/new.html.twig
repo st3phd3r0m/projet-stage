@@ -1,31 +1,40 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}New Products{% endblock %}
+{% block title %}Ludo et Sophie - Ajouter une sortie
+{% endblock %}
 
-{% block body %}    
-<!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Ludo et Sophie - Nouvel attribut</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Attributs</li>
-                </ol>
-            </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+{% block body %}
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">Ludo et Sophie - Ajouter une sortie</h1>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item">
+							<a href="{{ path('admin') }}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">Sorties</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /.content-header -->
 
-    <!-- Main content -->
-    <div class="content">
-        <div class="container-fluid">Create new Products</h1>
+	<!-- Main content -->
+	<div class="content">
+		<div class="container-fluid">
 
-    {{ include('products/_form.html.twig') }}
+			{{ include('products/_form.html.twig') }}
 
-    <a href="{{ path('products_index') }}">back to list</a>
-</div></div>{% endblock %}
+			<a href="{{ path('products_index') }}">Retour à la liste des ***REMOVED***</a>
+		</div>
+	</div>
+{% endblock %}

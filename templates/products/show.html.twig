@@ -1,102 +1,112 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Products{% endblock %}
+{% block title %}Ludo et Sophie - Sortie : "{{ product.title }}"
+{% endblock %}
 
-{% block body %}    
-<!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Ludo et Sophie - Nouvel attribut</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Attributs</li>
-                </ol>
-            </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+{% block body %}
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">Ludo et Sophie - Sortie : "{{ product.title }}"</h1>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item">
+							<a href="{{ path('admin') }}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">Sorties</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /.content-header -->
+
+	<!-- Main content -->
+	<div class="content">
+		<div class="container-fluid">
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ product.id }}</td>
+				</tr>
+				<tr>
+					<th>Title</th>
+					<td>{{ product.title }}</td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td>{{ product.description }}</td>
+				</tr>
+				<tr>
+					<th>Hangout_location</th>
+					<td>{{ product.hangoutLocation }}</td>
+				</tr>
+				<tr>
+					<th>Keywords</th>
+					<td>{{ product.keywords ? product.keywords|json_encode : '' }}</td>
+				</tr>
+				<tr>
+					<th>Image</th>
+					<td>{{ product.image ? product.image|json_encode : '' }}</td>
+				</tr>
+				<tr>
+					<th>Meta_tag_title</th>
+					<td>{{ product.metaTagTitle }}</td>
+				</tr>
+				<tr>
+					<th>Meta_tag_description</th>
+					<td>{{ product.metaTagDescription }}</td>
+				</tr>
+				<tr>
+					<th>Meta_tag_keywords</th>
+					<td>{{ product.metaTagKeywords ? product.metaTagKeywords|json_encode : '' }}</td>
+				</tr>
+				<tr>
+					<th>Reference</th>
+					<td>{{ product.reference }}</td>
+				</tr>
+				<tr>
+					<th>Weezeevent</th>
+					<td>{{ product.weezeevent }}</td>
+				</tr>
+				<tr>
+					<th>Created_at</th>
+					<td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+				</tr>
+				<tr>
+					<th>Updated_at</th>
+					<td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+				</tr>
+				<tr>
+					<th>Pre_tax_price</th>
+					<td>{{ product.preTaxPrice }}</td>
+				</tr>
+				<tr>
+					<th>Tax_included_price</th>
+					<td>{{ product.taxIncludedPrice }}</td>
+				</tr>
+				<tr>
+					<th>Slug</th>
+					<td>{{ product.slug }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<a href="{{ path('products_index') }}">Retour à la liste</a>
+
+		<a href="{{ path('products_edit', {'id': product.id}) }}">Modifier</a>
+
+		{{ include('products/_delete_form.html.twig') }}
+        </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
-    <div class="content">
-        <div class="container-fluid">Products</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ product.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ product.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ product.description }}</td>
-            </tr>
-            <tr>
-                <th>Hangout_location</th>
-                <td>{{ product.hangoutLocation }}</td>
-            </tr>
-            <tr>
-                <th>Keywords</th>
-                <td>{{ product.keywords ? product.keywords|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ product.image ? product.image|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Meta_tag_title</th>
-                <td>{{ product.metaTagTitle }}</td>
-            </tr>
-            <tr>
-                <th>Meta_tag_description</th>
-                <td>{{ product.metaTagDescription }}</td>
-            </tr>
-            <tr>
-                <th>Meta_tag_keywords</th>
-                <td>{{ product.metaTagKeywords ? product.metaTagKeywords|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Reference</th>
-                <td>{{ product.reference }}</td>
-            </tr>
-            <tr>
-                <th>Weezeevent</th>
-                <td>{{ product.weezeevent }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Updated_at</th>
-                <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Pre_tax_price</th>
-                <td>{{ product.preTaxPrice }}</td>
-            </tr>
-            <tr>
-                <th>Tax_included_price</th>
-                <td>{{ product.taxIncludedPrice }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ product.slug }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('products_index') }}">back to list</a>
-
-    <a href="{{ path('products_edit', {'id': product.id}) }}">edit</a>
-
-    {{ include('products/_delete_form.html.twig') }}
-</div></div>{% endblock %}
+{% endblock %}

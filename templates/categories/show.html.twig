@@ -1,75 +1,82 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Categories{% endblock %}
+{% block title %}Ludo et Sophie - Voir catégorie {{ category.id }}{% endblock %}
 
 {% block body %}
-<!-- Content Header (Page header) -->
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Ludo et Sophie - Nouvel attribut</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Attributs</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">Ludo et Sophie - Voir catégorie {{ category.id }}</h1>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item">
+							<a href="{{ path('admin') }}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">Catégorie</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /.content-header -->
 
-<!-- Main content -->
-<div class="content">
-    <div class="container-fluid">Categories</h1>
+	<!-- Main content -->
+	<div class="content">
+		<div class="container-fluid">
 
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ category.id }}</td>
-                </tr>
-                <tr>
-                    <th>Title</th>
-                    <td>{{ category.title }}</td>
-                </tr>
-                <tr>
-                    <th>Description</th>
-                    <td>{{ category.description }}</td>
-                </tr>
-                <tr>
-                    <th>Keywords</th>
-                    <td>{{ category.keywords ? category.keywords|json_encode : '' }}</td>
-                </tr>
-                <tr>
-                    <th>Meta_tag_title</th>
-                    <td>{{ category.metaTagTitle }}</td>
-                </tr>
-                <tr>
-                    <th>Meta_tag_description</th>
-                    <td>{{ category.metaTagDescription }}</td>
-                </tr>
-                <tr>
-                    <th>Meta_tag_keywords</th>
-                    <td>{{ category.metaTagKeywords ? category.metaTagKeywords|json_encode : '' }}</td>
-                </tr>
-                <tr>
-                    <th>Image</th>
-                    <td>{{ category.image ? category.image|json_encode : '' }}</td>
-                </tr>
-                <tr>
-                    <th>Slug</th>
-                    <td>{{ category.slug }}</td>
-                </tr>
-            </tbody>
-        </table>
+			<table class="table">
+				<tbody>
+					<tr>
+						<th>Id</th>
+						<td>{{ category.id }}</td>
+					</tr>
+					<tr>
+						<th>Title</th>
+						<td>{{ category.title }}</td>
+					</tr>
+					<tr>
+						<th>Description</th>
+						<td>{{ category.description }}</td>
+					</tr>
+					<tr>
+						<th>Keywords</th>
+						<td>{{ category.keywords ? category.keywords|json_encode : '' }}</td>
+					</tr>
+					<tr>
+						<th>Meta_tag_title</th>
+						<td>{{ category.metaTagTitle }}</td>
+					</tr>
+					<tr>
+						<th>Meta_tag_description</th>
+						<td>{{ category.metaTagDescription }}</td>
+					</tr>
+					<tr>
+						<th>Meta_tag_keywords</th>
+						<td>{{ category.metaTagKeywords ? category.metaTagKeywords|json_encode : '' }}</td>
+					</tr>
+					<tr>
+						<th>Image</th>
+						<td>{{ category.image ? category.image|json_encode : '' }}</td>
+					</tr>
+					<tr>
+						<th>Slug</th>
+						<td>{{ category.slug }}</td>
+					</tr>
+				</tbody>
+			</table>
 
-        <a href="{{ path('categories_index') }}">back to list</a>
+			<a href="{{ path('categories_index') }}">Retour à la liste</a>
 
-        <a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
+			<a href="{{ path('categories_edit', {'id': category.id}) }}">Modifier</a>
 
-        {{ include('categories/_delete_form.html.twig') }}
-    </div>
-</div>{% endblock %}
+			{{ include('categories/_delete_form.html.twig') }}
+		</div>
+	</div>
+{% endblock %}

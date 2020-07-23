@@ -1,7 +1,7 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Ludo et Sophie - Voir attribut
-	{{ attribute.id  }}
+{% block title %}Ludo et Sophie - Utilisateur
+	{{ user.id }}
 {% endblock %}
 
 {% block body %}
@@ -10,8 +10,7 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1 class="m-0 text-dark">Ludo et Sophie - Voir attribut
-						{{ attribute.id  }}</h1>
+					<h1 class="m-0 text-dark">Ludo et Sophie - Utilisateur {{ user.id }}</h1>
 				</div>
 				<!-- /.col -->
 				<div class="col-sm-6">
@@ -19,7 +18,7 @@
 						<li class="breadcrumb-item">
 							<a href="{{ path('admin') }}">Dashboard</a>
 						</li>
-						<li class="breadcrumb-item active">Attributs</li>
+						<li class="breadcrumb-item active">Utilisateurs</li>
 					</ol>
 				</div>
 				<!-- /.col -->
@@ -38,24 +37,32 @@
 				<tbody>
 					<tr>
 						<th>Id</th>
-						<td>{{ attribute.id }}</td>
+						<td>{{ user.id }}</td>
 					</tr>
 					<tr>
-						<th>Name</th>
-						<td>{{ attribute.name }}</td>
+						<th>Email</th>
+						<td>{{ user.email }}</td>
 					</tr>
 					<tr>
-						<th>Value</th>
-						<td>{{ attribute.value }}</td>
+						<th>Roles</th>
+						<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+					</tr>
+					<tr>
+						<th>Firstname</th>
+						<td>{{ user.firstname }}</td>
+					</tr>
+					<tr>
+						<th>Lastname</th>
+						<td>{{ user.lastname }}</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<a href="{{ path('attributes_index') }}">Retour à la liste</a>
+			<a href="{{ path('users_index') }}">Retour à la liste</a>
 
-			<a href="{{ path('attributes_edit', {'id': attribute.id}) }}">Modifier</a>
+			<a href="{{ path('users_edit', {'id': user.id}) }}">Editer</a>
 
-			{{ include('attributes/_delete_form.html.twig') }}
+			{{ include('users/_delete_form.html.twig') }}
 
 		</div>
 	</div>

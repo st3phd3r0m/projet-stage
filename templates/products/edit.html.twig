@@ -1,33 +1,42 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Edit Products{% endblock %}
+{% block title %}Ludo et Sophie - Editer une sortie
+{% endblock %}
 
-{% block body %}    
-<!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Ludo et Sophie - Nouvel attribut</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active">Attributs</li>
-                </ol>
-            </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+{% block body %}
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">Ludo et Sophie - Editer une sortie</h1>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item">
+							<a href="{{ path('admin') }}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">Sortie</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /.content-header -->
 
-    <!-- Main content -->
-    <div class="content">
-        <div class="container-fluid">Edit Products</h1>
+	<!-- Main content -->
+	<div class="content">
+		<div class="container-fluid">
 
-    {{ include('products/_form.html.twig', {'button_label': 'Update'}) }}
+			{{ include('products/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('products_index') }}">back to list</a>
+			<a href="{{ path('products_index') }}">Retour à la liste des ***REMOVED***</a>
 
-    {{ include('products/_delete_form.html.twig') }}
-</div></div>{% endblock %}
+			{{ include('products/_delete_form.html.twig') }}
+		</div>
+	</div>
+{% endblock %}

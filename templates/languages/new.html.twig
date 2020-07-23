@@ -1,32 +1,40 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}New Languages{% endblock %}
+{% block title %}Ludo et Sophie - Ajout langue de publication des ***REMOVED***
+{% endblock %}
 
 {% block body %}
-<!-- Content Header (Page header) -->
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Ludo et Sophie - Nouvel attribut</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Attributs</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">Ludo et Sophie - Ajout langue de publication des ***REMOVED***</h1>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item">
+							<a href="{{ path('admin') }}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">Langues de publication des ***REMOVED***</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /.content-header -->
 
-<!-- Main content -->
-<div class="content">
-    <div class="container-fluid">Create new Languages</h1>
+	<!-- Main content -->
+	<div class="content">
+		<div class="container-fluid">
 
-        {{ include('languages/_form.html.twig') }}
+			{{ include('languages/_form.html.twig') }}
 
-        <a href="{{ path('languages_index') }}">back to list</a>
-    </div>
-</div>{% endblock %}
+			<a href="{{ path('languages_index') }}">Retour à la liste</a>
+		</div>
+	</div>
+{% endblock %}

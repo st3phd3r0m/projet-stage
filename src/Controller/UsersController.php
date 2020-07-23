@@ -25,6 +25,17 @@ class UsersController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/{id}", name="users_show", methods={"GET"})
+     */
+    public function show(Users $user): Response
+    {
+        return $this->render('users/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
     /**
      * @Route("/new", name="users_new", methods={"GET","POST"})
      */

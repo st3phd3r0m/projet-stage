@@ -1,74 +1,82 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Pages index{% endblock %}
+{% block title %}Ludo et Sophie - Index des publications
+{% endblock %}
 
 {% block body %}
-<!-- Content Header (Page header) -->
-<div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark">Ludo et Sophie - Nouvel attribut</h1>
-            </div><!-- /.col -->
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ path('admin') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Attributs</li>
-                </ol>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">Ludo et Sophie - Index des publications</h1>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item">
+							<a href="{{ path('admin') }}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">Publications</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /.content-header -->
 
-<!-- Main content -->
-<div class="content">
-    <div class="container-fluid">Pages index</h1>
+	<!-- Main content -->
+	<div class="content">
+		<div class="container-fluid">
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Image</th>
-                    <th>Keywords</th>
-                    <th>Meta_tag_title</th>
-                    <th>Meta_tag_description</th>
-                    <th>Meta_tag_keywords</th>
-                    <th>Created_at</th>
-                    <th>Updated_at</th>
-                    <th>Slug</th>
-                    <th>actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for page in pages %}
-                <tr>
-                    <td>{{ page.id }}</td>
-                    <td>{{ page.title }}</td>
-                    <td>{{ page.content }}</td>
-                    <td>{{ page.image ? page.image|json_encode : '' }}</td>
-                    <td>{{ page.keywords ? page.keywords|json_encode : '' }}</td>
-                    <td>{{ page.metaTagTitle }}</td>
-                    <td>{{ page.metaTagDescription }}</td>
-                    <td>{{ page.metaTagKeywords ? page.metaTagKeywords|json_encode : '' }}</td>
-                    <td>{{ page.createdAt ? page.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ page.updatedAt ? page.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ page.slug }}</td>
-                    <td>
-                        <a href="{{ path('pages_show', {'id': page.id}) }}">show</a>
-                        <a href="{{ path('pages_edit', {'id': page.id}) }}">edit</a>
-                    </td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="12">no records found</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Title</th>
+						<th>Content</th>
+						<th>Image</th>
+						<th>Keywords</th>
+						<th>Meta_tag_title</th>
+						<th>Meta_tag_description</th>
+						<th>Meta_tag_keywords</th>
+						<th>Created_at</th>
+						<th>Updated_at</th>
+						<th>Slug</th>
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for page in pages %}
+						<tr>
+							<td>{{ page.id }}</td>
+							<td>{{ page.title }}</td>
+							<td>{{ page.content }}</td>
+							<td>{{ page.image ? page.image|json_encode : '' }}</td>
+							<td>{{ page.keywords ? page.keywords|json_encode : '' }}</td>
+							<td>{{ page.metaTagTitle }}</td>
+							<td>{{ page.metaTagDescription }}</td>
+							<td>{{ page.metaTagKeywords ? page.metaTagKeywords|json_encode : '' }}</td>
+							<td>{{ page.createdAt ? page.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>{{ page.updatedAt ? page.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+							<td>{{ page.slug }}</td>
+							<td>
+								<a href="{{ path('pages_show', {'id': page.id}) }}">show</a>
+								<a href="{{ path('pages_edit', {'id': page.id}) }}">edit</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="12">Aucune publication</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 
-        <a href="{{ path('pages_new') }}">Create new</a>
-    </div>
-</div>{% endblock %}
+			<a href="{{ path('pages_new') }}">Créer nouvelle publication</a>
+		</div>
+	</div>
+{% endblock %}
