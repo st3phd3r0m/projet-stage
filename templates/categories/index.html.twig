@@ -59,8 +59,8 @@
 							<td>{{ category.image ? category.image|json_encode : '' }}</td>
 							<td>{{ category.slug }}</td>
 							<td>
-								<a href="{{ path('categories_show', {'id': category.id}) }}">show</a>
-								<a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
+								<a href="{{ path('categories_show', {'id': category.id}) }}">Voir</a>
+								<a href="{{ path('categories_edit', {'id': category.id}) }}">Modifier</a>
 							</td>
 						</tr>
 					{% else %}
