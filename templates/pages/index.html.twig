@@ -35,10 +35,19 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Titre</th>
-						<th>Créé le</th>
-						<th>Modifié le</th>
-						<th>Auteur</th>
+						<th>
+							{{ knp_pagination_sortable(pages, 'Titre', 'title') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(pages, 'Créée le', 'created_at') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(pages, 'Modifiée le', 'updated_at') }}
+
+						</th>
+						<th>
+							{{ knp_pagination_sortable(pages, 'Auteur', 'user.lastname') }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -48,7 +57,8 @@
 							<td>{{ page.title }}</td>
 							<td>{{ page.createdAt ? page.createdAt|date('d-m-Y H:i:s') : '' }}</td>
 							<td>{{ page.updatedAt ? page.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
-							<td>{{ page.user.firstname }} {{ page.user.lastname }}</td>
+							<td>{{ page.user.firstname }}
+								{{ page.user.lastname }}</td>
 							<td>
 								<a href="{{ path('pages_show', {'id': page.id}) }}">Voir</a>
 								<a href="{{ path('pages_edit', {'id': page.id}) }}">Modifier</a>

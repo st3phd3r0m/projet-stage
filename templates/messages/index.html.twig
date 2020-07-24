@@ -35,11 +35,22 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Adresse email</th>
-						<th>Nom</th>
-						<th>Objet</th>
-						<th>Concernant la sortie</th>
-						<th>Envoyé le</th>
+						<th>
+							{{ knp_pagination_sortable(messages, 'Adresse email', 'email') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(messages, 'Nom', 'name') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(messages, 'Objet', 'subject') }}						
+						</th>
+						<th>
+							{{ knp_pagination_sortable(messages, 'Concernant la sortie', 'product') }}	
+						</th>
+						<th>
+							{{ knp_pagination_sortable(messages, 'Envoyé le', 'sentAt') }}
+						</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -50,7 +61,7 @@
 							<td>{{ message.subject }}</td>
 							<td>
 								{% if message.product != null %}
-								<a title="Voir la sortie associée" href="{{ path('products_show', {id:message.product.id}) }}">{{ message.product.title }}</a>
+									<a title="Voir la sortie associée" href="{{ path('products_show', {id:message.product.id}) }}">{{ message.product.title }}</a>
 								{% else %}
 									associé à aucune sortie
 								{% endif %}

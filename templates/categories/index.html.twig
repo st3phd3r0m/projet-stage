@@ -35,9 +35,15 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Titre</th>
-						<th>Créée le</th>
-						<th>Modifié le</th>
+						<th>
+							{{ knp_pagination_sortable(categories, 'Titre', 'title') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(categories, 'Créée le', 'created_at') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(categories, 'Modifiée le', 'updated_at') }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -47,7 +53,6 @@
 							<td>{{ category.title }}</td>
 							<td>{{ category.createdAt|date('d-m-Y H:i:s') }}</td>
 							<td>{{ category.updatedAt|date('d-m-Y H:i:s') }}</td>
-							<td></td>
 							<td>
 								<a href="{{ path('categories_show', {'id': category.id}) }}">Voir</a>
 								<a href="{{ path('categories_edit', {'id': category.id}) }}">Modifier</a>
@@ -55,7 +60,7 @@
 						</tr>
 					{% else %}
 						<tr>
-							<td colspan="5">Aucune catégorie</td>
+							<td colspan="4">Aucune catégorie</td>
 						</tr>
 					{% endfor %}
 				</tbody>

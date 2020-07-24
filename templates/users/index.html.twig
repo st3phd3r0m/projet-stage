@@ -35,11 +35,22 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Email</th>
-						<th>Prénom</th>
-						<th>Nom</th>						
-						<th>Roles</th>
-						<th>Nombre de publication</th>
+						<th>
+							{{ knp_pagination_sortable(users, 'Email', 'email') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(users, 'Prénom', 'firstname') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(users, 'Nom', 'lastname') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(users, 'Roles', 'roles') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(users, 'Nombre de publications', 'pages.count' ) }}
+						</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -47,12 +58,12 @@
 						<tr>
 							<td>{{ user.email }}</td>
 							<td>{{ user.firstname }}</td>
-							<td>{{ user.lastname }}</td>							
+							<td>{{ user.lastname }}</td>
 							<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
 							<td>
-							{{ user.pages|length }}
-							<a title="Voir les {{ user.pages|length }} publications de {{ user.firstname }}" href="{{ path('pages_index', {userId: user.id }) }}">Voir</a>
-							</td>							
+								{{ user.pages|length }}
+								<a title="Voir les {{ user.pages|length }} publications de {{ user.firstname }}" href="{{ path('pages_index', {userId: user.id }) }}">Voir</a>
+							</td>
 							<td>
 								<a href="{{ path('users_show', {'id': user.id}) }}">Voir</a>
 								<a href="{{ path('users_edit', {'id': user.id}) }}">Modifier</a>

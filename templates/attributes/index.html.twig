@@ -1,6 +1,7 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Ludo et Sophie - Index des attributs{% endblock %}
+{% block title %}Ludo et Sophie - Index des attributs
+{% endblock %}
 
 {% block body %}
 	<!-- Content Header (Page header) -->
@@ -34,8 +35,12 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Nom</th>
-						<th>Valeur</th>
+						<th>
+							{{ knp_pagination_sortable(attributes, 'Nom', 'name') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(attributes, 'Valeur', 'value') }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -51,7 +56,7 @@
 						</tr>
 					{% else %}
 						<tr>
-							<td colspan="4">Aucun attribut</td>
+							<td colspan="3">Aucun attribut</td>
 						</tr>
 					{% endfor %}
 				</tbody>

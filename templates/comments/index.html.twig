@@ -35,10 +35,18 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Ecrit par</th>
-						<th>Contenu</th>
-						<th>Concernant la sortie</th>
-						<th>Date</th>
+						<th>
+							{{ knp_pagination_sortable(comments, 'Ecrit par', 'pseudo') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(comments, 'Contenu', 'content') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(comments, 'Concernant la sortie', 'product.title') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(comments, 'Date', 'created_at') }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>

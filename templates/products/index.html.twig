@@ -39,7 +39,7 @@
 							{{ knp_pagination_sortable(products, 'Titre', 'title') }}
 						</th>
 						<th>
-							{{ knp_pagination_sortable(products, 'Lieu de sortie', 'hangoutLocation') }}
+							{{ knp_pagination_sortable(products, 'Lieu de sortie', 'hangoutLocation' ) }}
 						</th>
 						<th>
 							{{ knp_pagination_sortable(products, 'Reference', 'reference') }}
@@ -57,10 +57,10 @@
 							{{ knp_pagination_sortable(products, 'Prix TTC', 'taxIncludedPrice') }}
 						</th>
 						<th>
-							Nombre d'avis clients
+							{{ knp_pagination_sortable(products, 'Nombre d\'avis clients', 'comments.count' ) }}
 						</th>
 						<th>
-							Nombre de messages clients
+							{{ knp_pagination_sortable(products, 'Nombre de messages clients', 'messages.count' ) }}
 						</th>
 						<th>actions</th>
 					</tr>
