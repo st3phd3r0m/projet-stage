@@ -35,15 +35,33 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Titre</th>
-						<th>Lieu de sortie</th>
-						<th>Reference</th>
-						<th>Créé le</th>
-						<th>Modifié le</th>
-						<th>Prix HT</th>
-						<th>Prix TTC</th>
-						<th>Nombre d'avis clients</th>
-						<th>Nombre de messages clients</th>
+						<th>
+							{{ knp_pagination_sortable(products, 'Titre', 'title') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(products, 'Lieu de sortie', 'hangoutLocation') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(products, 'Reference', 'reference') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(products, 'Créé le', 'createdAt') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(products, 'Modifié le', 'updatedAt') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(products, 'Prix HT', 'preTaxPrice') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(products, 'Prix TTC', 'taxIncludedPrice') }}
+						</th>
+						<th>
+							Nombre d'avis clients
+						</th>
+						<th>
+							Nombre de messages clients
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>

@@ -19,6 +19,14 @@ class ProductsRepository extends ServiceEntityRepository
         parent::__construct($registry, Products::class);
     }
 
+    public function findMaxRef()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('MAX(p.reference)')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Products[] Returns an array of Products objects
     //  */

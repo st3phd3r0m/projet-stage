@@ -56,7 +56,19 @@
 					</tr>
 					<tr>
 						<th>Mots-clés</th>
-						<td>{{ product.keywords ? product.keywords|json_encode : '' }}</td>
+						<td>
+							{% for keyWords in product.keywords %}
+								#{{ keyWords }}
+							{% endfor %}
+						</td>
+					</tr>
+					<tr>
+						<th>Mots-clés en méta donnée</th>
+						<td>
+							{% for keyWords in product.metaTagKeywords %}
+								#{{ keyWords }}
+							{% endfor %}
+						</td>
 					</tr>
 					<tr>
 						<th>Titre en méta donnée</th>
@@ -65,10 +77,6 @@
 					<tr>
 						<th>Description en méta donnée</th>
 						<td>{{ product.metaTagDescription }}</td>
-					</tr>
-					<tr>
-						<th>Mots-clés en méta donnée</th>
-						<td>{{ product.metaTagKeywords ? product.metaTagKeywords|json_encode : '' }}</td>
 					</tr>
 					<tr>
 						<th>Reference</th>

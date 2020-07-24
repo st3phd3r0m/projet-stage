@@ -23,7 +23,7 @@ class ProductsController extends AbstractController
     {
         $products = $paginator->paginate(
             //Appel de la méthode de requete DQL de recherche
-            $productsRepository->findBy([], ['created_at' => 'DESC']),
+            $productsRepository->findAll(),//findBy([], ['created_at' => 'DESC']),
             //Le numero de la page, si aucun numero, on force la page 1
             $request->query->getInt('page', 1),
             //Nombre d'élément par page
@@ -37,13 +37,34 @@ class ProductsController extends AbstractController
     /**
      * @Route("/new", name="products_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ProductsRepository $productsRepository): Response
     {
+
+        $maxRef = $productsRepository->findMaxRef();
+        $maxRef = sprintf('%06d', $maxRef[0][1] + 1);
+
         $product = new Products();
         $form = $this->createForm(ProductsType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
+            $keywords = $form->get("keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $product->setKeywords($keywords);
+
+            $keywords = $form->get("meta_tag_keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $product->setMetaTagKeywords($keywords);
+
+            $product->setCreatedAt(new \DateTime('now'));
+            $product->setUpdatedAt(new \DateTime('now'));
+            $product->setReference($maxRef);
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
             $entityManager->flush();
@@ -76,6 +97,20 @@ class ProductsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
+            $keywords = $form->get("keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $product->setKeywords($keywords);
+
+            $keywords = $form->get("meta_tag_keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $product->setMetaTagKeywords($keywords);
+
+            $product->setUpdatedAt(new \DateTime('now'));
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('products_index');
@@ -92,7 +127,7 @@ class ProductsController extends AbstractController
      */
     public function delete(Request $request, Products $product): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($product);
             $entityManager->flush();
