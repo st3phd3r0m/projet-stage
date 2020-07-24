@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/attributes")
+ * @Route("/admin/attributes")
  */
 class AttributesController extends AbstractController
 {
