@@ -29,9 +29,6 @@ class ProductsType extends AbstractType
         $this->languagesRepository = $languagesRepository;
     }
 
-
-
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -109,14 +106,14 @@ class ProductsType extends AbstractType
             ->add('keywords', TextType::class, [
                 'required' => false,
                 'label' => 'Ajouter des mots-clés, délimités par des hashtags ("#"), afin de référencer votre produit : ',
-
                 'mapped' => false,
+                'data' => implode('#', $builder->getData()->getKeywords())
             ])
             ->add('meta_tag_keywords', TextType::class, [
                 'required' => false,
                 'label' => 'Ajouter des mots-clés en méta-données, délimités par des hashtags ("#"), afin de référencer votre produit : ',
-
                 'mapped' => false,
+                'data' => implode('#', $builder->getData()->getMetaTagKeywords())
             ])
             // ->add('imageFile', VichImageType::class,[
             //     'required' => true,
@@ -141,7 +138,7 @@ class ProductsType extends AbstractType
 
             ->add('weezeevent', TextType::class, [
                 'required' => false,
-                'label' => 'Ajouter un lien weezeevent afin d\'externaliser les réservation pour votre sortie : ',
+                'label' => 'Ajouter un lien weezeevent afin d\'externaliser les réservations pour votre sortie : ',
 
             ])
             ->add('pre_tax_price', MoneyType::class, [

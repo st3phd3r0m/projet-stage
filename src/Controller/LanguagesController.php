@@ -31,7 +31,9 @@ class LanguagesController extends AbstractController
     public function new(Request $request): Response
     {
         $language = new Languages();
-        $form = $this->createForm(LanguagesType::class, $language);
+        $form = $this->createForm(LanguagesType::class, $language, [
+            'validation_groups' => ['new']
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -39,6 +41,8 @@ class LanguagesController extends AbstractController
             $entityManager->persist($language);
             $entityManager->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Nouvelle langue de publication créée.');
             return $this->redirectToRoute('languages_index');
         }
 
@@ -53,12 +57,16 @@ class LanguagesController extends AbstractController
      */
     public function edit(Request $request, Languages $language): Response
     {
-        $form = $this->createForm(LanguagesType::class, $language);
+        $form = $this->createForm(LanguagesType::class, $language, [
+            'validation_groups' => ['update'],
+            'require_image' => false
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'La langue de publication a bien été modifiée.');
             return $this->redirectToRoute('languages_index');
         }
 
@@ -73,10 +81,12 @@ class LanguagesController extends AbstractController
      */
     public function delete(Request $request, Languages $language): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$language->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $language->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($language);
             $entityManager->flush();
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'La langue de publication a bien été supprimée.');
         }
 
         return $this->redirectToRoute('languages_index');

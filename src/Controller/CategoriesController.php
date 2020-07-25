@@ -46,10 +46,27 @@ class CategoriesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
+            $keywords = $form->get("keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $category->setKeywords($keywords);
+
+            $keywords = $form->get("meta_tag_keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $category->setMetaTagKeywords($keywords);
+
+            $category->setCreatedAt(new \DateTime('now'));
+            $category->setUpdatedAt(new \DateTime('now'));
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($category);
             $entityManager->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Nouvelle catégorie créée.');
             return $this->redirectToRoute('categories_index');
         }
 
@@ -78,8 +95,22 @@ class CategoriesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
+            $keywords = $form->get("keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $category->setKeywords($keywords);
 
+            $keywords = $form->get("meta_tag_keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $category->setMetaTagKeywords($keywords);
+
+            $category->setUpdatedAt(new \DateTime('now'));
+
+            $this->getDoctrine()->getManager()->flush();
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'La catégorie a bien été modifiée.');
             return $this->redirectToRoute('categories_index');
         }
 
@@ -94,10 +125,13 @@ class CategoriesController extends AbstractController
      */
     public function delete(Request $request, Categories $category): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($category);
             $entityManager->flush();
+
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'La catégorie a bien été supprimée.');
         }
 
         return $this->redirectToRoute('categories_index');

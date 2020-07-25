@@ -32,6 +32,14 @@
 	<div class="content">
 		<div class="container-fluid">
 
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success" role="alert">{{ message }}</div>
+			{% endfor %}
+
+			{% for message in app.flashes('fail') %}
+				<div class="alert alert-warning" role="alert">{{ message }}</div>
+			{% endfor %}
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -56,6 +64,7 @@
 							<td>
 								<a href="{{ path('categories_show', {'id': category.id}) }}">Voir</a>
 								<a href="{{ path('categories_edit', {'id': category.id}) }}">Modifier</a>
+								{{ include('categories/_delete_form.html.twig') }}
 							</td>
 						</tr>
 					{% else %}

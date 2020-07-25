@@ -22,13 +22,13 @@ class CommentsController extends AbstractController
      */
     public function index(CommentsRepository $commentsRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        
-         if($request->get('productId')){
-            $commentsBuffer = $commentsRepository->findBy(['product'=>$request->get('productId')],['created_at'=>'DESC']);
-        }else{
+
+        if ($request->get('productId')) {
+            $commentsBuffer = $commentsRepository->findBy(['product' => $request->get('productId')], ['created_at' => 'DESC']);
+        } else {
             $commentsBuffer = $commentsRepository->findBy([], ['created_at' => 'DESC']);
-        }       
-        
+        }
+
         $comments = $paginator->paginate(
             //Appel de la méthode de requete DQL de recherche
             $commentsBuffer,
@@ -53,23 +53,27 @@ class CommentsController extends AbstractController
         ]);
     }
 
-
-
     /**
      * @Route("/{id}/edit", name="comments_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Comments $comment): Response
     {
         $form = $this->createForm(CommentsType::class, $comment);
+        $form->remove('pseudo');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $comment->setIsModerated(true);
+
             $this->getDoctrine()->getManager()->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'L\'avis client a bien été modifié.');
             return $this->redirectToRoute('comments_index');
         }
 
-        return $this->render('products/edit.html.twig', [
+        return $this->render('comments/edit.html.twig', [
             'comment' => $comment,
             'form' => $form->createView(),
         ]);
@@ -80,10 +84,13 @@ class CommentsController extends AbstractController
      */
     public function delete(Request $request, Comments $comment): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$comment->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($comment);
             $entityManager->flush();
+
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'L\'avis client a bien été supprimé');
         }
 
         return $this->redirectToRoute('comments_index');

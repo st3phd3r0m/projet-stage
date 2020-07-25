@@ -23,7 +23,7 @@ class ProductsController extends AbstractController
     {
         $products = $paginator->paginate(
             //Appel de la méthode de requete DQL de recherche
-            $productsRepository->findAll(),//findBy([], ['created_at' => 'DESC']),
+            $productsRepository->findAll(), //findBy([], ['created_at' => 'DESC']),
             //Le numero de la page, si aucun numero, on force la page 1
             $request->query->getInt('page', 1),
             //Nombre d'élément par page
@@ -69,6 +69,9 @@ class ProductsController extends AbstractController
             $entityManager->persist($product);
             $entityManager->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Nouvelle sortie créée.');
+
             return $this->redirectToRoute('products_index');
         }
 
@@ -113,6 +116,8 @@ class ProductsController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'La sortie a bien été modifiée.');
             return $this->redirectToRoute('products_index');
         }
 
@@ -131,6 +136,8 @@ class ProductsController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($product);
             $entityManager->flush();
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'La sortie a bien été supprimée.');
         }
 
         return $this->redirectToRoute('products_index');

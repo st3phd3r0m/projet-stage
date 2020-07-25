@@ -129,8 +129,7 @@ class UsersController extends AbstractController
                 //Envoi d'un message utilisateur
                 $this->addFlash('success', 'Votre mot de passe a bien été modifié');
                 return $this->redirectToRoute('users_index');
-
-            }else if ($form->isSubmitted() && !$form->isValid()) {
+            } else if ($form->isSubmitted() && !$form->isValid()) {
                 //Envoi d'un message utilisateur
                 $this->addFlash('fail', 'Formulaire incomplet ou invalide.');
             }
@@ -143,7 +142,7 @@ class UsersController extends AbstractController
         }
 
         //Envoi d'un message utilisateur
-        $this->addFlash('fail', 'Vous devez être connecté en tant que '.$user->getFirstName().' '.$user->getLastName().' pour modifier le mot de passe associé à ce compte.');
+        $this->addFlash('fail', 'Vous devez être connecté en tant que ' . $user->getFirstName() . ' ' . $user->getLastName() . ' pour modifier le mot de passe associé à ce compte.');
         return $this->redirectToRoute('users_index');
     }
 
@@ -169,6 +168,9 @@ class UsersController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
+
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'L\'utilisateur a bien été supprimé de la base de données');
         }
 
         return $this->redirectToRoute('users_index');

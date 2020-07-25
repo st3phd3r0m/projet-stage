@@ -32,6 +32,14 @@
 	<div class="content">
 		<div class="container-fluid">
 
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success" role="alert">{{ message }}</div>
+			{% endfor %}
+
+			{% for message in app.flashes('fail') %}
+				<div class="alert alert-warning" role="alert">{{ message }}</div>
+			{% endfor %}
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -42,10 +50,10 @@
 							{{ knp_pagination_sortable(messages, 'Nom', 'name') }}
 						</th>
 						<th>
-							{{ knp_pagination_sortable(messages, 'Objet', 'subject') }}						
+							{{ knp_pagination_sortable(messages, 'Objet', 'subject') }}
 						</th>
 						<th>
-							{{ knp_pagination_sortable(messages, 'Concernant la sortie', 'product') }}	
+							{{ knp_pagination_sortable(messages, 'Concernant la sortie', 'product') }}
 						</th>
 						<th>
 							{{ knp_pagination_sortable(messages, 'Envoyé le', 'sentAt') }}
@@ -69,6 +77,7 @@
 							<td>{{ message.sentAt | date('d.m.Y H:i:s') }}</td>
 							<td>
 								<a href="{{ path('messages_show', {'id': message.id}) }}">Lire</a>
+								{{ include('messages/_delete_form.html.twig') }}
 							</td>
 						</tr>
 					{% else %}

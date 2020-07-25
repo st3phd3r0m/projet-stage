@@ -21,9 +21,9 @@ class MessagesController extends AbstractController
      */
     public function index(MessagesRepository $messagesRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        if($request->get('productId')){
-            $messagesBuffer = $messagesRepository->findBy(['product'=>$request->get('productId')]);
-        }else{
+        if ($request->get('productId')) {
+            $messagesBuffer = $messagesRepository->findBy(['product' => $request->get('productId')]);
+        } else {
             $messagesBuffer = $messagesRepository->findBy([], ['sent_at' => 'DESC']);
         }
 
@@ -38,7 +38,7 @@ class MessagesController extends AbstractController
 
         return $this->render('messages/index.html.twig', [
             'messages' => $messages
-        ]);   
+        ]);
     }
 
     /**
@@ -56,10 +56,13 @@ class MessagesController extends AbstractController
      */
     public function delete(Request $request, Messages $message): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$message->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $message->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($message);
             $entityManager->flush();
+
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Le message a bien été supprimé.');
         }
 
         return $this->redirectToRoute('messages_index');
