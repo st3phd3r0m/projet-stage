@@ -6,10 +6,13 @@ use App\Entity\Users;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UsersType extends AbstractType
@@ -29,22 +32,6 @@ class UsersType extends AbstractType
                     ])
                 ]
             ])
-            ->add('roles', ChoiceType::class, [
-                'required' => true,
-                'label' => 'Rôle utilisateur',
-                'expanded' => true,
-                'multiple' => true,
-                'choices' => [
-                    'Utilisateur' => 'ROLE_USER',
-                    'Administrateur' => 'ROLE_ADMIN'
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez choisir un rôle pour l\'utilisateur'
-                    ])
-                ]
-            ])
-            ->add('password')
             ->add('firstname', TextType::class, [
                 'required' => true,
                 'label' => 'Prénom',
@@ -62,6 +49,49 @@ class UsersType extends AbstractType
                         'message' => 'Veuillez saisir un nom'
                     ])
                 ]
+            ])
+            ->add('roles', ChoiceType::class, [
+                'required' => true,
+                'label' => 'Inscrire en tant qu\'administrateur ?',
+                'expanded' => true,
+                'multiple' => true,
+                'choices' => [
+                    // 'Utilisateur' => 'ROLE_USER',
+                    'Oui' => 'ROLE_ADMIN'
+                ],
+                // 'constraints' => [
+                //     new NotBlank([
+                //         'message' => 'Veuillez choisir un rôle pour l\'utilisateur'
+                //     ])
+                // ]
+            ])
+            ->add('plainPassword', RepeatedType::class, [
+                'required' => true,
+                'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passes ne sont pas identiques !',
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmer le mot de passe'],
+                'mapped' => false,
+                'options' => [
+                    'attr' =>[
+                         'class' => 'form-control form-control-lg form-control-a mb-3'
+                    ],
+                    'label_attr' => [
+                    'class' => 'policeForm'
+                ],
+                ],
+                
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrez votre mot de passe',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Votre mot de passe doit contenir minimum {{ limit }} caractères',
+                        'max' => 4096,
+                    ]),
+                    
+                ],
             ]);
     }
 
