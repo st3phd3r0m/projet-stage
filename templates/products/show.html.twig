@@ -101,6 +101,21 @@
 							&euro;</td>
 					</tr>
 					<tr>
+						<th>Catégorie</th>
+						<td>{{ product.category.title }}</td>
+					</tr>
+					<tr>
+						<th>Langue</th>
+						<td>{{ product.language.name }}</td>
+					</tr>
+					<tr>
+						<th>Prix TTC</th>
+						<td>{{ product.taxIncludedPrice }}
+							&euro;</td>
+					</tr>
+
+
+					<tr>
 						<th>Nombre d'avis clients</th>
 						<td>{{ product.comments | length }}
 							{% if product.comments | length > 0 %}

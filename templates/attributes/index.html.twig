@@ -32,11 +32,18 @@
 	<div class="content">
 		<div class="container-fluid">
 
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success" role="alert">{{ message }}</div>
+			{% endfor %}
+
 			<table class="table">
 				<thead>
 					<tr>
 						<th>
 							{{ knp_pagination_sortable(attributes, 'Nom', 'name') }}
+						</th>
+						<th>
+							Groupe d'attributs
 						</th>
 						<th>
 							{{ knp_pagination_sortable(attributes, 'Valeur', 'value') }}
@@ -47,16 +54,20 @@
 				<tbody>
 					{% for attribute in attributes %}
 						<tr>
-							<td>{{ attribute.name }}</td>
+							<td>
+								{% set attrname = attribute.name|split('->') %}
+								{{ attrname[1] }}
+							</td>
+							<td>{{ attribute.attributeGroup.name }}</td>
 							<td>{{ attribute.value }}</td>
 							<td>
-								<a href="{{ path('attributes_show', {'id': attribute.id}) }}">Voir</a>
 								<a href="{{ path('attributes_edit', {'id': attribute.id}) }}">Modifier</a>
+								{{ include('attributes/_delete_form.html.twig') }}
 							</td>
 						</tr>
 					{% else %}
 						<tr>
-							<td colspan="3">Aucun attribut</td>
+							<td colspan="4">Aucun attribut</td>
 						</tr>
 					{% endfor %}
 				</tbody>

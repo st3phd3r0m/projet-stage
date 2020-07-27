@@ -167,7 +167,6 @@ class ProductsType extends AbstractType
                 'label' => 'Choisir la catégorie',
                 'class' => Categories::class,
                 'choice_label' => 'title',
-
             ]);
         // ->add('attribute');
     }

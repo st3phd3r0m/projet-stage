@@ -19,7 +19,7 @@ class AttributesController extends AbstractController
     /**
      * @Route("/", name="attributes_index", methods={"GET"})
      */
-    public function index(AttributesRepository $attributesRepository, PaginatorInterface $paginator, Request $request ): Response
+    public function index(AttributesRepository $attributesRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $attributes = $paginator->paginate(
             //Appel de la méthode de requete DQL de recherche
@@ -45,26 +45,23 @@ class AttributesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $attribute_group = $form->get("attribute_group")->getData()->getName();
+            $name =  $attribute_group . '->' . $form->get("name")->getData();
+            $attribute->setName($name);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($attribute);
             $entityManager->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'L\'attribut a bien été créé.');
             return $this->redirectToRoute('attributes_index');
         }
 
         return $this->render('attributes/new.html.twig', [
             'attribute' => $attribute,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="attributes_show", methods={"GET"})
-     */
-    public function show(Attributes $attribute): Response
-    {
-        return $this->render('attributes/show.html.twig', [
-            'attribute' => $attribute,
         ]);
     }
 
@@ -77,8 +74,19 @@ class AttributesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $attribute_group = $form->get("attribute_group")->getData()->getName();
+            $name =  $attribute_group . '->' . $form->get("name")->getData();
+            $attribute->setName($name);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($attribute);
+            $entityManager->flush();
+
             $this->getDoctrine()->getManager()->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'L\'attribut a bien été modifié.');
             return $this->redirectToRoute('attributes_index');
         }
 
@@ -93,10 +101,13 @@ class AttributesController extends AbstractController
      */
     public function delete(Request $request, Attributes $attribute): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$attribute->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $attribute->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($attribute);
             $entityManager->flush();
+            
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'L\'attribut a bien été supprimé.');
         }
 
         return $this->redirectToRoute('attributes_index');

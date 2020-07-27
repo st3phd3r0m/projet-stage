@@ -31,7 +31,7 @@
 	<div class="content">
 		<div class="container-fluid">
 
-			{{ include('users/_form.html.twig', {'button_label': 'Update'}) }}
+			{{ include('users/_form.html.twig', {'button_label': 'Modifier'}) }}
 			<a class="d-block" href="{{ path('users_change_password', {id: user.id}) }}">Changer de mot de passe ?</a>
 			<a class="d-block" href="{{ path('users_index') }}">Retour à la liste</a>
 

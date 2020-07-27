@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\AttributeGroups;
 use App\Form\AttributeGroupsType;
 use App\Repository\AttributeGroupsRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,12 +19,22 @@ class AttributeGroupsController extends AbstractController
     /**
      * @Route("/", name="attribute_groups_index", methods={"GET"})
      */
-    public function index(AttributeGroupsRepository $attributeGroupsRepository): Response
+    public function index(AttributeGroupsRepository $attributeGroupsRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $attribute_groups = $paginator->paginate(
+            //Appel de la méthode de requete DQL de recherche
+            $attributeGroupsRepository->findAll(),
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
+
         return $this->render('attribute_groups/index.html.twig', [
-            'attribute_groups' => $attributeGroupsRepository->findAll(),
+            'attribute_groups' => $attribute_groups,
         ]);
     }
+
 
     /**
      * @Route("/new", name="attribute_groups_new", methods={"GET","POST"})
@@ -39,6 +50,8 @@ class AttributeGroupsController extends AbstractController
             $entityManager->persist($attributeGroup);
             $entityManager->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Le groupe d\'attribut a bien été créé.');
             return $this->redirectToRoute('attribute_groups_index');
         }
 
@@ -59,6 +72,8 @@ class AttributeGroupsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Le groupe d\'attribut a bien été modifié.');
             return $this->redirectToRoute('attribute_groups_index');
         }
 
@@ -73,10 +88,12 @@ class AttributeGroupsController extends AbstractController
      */
     public function delete(Request $request, AttributeGroups $attributeGroup): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$attributeGroup->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $attributeGroup->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($attributeGroup);
             $entityManager->flush();
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Le groupe d\'attribut a bien été supprimé.');
         }
 
         return $this->redirectToRoute('attribute_groups_index');
