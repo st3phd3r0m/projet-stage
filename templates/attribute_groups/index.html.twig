@@ -1,0 +1,71 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Ludo et Sophie - Index des groupes d'attributs
+{% endblock %}
+
+{% block body %}
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">Ludo et Sophie - Index des groupes d'attributs</h1>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item">
+							<a href="{{ path('admin') }}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">Groupes d'attributs</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /.content-header -->
+
+	<!-- Main content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							{{ knp_pagination_sortable(attributes, 'Nom', 'name') }}
+						</th>
+						<th>actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for attribute_group in attribute_groups %}
+						<tr>
+							<td>{{ attribute_group.name }}</td>
+							<td>
+								<a href="{{ path('attribute_groups_edit', {'id': attribute_group.id}) }}">Modifier</a>
+								{{ include('attribute_groups/_delete_form.html.twig') }}
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3">Aucun groupe d'attributs</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+				<div>
+					{{ knp_pagination_render(attributes) }}
+				</div>
+			</table>
+			<div>
+				{{ knp_pagination_render(attributes) }}
+			</div>
+
+			<a href="{{ path('attribute_groups_new') }}">Créer nouveau groupe d'attributs</a>
+
+		</div>
+	</div>
+{% endblock %}

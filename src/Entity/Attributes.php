@@ -34,6 +34,11 @@ class Attributes
      */
     private $products;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=AttributeGroups::class, inversedBy="attributes")
+     */
+    private $attribute_group;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -92,6 +97,18 @@ class Attributes
             $this->products->removeElement($product);
             $product->removeAttribute($this);
         }
+
+        return $this;
+    }
+
+    public function getAttributeGroup(): ?AttributeGroups
+    {
+        return $this->attribute_group;
+    }
+
+    public function setAttributeGroup(?AttributeGroups $attribute_group): self
+    {
+        $this->attribute_group = $attribute_group;
 
         return $this;
     }
