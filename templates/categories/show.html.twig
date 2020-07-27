@@ -1,6 +1,8 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Ludo et Sophie - Voir catégorie {{ category.id }}{% endblock %}
+{% block title %}Ludo et Sophie - Voir catégorie
+	{{ category.id }}
+{% endblock %}
 
 {% block body %}
 	<!-- Content Header (Page header) -->
@@ -43,7 +45,11 @@
 					</tr>
 					<tr>
 						<th>Mots-clés</th>
-						<td>{{ category.keywords ? category.keywords|json_encode : '' }}</td>
+						<td>
+							{% for keyWords in category.keywords %}
+								#{{ keyWords }}
+							{% endfor %}
+						</td>
 					</tr>
 					<tr>
 						<th>Titre en méta donnée</th>
@@ -55,7 +61,11 @@
 					</tr>
 					<tr>
 						<th>Mots-clés en méta donnée</th>
-						<td>{{ category.metaTagKeywords ? category.metaTagKeywords|json_encode : '' }}</td>
+						<td>
+							{% for keyWords in category.metaTagKeywords %}
+								#{{ keyWords }}
+							{% endfor %}
+						</td>
 					</tr>
 					<tr>
 						<th>Image</th>

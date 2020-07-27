@@ -21,12 +21,12 @@ class PagesController extends AbstractController
      */
     public function index(PagesRepository $pagesRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        if($request->get('userId')){
-            $pagesBuffer = $pagesRepository->findBy(['user'=>$request->get('userId')],['created_at'=>'DESC']);
-        }else{
+        if ($request->get('userId')) {
+            $pagesBuffer = $pagesRepository->findBy(['user' => $request->get('userId')], ['created_at' => 'DESC']);
+        } else {
             $pagesBuffer = $pagesRepository->findBy([], ['created_at' => 'DESC']);
-        }       
-        
+        }
+
         $pages = $paginator->paginate(
             //Appel de la méthode de requete DQL de recherche
             $pagesBuffer,
@@ -51,6 +51,21 @@ class PagesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
+            $keywords = $form->get("keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $page->setKeywords($keywords);
+
+            $keywords = $form->get("meta_tag_keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $page->setMetaTagKeywords($keywords);
+
+            $page->setCreatedAt(new \DateTime('now'));
+            $page->setUpdatedAt(new \DateTime('now'));
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($page);
             $entityManager->flush();
@@ -83,6 +98,20 @@ class PagesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
+            $keywords = $form->get("keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $page->setKeywords($keywords);
+
+            $keywords = $form->get("meta_tag_keywords")->getData();
+            $keywords = explode("#", $keywords);
+            $keywords = array_filter($keywords);
+            $page->setMetaTagKeywords($keywords);
+
+            $page->setUpdatedAt(new \DateTime('now'));
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('pages_index');
@@ -99,7 +128,7 @@ class PagesController extends AbstractController
      */
     public function delete(Request $request, Pages $page): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$page->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $page->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($page);
             $entityManager->flush();
