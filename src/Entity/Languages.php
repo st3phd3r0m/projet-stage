@@ -28,6 +28,11 @@ class Languages
     private $name;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $flag;
@@ -65,6 +70,18 @@ class Languages
         return $this;
     }
 
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
     public function getFlag(): ?string
     {
         return $this->flag;
@@ -85,6 +102,13 @@ class Languages
     public function setImageFile(?File $imageFile = null): void
     {
         $this->imageFile = $imageFile;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if (null !== $imageFile) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
     /**

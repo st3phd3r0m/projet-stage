@@ -64,6 +64,10 @@ class LanguagesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //On persiste la propriété updated_at afin de trigger les écouteurs d'évènements avec doctrine et de permettre la mise à jour du fichier image
+            $language->setUpdatedAt(new \DateTime('now'));
+
             $this->getDoctrine()->getManager()->flush();
             //Envoi d'un message utilisateur
             $this->addFlash('success', 'La langue de publication a bien été modifiée.');

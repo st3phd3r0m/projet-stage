@@ -35,10 +35,6 @@
 			<table class="table">
 				<tbody>
 					<tr>
-						<th>Id</th>
-						<td>{{ product.id }}</td>
-					</tr>
-					<tr>
 						<th>Titre</th>
 						<td>{{ product.title }}</td>
 					</tr>
@@ -146,7 +142,7 @@
 								{{ comment.content }}
 							</p>
 							<a href="{{ path('comments_show', {id: comment.id}) }}" class="card-link">Voir</a>
-							<a href="{{ path('comments_edit', {id: comment.id}) }}" class="card-link">Modifier</a>
+							<a href="{{ path('comments_edit', {id: comment.id}) }}" class="card-link">Modérer</a>
 							{{ include('comments/_delete_form.html.twig') }}
 						</div>
 						<!-- /.card -->

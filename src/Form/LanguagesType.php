@@ -33,12 +33,12 @@ class LanguagesType extends AbstractType
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => $options['require_image'],
-                'label' => 'Image de présentation',
+                'label' => 'Choisir un drapeau',
                 'download_link' => false,
                 'imagine_pattern' => 'miniatures',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez choisir une image de présentation',
+                        'message' => 'Choisir un drapeau',
                         'groups' => ['new']
                     ]),
                     new Image([
