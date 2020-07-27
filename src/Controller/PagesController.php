@@ -46,37 +46,47 @@ class PagesController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $page = new Pages();
-        $form = $this->createForm(PagesType::class, $page);
-        $form->handleRequest($request);
+        if ($this->getUser()) {
+            $page = new Pages();
+            $form = $this->createForm(PagesType::class, $page);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
-            $keywords = $form->get("keywords")->getData();
-            $keywords = explode("#", $keywords);
-            $keywords = array_filter($keywords);
-            $page->setKeywords($keywords);
+                //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
+                $keywords = $form->get("keywords")->getData();
+                $keywords = explode("#", $keywords);
+                $keywords = array_filter($keywords);
+                $page->setKeywords($keywords);
 
-            $keywords = $form->get("meta_tag_keywords")->getData();
-            $keywords = explode("#", $keywords);
-            $keywords = array_filter($keywords);
-            $page->setMetaTagKeywords($keywords);
+                $keywords = $form->get("meta_tag_keywords")->getData();
+                $keywords = explode("#", $keywords);
+                $keywords = array_filter($keywords);
+                $page->setMetaTagKeywords($keywords);
 
-            $page->setCreatedAt(new \DateTime('now'));
-            $page->setUpdatedAt(new \DateTime('now'));
+                $page->setCreatedAt(new \DateTime('now'));
+                $page->setUpdatedAt(new \DateTime('now'));
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($page);
-            $entityManager->flush();
+                $page->setUser($this->getUser());
 
-            return $this->redirectToRoute('pages_index');
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($page);
+                $entityManager->flush();
+
+                //Envoi d'un message utilisateur
+                $this->addFlash('success', 'Votre page a bien été publiée.');
+                return $this->redirectToRoute('pages_index');
+            }
+
+            return $this->render('pages/new.html.twig', [
+                'page' => $page,
+                'form' => $form->createView(),
+            ]);
         }
 
-        return $this->render('pages/new.html.twig', [
-            'page' => $page,
-            'form' => $form->createView(),
-        ]);
+        //Envoi d'un message utilisateur
+        $this->addFlash('fail', 'Vous devez être connecté pour publier une page.');
+        return $this->redirectToRoute('pages_index');
     }
 
     /**
@@ -94,33 +104,41 @@ class PagesController extends AbstractController
      */
     public function edit(Request $request, Pages $page): Response
     {
-        $form = $this->createForm(PagesType::class, $page);
-        $form->handleRequest($request);
+        if ($this->getUser()) {
+            $form = $this->createForm(PagesType::class, $page);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
-            $keywords = $form->get("keywords")->getData();
-            $keywords = explode("#", $keywords);
-            $keywords = array_filter($keywords);
-            $page->setKeywords($keywords);
+                //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
+                $keywords = $form->get("keywords")->getData();
+                $keywords = explode("#", $keywords);
+                $keywords = array_filter($keywords);
+                $page->setKeywords($keywords);
 
-            $keywords = $form->get("meta_tag_keywords")->getData();
-            $keywords = explode("#", $keywords);
-            $keywords = array_filter($keywords);
-            $page->setMetaTagKeywords($keywords);
+                $keywords = $form->get("meta_tag_keywords")->getData();
+                $keywords = explode("#", $keywords);
+                $keywords = array_filter($keywords);
+                $page->setMetaTagKeywords($keywords);
 
-            $page->setUpdatedAt(new \DateTime('now'));
+                $page->setUpdatedAt(new \DateTime('now'));
 
-            $this->getDoctrine()->getManager()->flush();
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('pages_index');
+                //Envoi d'un message utilisateur
+                $this->addFlash('success', 'Votre page a bien été modifiée.');
+                return $this->redirectToRoute('pages_index');
+            }
+
+            return $this->render('pages/edit.html.twig', [
+                'page' => $page,
+                'form' => $form->createView(),
+            ]);
         }
 
-        return $this->render('pages/edit.html.twig', [
-            'page' => $page,
-            'form' => $form->createView(),
-        ]);
+        //Envoi d'un message utilisateur
+        $this->addFlash('fail', 'Vous devez être connecté pour éditer une page.');
+        return $this->redirectToRoute('pages_index');
     }
 
     /**
@@ -132,6 +150,9 @@ class PagesController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($page);
             $entityManager->flush();
+
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'La publication a bien été supprimée.');
         }
 
         return $this->redirectToRoute('pages_index');

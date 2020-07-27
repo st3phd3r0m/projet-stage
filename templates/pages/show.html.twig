@@ -35,16 +35,12 @@
 			<table class="table">
 				<tbody>
 					<tr>
-						<th>Id</th>
-						<td>{{ page.id }}</td>
-					</tr>
-					<tr>
 						<th>Titre</th>
 						<td>{{ page.title }}</td>
 					</tr>
 					<tr>
 						<th>Contenu</th>
-						<td>{{ page.content }}</td>
+						<td>{{ page.content|raw }}</td>
 					</tr>
 					<tr>
 						<th>Image</th>
@@ -77,10 +73,6 @@
 					<tr>
 						<th>Auteur</th>
 						<td>{{ page.user.firstname}} {{ page.user.lastname}}</td>
-					</tr>
-					<tr>
-						<th>Slug</th>
-						<td>{{ page.slug }}</td>
 					</tr>
 				</tbody>
 			</table>

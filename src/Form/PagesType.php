@@ -45,38 +45,19 @@ class PagesType extends AbstractType
                     ])
                 ]
             ])
-            ->add('content', TextareaType::class, [
+            ->add('content', CKEditorType::class, [  
                 'required' => true,
-                'label' => 'Contenu de la publication : ',
-
+                'label'=>'Contenu de la publication : ',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez saisir le contenu de la publication',
+                        'message'=>'Veuillez saisir le contenu de la publication',
+                        // 'groups'=> ['new', 'update']
                     ]),
                     new Length([
                         'min' => 20,
                         'minMessage' => "Le texte doit comporter au minimum {{ limit }}
-                    caractères.",
-                    ])
-                ]
-            ])
-            ->add('content', CKEditorType::class, [
-                'config_name'=> 'my_config_1',    
-                'required' => true,
-                'label'=>'Contenu d\'article',
-                'attr'=>[
-                    'class'=>'form-control'
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message'=>'Veuillez entrer votre contenu',
-                        'groups'=> ['new', 'update']
-                    ]),
-                    new Length([
-                        'min' => 50,
-                        'minMessage' => "Le texte doit comporter au minimum {{ limit }}
                         caractères !",
-                        'groups'=> ['new', 'update']
+                        // 'groups'=> ['new', 'update']
                     ])
                 ]
             ])
