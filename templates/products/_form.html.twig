@@ -1,4 +1,20 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Valider') }}</button>
+{{ form_widget(form) }}
+
+{# store the prototype on the data-prototype attribute #}
+<ul id="attribute-fields-list" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.attribute|length }}">
+	{% for attributeField in form.attribute %}
+		<li>
+			{{ form_errors(attributeField) }}
+			{{ form_widget(attributeField) }}
+		</li>
+	{% endfor %}
+</ul>
+
+<button type="button" class="add-another-collection-widget" data-list-selector="#attribute-fields-list">Ajouter un attribut
+</button>
+
+
+<button class="btn">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}
+

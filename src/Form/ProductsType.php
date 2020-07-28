@@ -2,15 +2,20 @@
 
 namespace App\Form;
 
+use App\Entity\AttributeGroups;
+use App\Entity\Attributes;
 use App\Entity\Products;
 use App\Entity\Categories;
 use App\Entity\Languages;
 use App\Repository\LanguagesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -40,10 +45,6 @@ class ProductsType extends AbstractType
                     new NotBlank([
                         'message' => 'Veuillez saisir un titre.',
                     ]),
-                    new Length([
-                        'min' => 4,
-                        'minMessage' => "Le titre doit comporter au minimum {{ limit }} caractères.",
-                    ])
                 ]
             ])
             ->add('meta_tag_title', TextType::class, [
@@ -54,10 +55,6 @@ class ProductsType extends AbstractType
                     new NotBlank([
                         'message' => 'Veuillez saisir un titre.',
                     ]),
-                    new Length([
-                        'min' => 4,
-                        'minMessage' => "Le titre doit comporter au minimum {{ limit }} caractères.",
-                    ])
                 ]
             ])
             ->add('description', TextareaType::class, [
@@ -68,11 +65,6 @@ class ProductsType extends AbstractType
                     new NotBlank([
                         'message' => 'Veuillez saisir la description de la sortie',
                     ]),
-                    new Length([
-                        'min' => 20,
-                        'minMessage' => "Le texte doit comporter au minimum {{ limit }}
-                        caractères.",
-                    ])
                 ]
             ])
             ->add('meta_tag_description', TextareaType::class, [
@@ -83,10 +75,6 @@ class ProductsType extends AbstractType
                     new NotBlank([
                         'message' => 'Veuillez saisir la description de la sortie',
                     ]),
-                    new Length([
-                        'min' => 20,
-                        'minMessage' => "Le texte doit comporter au minimum {{ limit }} caractères.",
-                    ])
                 ]
             ])
             ->add('hangout_location', TextType::class, [
@@ -97,10 +85,6 @@ class ProductsType extends AbstractType
                     new NotBlank([
                         'message' => 'Veuillez saisir un lieu pour la sortie.',
                     ]),
-                    new Length([
-                        'min' => 4,
-                        'minMessage' => "Le titre doit comporter au minimum {{ limit }} caractères.",
-                    ])
                 ]
             ])
             ->add('keywords', TextType::class, [
@@ -139,7 +123,6 @@ class ProductsType extends AbstractType
             ->add('weezeevent', TextType::class, [
                 'required' => false,
                 'label' => 'Ajouter un lien weezeevent afin d\'externaliser les réservations pour votre sortie : ',
-
             ])
             ->add('pre_tax_price', MoneyType::class, [
                 'required' => false,
@@ -167,8 +150,36 @@ class ProductsType extends AbstractType
                 'label' => 'Choisir la catégorie',
                 'class' => Categories::class,
                 'choice_label' => 'title',
+            ])
+            // ->add('image', CollectionType::class, [
+            //     'entry_type' => ChoiceType::class,
+            //     'entry_options' => [
+            //         'label' => false,
+            //         'choices' => [
+            //             'Utilisateur' => 'ROLE_USER',
+            //             'Editeur' => 'ROLE_EDITOR',
+            //             'Administrateur' => 'ROLE_ADMIN'
+            //         ]
+            //     ],
+            //     'allow_add' => true,
+            //     'allow_delete' => true,
+            //     'prototype' => true,
+            //     // 'by_reference' => false
+            // ]);
+            ->add('attribute', CollectionType::class, [
+                'required' => false,
+                'label' => 'Ajoutez un ou des attributs à la sortie',
+                'entry_type' => EntityType::class,
+                'entry_options'=>[
+                    'label' => false,
+                    'class' => Attributes::class,
+                    'choice_label' => 'name',
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+
             ]);
-        // ->add('attribute');
     }
 
     public function configureOptions(OptionsResolver $resolver)

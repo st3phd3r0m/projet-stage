@@ -109,9 +109,16 @@
 						<td>{{ product.language.name }}</td>
 					</tr>
 					<tr>
-						<th>Prix TTC</th>
-						<td>{{ product.taxIncludedPrice }}
-							&euro;</td>
+						<th>Attributs</th>
+						<td>		
+							<ul>
+								{% for attribute in product.attribute %}
+								<li>
+									{{ attribute.name }} : "{{ attribute.value }}"
+								</li>
+								{% endfor %}						
+							</ul>					
+						</td>
 					</tr>
 
 

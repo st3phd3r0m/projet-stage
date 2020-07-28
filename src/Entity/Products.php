@@ -202,6 +202,7 @@ class Products
         return $this;
     }
 
+
     public function getImageFile(): ?File
     {
         return $this->imageFile;
