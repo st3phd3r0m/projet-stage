@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Products;
 use App\Form\ProductsType;
+use App\Repository\ImagesRepository;
 use App\Repository\ProductsRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -100,19 +101,22 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="products_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Products $product): Response
+    public function edit(Request $request, Products $product, ImagesRepository $imagesRepository ): Response
     {
         $form = $this->createForm(ProductsType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // dd($imagesRepository->findBy(['product'=>$product->getId()]));
+
             $images = $product->getImages();
+            // dd($images);
             foreach ($images as $key => $image) {
                 $image->setProduct($product);
                 $images->set($key, $image);
             }
-            
+
             //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
             $keywords = $form->get("keywords")->getData();
             $keywords = explode("#", $keywords);
@@ -142,10 +146,18 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}", name="products_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Products $product): Response
+    public function delete(Request $request, Products $product, ImagesRepository $imagesRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
+            
             $entityManager = $this->getDoctrine()->getManager();
+
+            $images = $imagesRepository->findBy(['product'=>$product->getId()]);
+            foreach($images as $key => $image){
+                $product->removeImage($image);
+                $entityManager->remove($image);
+            }
+
             $entityManager->remove($product);
             $entityManager->flush();
             //Envoi d'un message utilisateur

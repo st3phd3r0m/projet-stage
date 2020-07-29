@@ -20,6 +20,7 @@ class ImagesType extends AbstractType
                 'label' => false,
                 'download_link' => false,
                 'imagine_pattern' => 'miniatures',
+                'by_reference'=> false,
                 'constraints' => [
                     // new NotBlank([
                     //     'message' => 'Veuillez choisir une image de présentation',
