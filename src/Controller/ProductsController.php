@@ -8,6 +8,7 @@ use App\Repository\ImagesRepository;
 use App\Repository\ProductsRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,8 +43,11 @@ class ProductsController extends AbstractController
     {
 
         //On créé la référence du produit et on l'incrémente par rapport
-        //
+        //au produit ayant la référence maximal (d'un point de vue numérique)
+        //Pour celà, est utilisée une requete DQL créée de toutes pièces dans
+        //productsRepository
         $reference = $productsRepository->findMaxRef();
+        //Incrémentation
         $reference = sprintf('%06d', $reference[0][1] + 1);
 
         $product = new Products();
@@ -106,21 +110,34 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="products_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Products $product, ImagesRepository $imagesRepository ): Response
+    public function edit(Request $request, Products $product, ImagesRepository $imagesRepository): Response
     {
         $form = $this->createForm(ProductsType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            //Si le formulaire est soumis et valide, on appelle le manager d'entité
             $entityManager = $this->getDoctrine()->getManager();
 
+            //On récupère les instances de l'entité Images, instanciées lors de la collection dans le formulaire d'ajout d'images
             $images = $product->getImages();
+            //Et pour chacune de ces instances,
             foreach ($images as $key => $image) {
-                if($image->getName()===null){
+                if ($image->getName() === null && $image->getImageFile() !== null) {
+                    //Si l'utilisateur ajoute une image
+                    //on ajoute l'objet product comme attribut de l'objet image
+                    $image->setProduct($product);
+                    $images->set($key, $image);
+                } elseif ($image->getName() === null && $image->getImageFile() === null) {
+                    //Si l'utilisateur veut la suppression d'une des images dans la collection
+                    //Alors on enlève l'objet image correspondant de l'objet product 
                     $product->removeImage($image);
+                    //Et on l'enlève de la bdd avec le manager d'entité
                     $entityManager->remove($image);
-                }else{
+                } elseif ($image->getName() !== null && $image->getImageFile() === null) {
+                    //Si l'utilisateur veut garder l'image dans la collection
+                    //on ajoute l'objet product comme attribut de l'objet image
                     $image->setProduct($product);
                     $images->set($key, $image);
                 }
@@ -155,20 +172,29 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}", name="products_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Products $product, ImagesRepository $imagesRepository): Response
+    public function delete(Request $request, Products $product, ImagesRepository $imagesRepository, Filesystem $filesystem): Response
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
-            
+
             $entityManager = $this->getDoctrine()->getManager();
 
-            $images = $imagesRepository->findBy(['product'=>$product->getId()]);
-            foreach($images as $key => $image){
+            $images = $imagesRepository->findBy(['product' => $product->getId()]);
+            foreach ($images as $image) {
+                $miniature = '../public/media/cache/miniatures/images/products/' . $image->getName();
+                //On supprime la miniature correspondante à l'image
+                if ($filesystem->exists($miniature)) {
+                    //Alors on supprime la miniature correspondante
+                    $filesystem->remove($miniature);
+                }
                 $product->removeImage($image);
                 $entityManager->remove($image);
             }
 
             $entityManager->remove($product);
             $entityManager->flush();
+
+
+
             //Envoi d'un message utilisateur
             $this->addFlash('success', 'La sortie a bien été supprimée.');
         }
