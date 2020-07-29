@@ -110,14 +110,21 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="products_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Products $product, ImagesRepository $imagesRepository): Response
+    public function edit(Request $request, Products $product, Filesystem $filesystem): Response
     {
+        //Récupération des noms de fichiers images pour suppression ultérieure des miniatures
+        $images = $product->getImages();
+        $oldImages = [];
+        foreach ($images as $key => $image) {
+            $oldImages[] = $image->getName();
+        }
+        //Création de formulaire
         $form = $this->createForm(ProductsType::class, $product);
         $form->handleRequest($request);
 
+        //Si le formulaire est soumis et valide,
         if ($form->isSubmitted() && $form->isValid()) {
-
-            //Si le formulaire est soumis et valide, on appelle le manager d'entité
+            //on appelle le manager d'entité
             $entityManager = $this->getDoctrine()->getManager();
 
             //On récupère les instances de l'entité Images, instanciées lors de la collection dans le formulaire d'ajout d'images
@@ -158,6 +165,16 @@ class ProductsController extends AbstractController
 
             $entityManager->flush();
 
+            //Suppression des fichiers miniatures
+            foreach ($oldImages as $oldImage) {
+                $miniature = '../public/media/cache/miniatures/images/products/' . $oldImage;
+                //On supprime la miniature correspondante à l'image
+                if ($filesystem->exists($miniature)) {
+                    //Alors on supprime la miniature correspondante
+                    $filesystem->remove($miniature);
+                }
+            }
+
             //Envoi d'un message utilisateur
             $this->addFlash('success', 'La sortie a bien été modifiée.');
             return $this->redirectToRoute('products_index');
@@ -172,13 +189,15 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}", name="products_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Products $product, ImagesRepository $imagesRepository, Filesystem $filesystem): Response
+    public function delete(Request $request, Products $product, Filesystem $filesystem): Response
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
 
             $entityManager = $this->getDoctrine()->getManager();
 
-            $images = $imagesRepository->findBy(['product' => $product->getId()]);
+            $images = $product->getImages();
+
+            // $images = $imagesRepository->findBy(['product' => $product->getId()]);
             foreach ($images as $image) {
                 $miniature = '../public/media/cache/miniatures/images/products/' . $image->getName();
                 //On supprime la miniature correspondante à l'image
@@ -192,8 +211,6 @@ class ProductsController extends AbstractController
 
             $entityManager->remove($product);
             $entityManager->flush();
-
-
 
             //Envoi d'un message utilisateur
             $this->addFlash('success', 'La sortie a bien été supprimée.');
