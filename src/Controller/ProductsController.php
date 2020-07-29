@@ -41,8 +41,10 @@ class ProductsController extends AbstractController
     public function new(Request $request, ProductsRepository $productsRepository): Response
     {
 
-        $maxRef = $productsRepository->findMaxRef();
-        $maxRef = sprintf('%06d', $maxRef[0][1] + 1);
+        //On créé la référence du produit et on l'incrémente par rapport
+        //
+        $reference = $productsRepository->findMaxRef();
+        $reference = sprintf('%06d', $reference[0][1] + 1);
 
         $product = new Products();
         $form = $this->createForm(ProductsType::class, $product);
@@ -50,8 +52,11 @@ class ProductsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            //On récupère les instances de l'entité Images, instanciées lors de la collection dans le formulaire d'ajout d'images
             $images = $product->getImages();
+            //Et pour chacune de ces instances,
             foreach ($images as $key => $image) {
+                //on fait le lien avec l'objet product
                 $image->setProduct($product);
                 $images->set($key, $image);
             }
@@ -69,7 +74,7 @@ class ProductsController extends AbstractController
 
             $product->setCreatedAt(new \DateTime('now'));
             $product->setUpdatedAt(new \DateTime('now'));
-            $product->setReference($maxRef);
+            $product->setReference($reference);
 
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -108,13 +113,17 @@ class ProductsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // dd($imagesRepository->findBy(['product'=>$product->getId()]));
+            $entityManager = $this->getDoctrine()->getManager();
 
             $images = $product->getImages();
-            // dd($images);
             foreach ($images as $key => $image) {
-                $image->setProduct($product);
-                $images->set($key, $image);
+                if($image->getName()===null){
+                    $product->removeImage($image);
+                    $entityManager->remove($image);
+                }else{
+                    $image->setProduct($product);
+                    $images->set($key, $image);
+                }
             }
 
             //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
@@ -130,7 +139,7 @@ class ProductsController extends AbstractController
 
             $product->setUpdatedAt(new \DateTime('now'));
 
-            $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
             //Envoi d'un message utilisateur
             $this->addFlash('success', 'La sortie a bien été modifiée.');
