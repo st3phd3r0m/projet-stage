@@ -8,7 +8,7 @@ use App\Entity\Products;
 use App\Entity\Categories;
 use App\Entity\Languages;
 use App\Repository\LanguagesRepository;
-use App\Form\ImageFileType;
+use App\Form\ImagesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -100,25 +100,6 @@ class ProductsType extends AbstractType
                 'mapped' => false,
                 'data' => implode('#', $builder->getData()->getMetaTagKeywords())
             ])
-            // ->add('imageFile', VichImageType::class, [
-            //     'required' => true,
-            //     'label' => 'Image de présentation',
-            //     'download_link' => false,
-            //     'imagine_pattern' => 'miniatures',
-            //     'constraints' => [
-            //         new NotBlank([
-            //             'message' => 'Veuillez choisir une image de présentation',
-            //             'groups' => ['new']
-            //         ]),
-            //         new Image([
-            //             'maxSize' => '2M',
-            //             'maxSizeMessage' => 'Votre image dépasse les 2Mo',
-            //             'mimeTypes' => ['image/png', 'image/gif', 'image/jpeg'],
-            //             'mimeTypesMessage' => 'Votre image doit être de type PNG, GIF ou JPEG',
-            //             'groups' => ['new', 'update']
-            //         ])
-            //     ]
-            // ])
             ->add('weezeevent', TextType::class, [
                 'required' => false,
                 'label' => 'Ajouter un lien weezeevent afin d\'externaliser les réservations pour votre sortie : ',
@@ -150,14 +131,14 @@ class ProductsType extends AbstractType
                 'class' => Categories::class,
                 'choice_label' => 'title',
             ])
-            // ->add('images', CollectionType::class, [
-            //     'required' => false,
-            //     'label' => 'Ajoutez une ou des images d\'illustration',
-            //     'entry_type' => ImageFileType::class,
-            //     'allow_add' => true,
-            //     'allow_delete' => true,
-            //     'prototype' => true
-            // ])
+            ->add('images', CollectionType::class, [
+                'required' => false,
+                'label' => 'Ajoutez une ou des images d\'illustration',
+                'entry_type' => ImagesType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true
+            ])
             ->add('attribute', CollectionType::class, [
                 'required' => false,
                 'label' => 'Ajoutez un ou des attributs à la sortie',

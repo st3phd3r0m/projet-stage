@@ -49,6 +49,12 @@ class ProductsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $images = $product->getImages();
+            foreach ($images as $key => $image) {
+                $image->setProduct($product);
+                $images->set($key, $image);
+            }
+
             //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
             $keywords = $form->get("keywords")->getData();
             $keywords = explode("#", $keywords);
@@ -101,6 +107,12 @@ class ProductsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $images = $product->getImages();
+            foreach ($images as $key => $image) {
+                $image->setProduct($product);
+                $images->set($key, $image);
+            }
+            
             //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
             $keywords = $form->get("keywords")->getData();
             $keywords = explode("#", $keywords);

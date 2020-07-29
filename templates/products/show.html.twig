@@ -43,8 +43,15 @@
 						<td>{{ product.description }}</td>
 					</tr>
 					<tr>
-						<th>Image</th>
-						<td>{{ product.image ? product.image|json_encode : '' }}</td>
+						<th>Images d'illustration</th>
+						<td>
+						{% for image in product.images %}
+						<img src="{{ asset('images/products/'~ image.name ) | imagine_filter('miniatures') }}" alt="Image d'illustration de la sortie : '{{ product.title }}'">
+						{% else %}
+						Aucune image d'illustration pour ce produit
+						{% endfor %}
+						
+						</td>
 					</tr>
 					<tr>
 						<th>Lieu de sortie</th>

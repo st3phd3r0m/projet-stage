@@ -6,13 +6,10 @@ use App\Repository\ProductsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=ProductsRepository::class)
- * @Vich\Uploadable
  */
 class Products
 {
@@ -42,22 +39,6 @@ class Products
      * @ORM\Column(type="json", nullable=true)
      */
     private $keywords = [];
-
-    /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $images = [];
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
-
-    /**
-     * @var File|null
-     * @Vich\UploadableField(mapping="products_images", fileNameProperty="image")
-     */
-    private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -135,11 +116,17 @@ class Products
      */
     private $messages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="product", cascade={"persist"})
+     */
+    private $images;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->attribute = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -193,45 +180,6 @@ class Products
         $this->keywords = $keywords;
 
         return $this;
-    }
-
-    public function getImages(): ?array
-    {
-        return $this->images;
-    }
-
-    public function setImages(?array $images): self
-    {
-        $this->images = $images;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-        $this->images[] = $image;
-
-        return $this;
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            $this->updatedAt = new \DateTimeImmutable();
-        }
     }
 
     public function getMetaTagTitle(): ?string
@@ -460,6 +408,37 @@ class Products
             // set the owning side to null (unless already changed)
             if ($message->getProduct() === $this) {
                 $message->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Images[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getProduct() === $this) {
+                $image->setProduct(null);
             }
         }
 
