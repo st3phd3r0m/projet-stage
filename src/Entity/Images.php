@@ -44,6 +44,11 @@ class Images
      */
     private $product;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="images", cascade={"persist"})
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +109,18 @@ class Images
     public function setProduct(?Products $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Categories
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Categories $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

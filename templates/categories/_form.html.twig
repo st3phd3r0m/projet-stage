@@ -1,4 +1,33 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+{{ form_row(form.title) }}
+{{ form_row(form.meta_tag_title) }}
+{{ form_row(form.description) }}
+{{ form_row(form.meta_tag_description) }}
+{{ form_row(form.keywords) }}
+{{ form_row(form.meta_tag_keywords) }}
+{# {{ form_row(form.images) }}  #}
+
+<fieldset class="form-group">
+    <legend class="col-form-label">{{ form.images.vars.label }}</legend>
+        <div id="{{ form.images.vars.id }}">
+
+            <ul id="images-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.images|length }}">
+                {% for imagesField in form.images %}
+                    <li>
+                        {{ form_errors(imagesField) }}
+                        {{ form_widget(imagesField) }}
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+        <button type="button" class="add-another-collection-widget" data-list-selector="#images-fields-list">Ajouter une image
+        </button>
+
+</fieldset>
+
     <button class="btn">{{ button_label|default('Valider') }}</button>
+
 {{ form_end(form) }}

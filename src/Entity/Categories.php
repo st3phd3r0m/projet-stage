@@ -6,11 +6,9 @@ use App\Repository\CategoriesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity(repositoryClass=CategoriesRepository::class)
- * @Vich\Uploadable
  */
 class Categories
 {
@@ -52,11 +50,6 @@ class Categories
     private $meta_tag_keywords = [];
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     */
-    private $image = [];
-
-    /**
      * @ORM\OneToMany(targetEntity=Products::class, mappedBy="category")
      */
     private $products;
@@ -77,9 +70,15 @@ class Categories
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="category", cascade={"persist"})
+     */
+    private $images;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,18 +158,6 @@ class Categories
         return $this;
     }
 
-    public function getImage(): ?array
-    {
-        return $this->image;
-    }
-
-    public function setImage(?array $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Products[]
      */
@@ -234,6 +221,37 @@ class Categories
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Images[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getCategory() === $this) {
+                $image->setCategory(null);
+            }
+        }
 
         return $this;
     }

@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Categories;
 use Symfony\Component\Form\AbstractType;
+use App\Form\ImagesType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -84,6 +86,15 @@ class CategoriesType extends AbstractType
                 'label' => 'Ajouter des mots-clés en méta-données, délimités par des hashtags ("#"), afin de référencer votre produit : ',
                 'mapped' => false,
                 'data' => implode('#', $builder->getData()->getMetaTagKeywords())
+            ])
+            ->add('images', CollectionType::class, [
+                'required' => false,
+                'label' => 'Ajoutez une ou des images d\'illustration',
+                'entry_type' => ImagesType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
+                'by_reference'=> false
             ]);
         // ->add('image');
     }

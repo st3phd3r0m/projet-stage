@@ -69,7 +69,14 @@
 					</tr>
 					<tr>
 						<th>Image</th>
-						<td>{{ category.image ? category.image|json_encode : '' }}</td>
+						<td>
+						{% for image in category.images %}
+						<img src="{{ asset('images/products/'~ image.name ) | imagine_filter('miniatures') }}" alt="Image d'illustration de la catégorie : '{{ category.title }}'">
+						{% else %}
+						Aucune image d'illustration pour cette catégorie
+						{% endfor %}
+						
+						</td>
 					</tr>
 					<tr>
 						<th>Créée le</th>
