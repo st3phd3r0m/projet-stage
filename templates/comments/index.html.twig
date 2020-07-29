@@ -64,7 +64,11 @@
 							<td>{{ comment.pseudo }}</td>
 							<td>{{ comment.content }}</td>
 							<td>
-								<a title="Voir la sortie associée" href="{{ path('products_show', {id:comment.product.id}) }}">{{ comment.product.title }}</a>
+								{% if comment.product != null %}
+									<a title="Voir la sortie associée" href="{{ path('products_show', {id:comment.product.id}) }}">{{ comment.product.title }}</a>
+								{% else %}
+									Commentaire associé à aucune sortie
+								{% endif %}
 							</td>
 							<td>{{ comment.createdAt|date('d-m-Y H:i:s') }}</td>
 							<td>

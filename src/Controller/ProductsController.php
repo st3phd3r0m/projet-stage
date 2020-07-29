@@ -195,18 +195,31 @@ class ProductsController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
 
+            //Suppression des images et des miniatures associés au produit
             $images = $product->getImages();
-
-            // $images = $imagesRepository->findBy(['product' => $product->getId()]);
             foreach ($images as $image) {
                 $miniature = '../public/media/cache/miniatures/images/products/' . $image->getName();
-                //On supprime la miniature correspondante à l'image
+                //Si le fichier existe
                 if ($filesystem->exists($miniature)) {
                     //Alors on supprime la miniature correspondante
                     $filesystem->remove($miniature);
                 }
                 $product->removeImage($image);
                 $entityManager->remove($image);
+            }
+
+            //Suppression des commentaires associés au produit
+            $comments = $product->getComments();
+            foreach ($comments as $comment) {
+                $product->removeComment($comment);
+                // $entityManager->remove($comment);
+            }
+
+            //Suppression des messages associés au produit
+            $messages = $product->getMessages();
+            foreach ($messages as $message) {
+                $product->removeMessage($message);
+                // $entityManager->remove($message);
             }
 
             $entityManager->remove($product);
