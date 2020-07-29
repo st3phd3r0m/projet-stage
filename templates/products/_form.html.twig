@@ -1,20 +1,61 @@
 {{ form_start(form) }}
-{{ form_widget(form) }}
 
-{# store the prototype on the data-prototype attribute #}
-<ul id="attribute-fields-list" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.attribute|length }}">
-	{% for attributeField in form.attribute %}
-		<li>
-			{{ form_errors(attributeField) }}
-			{{ form_widget(attributeField) }}
-		</li>
-	{% endfor %}
-</ul>
+{{ form_row(form.title) }}
+{{ form_row(form.meta_tag_title) }}
+{{ form_row(form.description) }}
+{{ form_row(form.meta_tag_description) }}
+{{ form_row(form.hangout_location) }}
+{{ form_row(form.keywords) }}
+{{ form_row(form.meta_tag_keywords) }}
+{{ form_row(form.weezeevent) }}
+{{ form_row(form.pre_tax_price) }}
+{{ form_row(form.TVA) }}
+{{ form_row(form.tax_included_price) }}
+{{ form_row(form.language) }}
+{{ form_row(form.category) }}
+{# {{ form_row(form.images) }}  #}
+{# {{ form_row(form.attribute) }} #}
 
-<button type="button" class="add-another-collection-widget" data-list-selector="#attribute-fields-list">Ajouter un attribut
-</button>
+<fieldset class="form-group">
+    <legend class="col-form-label">{{ form.images.vars.label }}</legend>
+        <div id="{{ form.images.vars.id }}">
 
+            <ul id="images-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.images|length }}">
+                {% for imagesField in form.images %}
+                    <li>
+                        {{ form_errors(imagesField) }}
+                        {{ form_widget(imagesField) }}
+                    </li>
+                {% endfor %}
+            </ul>
 
-<button class="btn">{{ button_label|default('Valider') }}</button>
+        </div>
+
+        <button type="button" class="add-another-collection-widget" data-list-selector="#images-fields-list">Ajouter une image
+        </button>
+
+</fieldset>
+
+<fieldset class="form-group">
+    <legend class="col-form-label">{{ form.attribute.vars.label }}</legend>
+        <div id="{{ form.attribute.vars.id }}">
+
+            <ul id="attribute-fields-list" data-prototype="{{ form_widget(form.attribute.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.attribute|length }}">
+                {% for attributeField in form.attribute %}
+                    <li>
+                        {{ form_errors(attributeField) }}
+                        {{ form_widget(attributeField) }}
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+
+        <button type="button" class="add-another-collection-widget" data-list-selector="#attribute-fields-list">Ajouter un attribut
+        </button>
+
+</fieldset>
+
+	<button class="btn"> {{ button_label|default('Valider') }}</button>
+
 {{ form_end(form) }}
-

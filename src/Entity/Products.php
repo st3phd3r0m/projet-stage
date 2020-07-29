@@ -46,7 +46,12 @@ class Products
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private $image = [];
+    private $images = [];
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
 
     /**
      * @var File|null
@@ -190,18 +195,30 @@ class Products
         return $this;
     }
 
-    public function getImage(): ?array
+    public function getImages(): ?array
     {
-        return $this->image;
+        return $this->images;
     }
 
-    public function setImage(?array $image): self
+    public function setImages(?array $images): self
     {
-        $this->image = $image;
+        $this->images = $images;
 
         return $this;
     }
 
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+        $this->images[] = $image;
+
+        return $this;
+    }
 
     public function getImageFile(): ?File
     {

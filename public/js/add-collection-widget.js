@@ -5,7 +5,8 @@ $(document).ready(function () {
         let counter = list.data('widget-counter') || list.children().length;
 
         // grab the prototype template
-        let newWidget = $("#products_attribute").data('prototype');
+        let newWidget = list.attr('data-prototype');
+        console.log(newWidget);
         // replace the "__name__" used in the id and name of the prototype
         // with a number that's unique to your emails
         // end name attribute looks like name="contact[emails][2]"
