@@ -46,23 +46,15 @@ class PagesType extends AbstractType
                 ]
             ])
             ->add('content', CKEditorType::class, [  
+                'config_name'=> 'main_config',  
                 'required' => true,
                 'label'=>'Contenu de la publication : ',
                 'constraints' => [
                     new NotBlank([
                         'message'=>'Veuillez saisir le contenu de la publication',
-                        // 'groups'=> ['new', 'update']
                     ]),
-                    new Length([
-                        'min' => 20,
-                        'minMessage' => "Le texte doit comporter au minimum {{ limit }}
-                        caractères !",
-                        // 'groups'=> ['new', 'update']
-                    ])
                 ]
             ])
-
-
             ->add('meta_tag_description', TextareaType::class, [
                 'required' => true,
                 'label' => 'Description de la sortie en méta-données: ',
@@ -77,7 +69,6 @@ class PagesType extends AbstractType
                     ])
                 ]
             ])
-            // ->add('image')
             ->add('keywords', TextType::class, [
                 'required' => false,
                 'label' => 'Ajouter des mots-clés, délimités par des hashtags ("#"), afin de référencer votre produit : ',

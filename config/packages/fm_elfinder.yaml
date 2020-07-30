@@ -1,0 +1,20 @@
+fm_elfinder:
+    # assets_path: /assets
+    instances:
+        default:
+            locale: '%kernel.default_locale%' # defaults to current request locale
+            editor: ckeditor
+            fullscreen: true # Taille d'affichage
+            theme: smoothness # Thème à utiliser
+            connector:
+                debug: false # Désactive le débug
+                roots:
+                    uploads:
+                        show_hidden: false # Masque les fichiers cachés
+                        driver: LocalFileSystem
+                        path: images
+                        upload_allow: ['image/png', 'image/jpg', 'image/jpeg']
+                        upload_deny: ['all']
+                        upload_max_size: 2M # also file upload sizes restricted in php.ini
+                        #attributes: example of setting attributes permission
+                        #    - { pattern: '/(.*?)/', read: true, write: false, locked: true }
