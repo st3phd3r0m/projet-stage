@@ -46,9 +46,10 @@ class AttributesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $attribute_group = $form->get("attribute_group")->getData()->getName();
-            $name =  $attribute_group . '->' . $form->get("name")->getData();
-            $attribute->setName($name);
+            // Concaténation du groupe d'attribut avec le nom de l'attribut
+            // $attribute_group = $form->get("attribute_group")->getData()->getName();
+            // $name =  $attribute_group . '->' . $form->get("name")->getData();
+            // $attribute->setName($name);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($attribute);
@@ -75,9 +76,10 @@ class AttributesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $attribute_group = $form->get("attribute_group")->getData()->getName();
-            $name =  $attribute_group . '->' . $form->get("name")->getData();
-            $attribute->setName($name);
+            // Concaténation du groupe d'attribut avec le nom de l'attribut
+            // $attribute_group = $form->get("attribute_group")->getData()->getName();
+            // $name =  $attribute_group . '->' . $form->get("name")->getData();
+            // $attribute->setName($name);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($attribute);

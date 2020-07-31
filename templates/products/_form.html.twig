@@ -13,49 +13,91 @@
 {{ form_row(form.tax_included_price) }}
 {{ form_row(form.language) }}
 {{ form_row(form.category) }}
-{# {{ form_row(form.images) }}  #}
-{# {{ form_row(form.attribute) }} #}
+
 
 <fieldset class="form-group">
-    <legend class="col-form-label">{{ form.images.vars.label }}</legend>
-        <div id="{{ form.images.vars.id }}">
+	<legend class="col-form-label">{{ form.images.vars.label }}</legend>
+	<div id="{{ form.images.vars.id }}">
 
-            <ul id="images-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.images|length }}">
-                {% for imagesField in form.images %}
-                    <li>
-                        {{ form_errors(imagesField) }}
-                        {{ form_widget(imagesField) }}
-                    </li>
-                {% endfor %}
-            </ul>
+		<ul id="images-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.images|length }}">
+			{% for imagesField in form.images %}
+				<li>
+					{{ form_errors(imagesField) }}
+					{{ form_widget(imagesField) }}
+				</li>
+			{% endfor %}
+		</ul>
 
-        </div>
+	</div>
 
-        <button type="button" class="add-another-collection-widget" data-list-selector="#images-fields-list">Ajouter une image
-        </button>
+	<button type="button" class="add-another-collection-widget" data-list-selector="#images-fields-list">Ajouter une image
+	</button>
 
 </fieldset>
 
 <fieldset class="form-group">
-    <legend class="col-form-label">{{ form.attribute.vars.label }}</legend>
-        <div id="{{ form.attribute.vars.id }}">
+	<legend class="col-form-label">{{ form.attributes.vars.label }}</legend>
+	<div id="{{ form.attributes.vars.id }}">
 
-            <ul id="attribute-fields-list" data-prototype="{{ form_widget(form.attribute.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.attribute|length }}">
-                {% for attributeField in form.attribute %}
-                    <li>
-                        {{ form_errors(attributeField) }}
-                        {{ form_widget(attributeField) }}
-                    </li>
-                {% endfor %}
-            </ul>
+		<ul id="attributeGroupField-fields-list" data-prototype="{{ form_widget(form.attributes.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.attributes|length }}" data-url-path="{{ absolute_url(path('give_attributes')) }}">
+			{% for attributeGroupField in form.attributes %}
+				<li>
+					{{ form_row(attributeGroupField) }}
 
-        </div>
 
-        <button type="button" class="add-another-collection-widget" data-list-selector="#attribute-fields-list">Ajouter un attribut
-        </button>
+				</li>
+			{% endfor %}
+		</ul>
+
+	</div>
+
+	<button type="button" class="add-another-collection-widget" data-list-selector="#attributeGroupField-fields-list">Ajouter un attribut
+	</button>
 
 </fieldset>
 
-	<button class="btn"> {{ button_label|default('Valider') }}</button>
+<button class="btn">
+	{{ button_label|default('Valider') }}</button>
 
-{{ form_end(form) }}
+{{ form_row(form._token) }}
+
+{{ form_end(form, {'render_rest': false}) }}
+
+
+{# <div id="products_attributes_0">
+	<div class="form-group">
+		<label class="" for="products_attributes_0_attribute_group">Sélectionnez un groupe d&#039;attributs</label>
+		<select id="products_attributes_0_attribute_group" name="products[attributes][0][attribute_group]" class="form-control">
+			<option value=""></option>
+			<option value="1">Animation</option>
+			<option value="2">Comment ça marche ?</option>
+			<option value="3">Détails logitiques</option>
+			<option value="4">En Option</option>
+			<option value="5">Encadrement</option>
+			<option value="6">Intervenant</option>
+			<option value="7">Nombre maximum de participants</option>
+			<option value="8">Sortie garantie...</option>
+			<option value="9">Tarifs</option>
+		</select>
+	</div>
+	<div class="form-group">
+		<label class="" for="products_attributes_0_attribute_name">Sélectionnez le nom de l&#039;attribut</label>
+		<select id="products_attributes_0_attribute_name" name="products[attributes][0][attribute_name]" class="form-control">
+			<option value=""></option>
+			<option value="1">Pour le groupe</option>
+			<option value="2">Durée / Duration</option>
+			<option value="3">Anniversaire</option>
+			<option value="4">Pour le groupe</option>
+		</select>
+	</div>
+	<div class="form-group">
+		<label class="" for="products_attributes_0_attribute_value">Sélectionnez le contenu de l&#039;attribut</label>
+		<select id="products_attributes_0_attribute_value" name="products[attributes][0][attribute_value]" class="form-control">
+			<option value=""></option>
+			<option value="1">22 personnes maximum - 180 euros</option>
+			<option value="2">Environ 1h30</option>
+			<option value="3">A partir de 6 euros par ***REMOVED***. Livret d&#039;activités au format PDF envoyé aux enseignants avant la visite.</option>
+			<option value="4">10 personnes max - 100 euros</option>
+		</select>
+	</div>
+</div> #}

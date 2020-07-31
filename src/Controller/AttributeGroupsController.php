@@ -7,6 +7,7 @@ use App\Form\AttributeGroupsType;
 use App\Repository\AttributeGroupsRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -98,4 +99,27 @@ class AttributeGroupsController extends AbstractController
 
         return $this->redirectToRoute('attribute_groups_index');
     }
+
+    /**
+     * @Route("/give/attributes", name="give_attributes", methods={"GET"})
+     * @param Request $request
+     */
+    public function giveAttributes(Request $request, AttributeGroupsRepository $attributeGroupRepository)
+    {
+        if($request->isXmlHttpRequest()){
+            $id = $request->get('id');
+            $attributesCollection = $attributeGroupRepository->find($id)->getAttributes();
+            $attributes = [];
+            foreach ($attributesCollection as $key => $value) {
+                $attributes[] = [
+                    'id'=> $value->getId(),
+                    'name'=> $value->getName(),
+                    'value'=> $value->getValue()
+                    ];
+            }
+            return new JsonResponse(json_encode($attributes), 200);
+        }
+        return new JsonResponse('Méthode non-autorisée', 405);
+    }
+
 }

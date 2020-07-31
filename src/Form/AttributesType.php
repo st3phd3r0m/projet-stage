@@ -17,9 +17,10 @@ class AttributesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if($builder->getData()->getName()){
-            $name = explode('->', $builder->getData()->getName())[1];
-        }
+        // Déconcaténation du groupe d'attribut avec le nom de l'attribut
+        // if($builder->getData()->getName()){
+        //     $name = explode('->', $builder->getData()->getName())[1];
+        // }
 
         $builder
             ->add('attribute_group', EntityType::class, [
@@ -31,8 +32,8 @@ class AttributesType extends AbstractType
             ->add('name', TextType::class, [
                 'required' => true,
                 'label' => 'Nom de l\'attribut : ',
-                'mapped' => false,
-                'data'=> $name??'',
+                // 'mapped' => false,
+                // 'data'=> $name??'',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un nom d\'attribut.',

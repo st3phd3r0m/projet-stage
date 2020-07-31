@@ -46,7 +46,7 @@
 							Groupe d'attributs
 						</th>
 						<th>
-							{{ knp_pagination_sortable(attributes, 'Valeur', 'value') }}
+							{{ knp_pagination_sortable(attributes, 'Contenu', 'value') }}
 						</th>
 						<th>actions</th>
 					</tr>
@@ -55,8 +55,10 @@
 					{% for attribute in attributes %}
 						<tr>
 							<td>
-								{% set attrname = attribute.name|split('->') %}
-								{{ attrname[1] }}
+								{# Déoncaténation du groupe d'attribut avec le nom de l'attribut #}
+								{# {% set attrname = attribute.name|split('->') %}
+								{{ attrname[1] }} #}
+								{{ attribute.name }}
 							</td>
 							<td>{{ attribute.attributeGroup.name }}</td>
 							<td>{{ attribute.value }}</td>

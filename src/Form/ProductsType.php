@@ -9,6 +9,7 @@ use App\Entity\Categories;
 use App\Entity\Languages;
 use App\Repository\LanguagesRepository;
 use App\Form\ImagesType;
+use App\Repository\AttributesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -29,10 +30,12 @@ class ProductsType extends AbstractType
 {
 
     private $languagesRepository;
+    private $attributesRepository;
 
-    public function __construct(LanguagesRepository $languagesRepository)
+    public function __construct(LanguagesRepository $languagesRepository, AttributesRepository $attributesRepository)
     {
         $this->languagesRepository = $languagesRepository;
+        $this->attributesRepository = $attributesRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -140,19 +143,17 @@ class ProductsType extends AbstractType
                 'prototype' => true,
                 'by_reference'=> false
             ])
-            ->add('attribute', CollectionType::class, [
+            ->add('attributes', CollectionType::class, [
                 'required' => false,
-                'label' => 'Ajoutez un ou des attributs à la sortie',
-                'entry_type' => EntityType::class,
-                'entry_options' => [
-                    'label' => false,
-                    'class' => Attributes::class,
-                    'choice_label' => 'name',
-                ],
+                'mapped'=>false,
+                'label' => 'Ajoutez un ou des attributs au produit',
+                'entry_type' => SelectAttributeType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
+                'by_reference'=> false
             ]);
+
             // ->add('Valider', SubmitType::class);
     }
 
