@@ -9,7 +9,6 @@ $(document).ready(function () {
 
 function addAnotherCollectionWidget() {
 
-
     let list = $($(this).data('list-selector'));
     // Try to find the counter of the list or use the length of the list
     counter = list.data('widget-counter') || list.children().length;
@@ -30,7 +29,10 @@ function addAnotherCollectionWidget() {
     let newElement = $(list.data('widget-tags')).html(newWidget);
     newElement.appendTo(list);
 
+    $(newElement).find('div:nth-child(2)>select').html('');
+    $(newElement).find('div:nth-child(3)>select').html('');
     $(newElement).children().on('click', getOptionElement);
+
 
 }
 
@@ -60,6 +62,7 @@ function ajaxCall() {
 }
 
 function fillAttributeNames(response){
+
     //Identifiant de l'élément select cible
     let attributeNamesSelect = document.querySelector('#'+selectGroup.substring(0,31)+'_name');
 
@@ -71,31 +74,34 @@ function fillAttributeNames(response){
     // Récupération des noms d'attributs (sans doublons)
     let attributeNames = [];
     for (let attribute of attributes) {
-        if( ! attributeNames.includes(attribute.name)){
-            attributeNames.push(attribute.name);
+        // console.log(attributeNames.includes(attribute.name));
+        if( ! attributeNames.find( entry => entry.name == attribute.name ) ){
+            attributeNames.push({
+                'id': attribute.id,
+                'name': attribute.name
+            });
         }
     }
 
     for (let attribute of attributeNames) {
         let option = document.createElement("option"); 
-        option.textContent = attribute;
+        option.value = attribute.id;
+        option.textContent = attribute.name;
         attributeNamesSelect.appendChild(option);
         option.addEventListener('click', fillAttributeContents);
     }
 }
 
 function fillAttributeContents(){
-    console.log(this.parentNode.id );
+    let attributeNameSelect = this.parentNode;
     //Identifiant de l'élément select cible
-    let attributeContentsSelect = document.querySelector('#'+this.parentNode.id.substring(0,31)+'_value');
+    let attributeContentsSelect = document.querySelector('#'+attributeNameSelect.id.substring(0,31)+'_value');
 
     //On vide l'élément de ses balises option
     attributeContentsSelect.innerHTML = '';
 
-    console.log(attributes);
-
     for (let attribute of attributes) {
-        if(this.value == attribute.name){
+        if(this.textContent == attribute.name){
             let option = document.createElement("option"); 
             option.value = attribute.id;
             option.textContent = attribute.value;
