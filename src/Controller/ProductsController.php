@@ -40,7 +40,7 @@ class ProductsController extends AbstractController
     /**
      * @Route("/new", name="products_new", methods={"GET","POST"})
      */
-    public function new(Request $request, ProductsRepository $productsRepository): Response
+    public function new(Request $request, ProductsRepository $productsRepository, AttributesRepository $attributesRepository): Response
     {
 
         //On créé la référence du produit et on l'incrémente par rapport
@@ -57,9 +57,6 @@ class ProductsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-
-
             //On récupère les instances de l'entité Images, instanciées lors de la collection dans le formulaire d'ajout d'images
             $images = $product->getImages();
             //Et pour chacune de ces instances,
@@ -67,6 +64,13 @@ class ProductsController extends AbstractController
                 //on fait le lien avec l'objet product
                 $image->setProduct($product);
                 $images->set($key, $image);
+            }
+
+            //Récupération des attributs du produit
+            $attributeValues = $request->request->get('products')['attributes'];
+            foreach ($attributeValues as $attributeValue) {
+                $attribute = $attributesRepository->find($attributeValue['attribute_value']);
+                $product->addAttribute($attribute);
             }
 
             //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
