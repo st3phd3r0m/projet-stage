@@ -66,6 +66,7 @@ function fillAttributeNames(response){
     //Identifiant de l'élément select cible
     let attributeNamesSelect = document.querySelector('#'+selectGroup.substring(0,31)+'_name');
 
+    console.log(selectGroup.substring(0,31));
     //On vide l'élément de ses balises option
     attributeNamesSelect.innerHTML = '';
 

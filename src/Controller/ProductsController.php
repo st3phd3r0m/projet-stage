@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Products;
 use App\Form\ProductsType;
+use App\Repository\AttributesRepository;
 use App\Repository\ImagesRepository;
 use App\Repository\ProductsRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -55,6 +56,9 @@ class ProductsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+
 
             //On récupère les instances de l'entité Images, instanciées lors de la collection dans le formulaire d'ajout d'images
             $images = $product->getImages();
@@ -110,7 +114,7 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="products_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Products $product, Filesystem $filesystem): Response
+    public function edit(Request $request, Products $product, Filesystem $filesystem, AttributesRepository $attributesRepository): Response
     {
         //Récupération des noms de fichiers images pour suppression ultérieure des miniatures
         $images = $product->getImages();
@@ -124,6 +128,7 @@ class ProductsController extends AbstractController
 
         //Si le formulaire est soumis et valide,
         if ($form->isSubmitted() && $form->isValid()) {
+
             //on appelle le manager d'entité
             $entityManager = $this->getDoctrine()->getManager();
 
@@ -149,6 +154,14 @@ class ProductsController extends AbstractController
                     $images->set($key, $image);
                 }
             }
+
+            //Récupération des attributs du produit
+            $attributeValues = $request->request->get('products')['attributes'];
+            foreach ($attributeValues as $attributeValue) {
+                $attribute = $attributesRepository->find($attributeValue['attribute_value']);
+                $product->addAttribute($attribute);
+            }
+
 
             //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
             $keywords = $form->get("keywords")->getData();
