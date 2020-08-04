@@ -13,6 +13,8 @@ $(document).ready(function () {
     for (let attributesFormElement of attributesFormElements) {
         let firstSelectElement = $(attributesFormElement).find('select')[0];
         $(firstSelectElement).on('click', getOptionElement);
+
+        $(attributesFormElement).find('a').on('click', removeAttributeFromProduct);
     }
 
 });
@@ -21,7 +23,9 @@ $(document).ready(function () {
  * Cette fonction ajoute un champs ou un groupe de champs, à l'image des prototypes délivrés 
  * par les collectionType du formulaire ProductsType 
  */
-function addAnotherCollectionWidget() {
+function addAnotherCollectionWidget(event) {
+
+    event.preventDefault();
 
     let list = $($(this).data('list-selector'));
     //Donne le nombre d'éléments dans la liste de collection, soit via le data dans l'élémént 'list', soit
@@ -30,6 +34,7 @@ function addAnotherCollectionWidget() {
 
     // Récupération en data du prototype qui se trouve dans l'élément 'list'
     let newWidget = list.data('prototype');
+
     // Remplacement, dans le prototype (qui est très basiquement une chaine de caractères), de 
     //"__name__" par un identifiant numérique unique qu'on incrémente par la suite : counter
     newWidget = newWidget.replace(/__name__/g, counter);
@@ -42,16 +47,27 @@ function addAnotherCollectionWidget() {
     let newElement = $(list.data('widget-tags')).html(newWidget);
     //Insertion du nouvel élément dans l'élément 'list' 
     newElement.appendTo(list);
-    
+    // Ajout du nouvel élément dans un array
     attributesFormElements.push($(newElement).children()[0]);
-
+    //Ajout d'un écouteur d'évenements sur les balises option de la première balise select dans le nouvel élément
     let divElement = $(newElement).children()[0];
     let firstSelectElement = $(divElement).find('select')[0];
     $(firstSelectElement).on('click', getOptionElement);
 
+    if(divElement.id.includes('products_attribute')){
+        //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attribut
+        let deleteLink = document.createElement('a');
+        deleteLink.setAttribute('href','#');
+        deleteLink.classList.add("float-right");
+        deleteLink.textContent ="Enlever l\'attribut du produit ?";
+        divElement.prepend(deleteLink);
+        deleteLink.addEventListener('click', removeAttributeFromProduct);
+    }
+
 }
 
 function getOptionElement() {
+
     //Récupération du numéro de l'élémént de formulaire de collection cliqué
     id = this.id.replace('_attribute_group','').replace('products_attribute_','');
     //On vide les champs <input> de l'élément de formulaire de collection
@@ -63,8 +79,6 @@ function getOptionElement() {
 
     let options = $(this).find('option');
     options.on('click', ajaxCall);
-
-
 }
 
 /**
@@ -156,4 +170,10 @@ function fillAttributeContentsInput(){
 }
 
 
+
+function removeAttributeFromProduct(event){
+    event.preventDefault();
+
+    this.parentElement.parentElement.remove();
+}
 

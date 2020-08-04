@@ -169,6 +169,11 @@ class ProductsController extends AbstractController
                 }
             }
 
+            //On enlève tous les attributs de l'objet product avant de les remplacer par la liste des attributs collectés lors de la soumission du formulaire productsType
+            foreach ($product->getAttribute() as $value) {
+                $product->removeAttribute($value);
+            }
+
             //Ajout d'un ou des attributs au produits
             //Lors de la soumission du fomrmulaire, le mapping pour les champs des attributs est désactivé
             //On récupère les données saisies par l'utilisateur via $request
@@ -179,6 +184,7 @@ class ProductsController extends AbstractController
             ) {
                 //...on récupére des attributs saisis par l'utilisateur
                 $attributeValues = $request->request->get('products')['attribute'];
+                // dd($attributeValues);
                 //Appel de la méthode de persistement des données
                 $this->addAttributesToProduct($attributeValues, $attributesRepository, $attributeGroupsRepository, $product);
             }

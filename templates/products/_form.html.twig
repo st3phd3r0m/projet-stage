@@ -24,14 +24,15 @@
 				<li>
 					{{ form_errors(imagesField) }}
 					{{ form_widget(imagesField) }}
+
 				</li>
 			{% endfor %}
 		</ul>
 
 	</div>
 
-	<button type="button" class="add-another-collection-widget" data-list-selector="#images-fields-list">Ajouter une image
-	</button>
+	<a href="#" class="add-another-collection-widget" data-list-selector="#images-fields-list">Ajouter une image
+	</a>
 
 </fieldset>
 
@@ -44,6 +45,7 @@
 			{% for attribute in form.attribute %}
 				<li>
 					<div id="{{ form.attribute.vars.id }}_{{ counter }}">
+						<a href="#" class="float-right">Enlever l'attribut du produit ?</a>
 						{{ form_row(attribute.attribute_group) }}
 						{{ form_row(attribute.name) }}
 						{{ form_row(attribute.value) }}				
@@ -55,8 +57,8 @@
 
 	</div>
 
-	<button type="button" class="add-another-collection-widget" data-list-selector="#attribute-fields-list">Ajouter un attribut
-	</button>
+	<a href="#" class="add-another-collection-widget" data-list-selector="#attribute-fields-list">Ajouter un attribut
+	</a>
 
 </fieldset>
 
