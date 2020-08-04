@@ -54,8 +54,11 @@ function addAnotherCollectionWidget(event) {
     let firstSelectElement = $(divElement).find('select')[0];
     $(firstSelectElement).on('click', getOptionElement);
 
+    $($(divElement).children()[1]).hide();
+    $($(divElement).children()[2]).hide();
+
+    //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attribut
     if(divElement.id.includes('products_attribute')){
-        //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attribut
         let deleteLink = document.createElement('a');
         deleteLink.setAttribute('href','#');
         deleteLink.classList.add("float-right");
@@ -76,7 +79,7 @@ function getOptionElement() {
     for (let input of inputs) {
         input.value = '';
     }
-
+    
     let options = $(this).find('option');
     options.on('click', ajaxCall);
 }
@@ -100,35 +103,52 @@ function ajaxCall() {
 }
 
 function fillAttributeNames(response){
-
     //élément select cible
     let attributeNamesDatalist = $(attributesFormElements[id]).find('select')[1];
+
+    //Apparition du champ Nom d'attribut
+    $($(attributesFormElements[id]).children()[2]).show();
 
     //On vide l'élément de ses balises option
     attributeNamesDatalist.innerHTML = '';
 
     attributes = JSON.parse(response);
 
-    // Récupération des noms d'attributs (sans doublons)
-    let attributeNames = [];
-    for (let attribute of attributes) {
-        if( ! attributeNames.find( entry => entry.name == attribute.name ) ){
-            attributeNames.push({
-                'id': attribute.id,
-                'name': attribute.name
-            });
-        }
-    }
+    if(attributes.length == 0){
 
-    for (let attribute of attributeNames) {
         let option = document.createElement("option"); 
-        option.value = attribute.name;
-        option.textContent = attribute.name;
+        option.value = "Aucun attribut appartenant à ce groupe en bdd";
+        option.textContent = "Aucun attribut appartenant à ce groupe en bdd";
         attributeNamesDatalist.appendChild(option);
-        option.addEventListener('click', fillAttributeNamesInput);
-    }
 
-    attributeNamesDatalist.setAttribute('size', attributeNames.length );
+    }else{
+
+        //On vide l'élément de ses balises option
+        attributeNamesDatalist.innerHTML = '';
+
+        // Récupération des noms d'attributs (sans doublons)
+        let attributeNames = [];
+        for (let attribute of attributes) {
+            if( ! attributeNames.find( entry => entry.name == attribute.name ) ){
+                attributeNames.push({
+                    'id': attribute.id,
+                    'name': attribute.name
+                });
+            }
+        }
+
+
+        for (let attribute of attributeNames) {
+            let option = document.createElement("option"); 
+            option.value = attribute.name;
+            option.textContent = attribute.name;
+            attributeNamesDatalist.appendChild(option);
+            option.addEventListener('click', fillAttributeNamesInput);
+        }
+
+        attributeNamesDatalist.setAttribute('size', attributeNames.length );
+    }
+    
 }
 
 function fillAttributeNamesInput(){
@@ -143,6 +163,9 @@ function fillAttributeContents($value){
 
     //élément select cible
     let attributeContentsDatalist = $(attributesFormElements[id]).find('select')[2];
+
+    //Apparition du champ Contenu d'attribut
+    $($(attributesFormElements[id]).children()[3]).show();
 
     //On vide l'élément de ses balises option
     attributeContentsDatalist.innerHTML = '';
