@@ -1,52 +1,81 @@
-let newDivElement; 
+let id; 
+let attributesFormElements;
 let attributes;
 let counter = 0;
 
 $(document).ready(function () {
+    //Ecouteur d'évémenents sur le bouton d'ajout de formulaire de collection (fonctionne pour l'ajout d'image et l'ajout d'attributs) 
     $('.add-another-collection-widget').on('click', addAnotherCollectionWidget);
+
+    //Selection des éléments li>div de la collection des attributs
+    attributesFormElements = $('#attribute-fields-list>li>div');
+
+    for (let attributesFormElement of attributesFormElements) {
+        let firstSelectElement = $(attributesFormElement).find('select')[0];
+        $(firstSelectElement).on('click', getOptionElement);
+    }
 
 });
 
+/**
+ * Cette fonction ajoute un champs ou un groupe de champs, à l'image des prototypes délivrés 
+ * par les collectionType du formulaire ProductsType 
+ */
 function addAnotherCollectionWidget() {
 
     let list = $($(this).data('list-selector'));
-    // Try to find the counter of the list or use the length of the list
+    //Donne le nombre d'éléments dans la liste de collection, soit via le data dans l'élémént 'list', soit
+    //en utilisant la méthode children
     counter = list.data('widget-counter') || list.children().length;
 
-    // grab the prototype template
+    // Récupération en data du prototype qui se trouve dans l'élément 'list'
     let newWidget = list.data('prototype');
-    // replace the "__name__" used in the id and name of the prototype
-    // with a number that's unique to your emails
-    // end name attribute looks like name="contact[emails][2]"
+    // Remplacement, dans le prototype (qui est très basiquement une chaine de caractères), de 
+    //"__name__" par un identifiant numérique unique qu'on incrémente par la suite : counter
     newWidget = newWidget.replace(/__name__/g, counter);
-    // Increase the counter
+    // Incrémentation de counter
     counter++;
-    // And store it, the length cannot be used if deleting widgets is allowed
+    // Ecrasement de counter en data dans l'élément 'list'
     list.data('widget-counter', counter);
 
-    // create a new list element and add it to the list
+    // Création d'un nouvel élément encapsulé dans un élément li grace au prototype encodé dans 'newWidget'
     let newElement = $(list.data('widget-tags')).html(newWidget);
+    //Insertion du nouvel élément dans l'élément 'list' 
     newElement.appendTo(list);
+    
+    attributesFormElements.push($(newElement).children()[0]);
 
-    newDivElement = $(newElement).children();
+    let divElement = $(newElement).children()[0];
+    let firstSelectElement = $(divElement).find('select')[0];
+    $(firstSelectElement).on('click', getOptionElement);
 
-    $(newDivElement).on('click', getOptionElement);
 }
 
 function getOptionElement() {
-    let selects = $($(this).find('select'));
-    let options = $(selects[0]).find('option');
+    //Récupération du numéro de l'élémént de formulaire de collection cliqué
+    id = this.id.replace('_attribute_group','').replace('products_attribute_','');
+    //On vide les champs <input> de l'élément de formulaire de collection
+    let inputs =  $(attributesFormElements[id]).find('input');
+
+    for (let input of inputs) {
+        input.value = '';
+    }
+
+    let options = $(this).find('option');
     options.on('click', ajaxCall);
+
+
 }
 
+/**
+ * Fonction qui va chercher en requête Ajax les attributs appartenants au groupe d'attributs
+ * sélectionné par l'utilisateur
+ */
 function ajaxCall() {
-
     //Récupération url absolue de la requete
     let url = $('#attribute-fields-list').data('url-path');
-    
     //Récupération valeur de la balise option
     let groupAttributeId = this.value;
-
     $.ajax({
         url: url,
         method: "get",
@@ -58,8 +87,8 @@ function ajaxCall() {
 
 function fillAttributeNames(response){
 
-    //élément datalist cible
-    let attributeNamesDatalist = $(newDivElement).find('select')[1];
+    //élément select cible
+    let attributeNamesDatalist = $(attributesFormElements[id]).find('select')[1];
 
     //On vide l'élément de ses balises option
     attributeNamesDatalist.innerHTML = '';
@@ -89,14 +118,17 @@ function fillAttributeNames(response){
 }
 
 function fillAttributeNamesInput(){
-    this.parentElement.previousElementSibling.previousElementSibling.value = this.value;
+    $id = this.parentElement.id.replace('_name_list','').replace('products_attribute_','');
+    let selectElementId = this.parentElement.id;
+    let attachedInput = document.querySelector('[list='+selectElementId+']')
+    attachedInput.value = this.value;
     fillAttributeContents(this.value);
 }
 
 function fillAttributeContents($value){
 
-    //élément datalist cible
-    let attributeContentsDatalist = $(newDivElement).find('select')[2];
+    //élément select cible
+    let attributeContentsDatalist = $(attributesFormElements[id]).find('select')[2];
 
     //On vide l'élément de ses balises option
     attributeContentsDatalist.innerHTML = '';
@@ -117,7 +149,10 @@ function fillAttributeContents($value){
 }
 
 function fillAttributeContentsInput(){
-    this.parentElement.previousElementSibling.previousElementSibling.value = this.value;
+
+    let selectElementId = this.parentElement.id;
+    let attachedInput = document.querySelector('[list='+selectElementId+']')
+    attachedInput.value = this.value;
 }
 
 

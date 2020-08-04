@@ -74,7 +74,7 @@ class ProductsController extends AbstractController
             //Si la variable 'attribute' existe et n'est pas nulle (si l'utilisateur a rempli les champs relatifs à 'attribute')...
             if (
                 isset($request->request->get('products')['attribute']) &&
-                $request->request->get('products')['attribute'] != null
+                !empty($request->request->get('products')['attribute'])
             ) {
                 //...on récupére des attributs saisis par l'utilisateur
                 $attributeValues = $request->request->get('products')['attribute'];
@@ -169,18 +169,16 @@ class ProductsController extends AbstractController
                 }
             }
 
-
             //Ajout d'un ou des attributs au produits
             //Lors de la soumission du fomrmulaire, le mapping pour les champs des attributs est désactivé
             //On récupère les données saisies par l'utilisateur via $request
             //Si la variable 'attribute' existe et n'est pas nulle (si l'utilisateur a rempli les champs relatifs à 'attribute')...
             if (
                 isset($request->request->get('products')['attribute']) &&
-                $request->request->get('products')['attribute'] != null
+                !empty($request->request->get('products')['attribute'])
             ) {
                 //...on récupére des attributs saisis par l'utilisateur
                 $attributeValues = $request->request->get('products')['attribute'];
-
                 //Appel de la méthode de persistement des données
                 $this->addAttributesToProduct($attributeValues, $attributesRepository, $attributeGroupsRepository, $product);
             }
@@ -283,19 +281,22 @@ class ProductsController extends AbstractController
 
         //L'utilisateur peut choisir plusieurs attributs dans le formulaire. On boucle sur la variable qui est un array (généré par un collectionType)
         foreach ($attributeValues as $attributeValue) {
-            //Est-ce le contenu ('value') de l'attribut est en bdd ?
-            $attribute = $attributesRepository->findOneBy(['value' => $attributeValue['value']]);
-            //Si ce n'est pas le cas, on instancie Attributes : on cré un nouvel Attribut
-            if (!$attribute) {
-                $attribute = new Attributes();
-                $attributeGroup = $attributeGroupsRepository->find($attributeValue['attribute_group']);
-                $attribute->setAttributeGroup($attributeGroup);
-                $attribute->setName($attributeValue['name']);
-                $attribute->setValue($attributeValue['value']);
+
+            if (!empty($attributeValue['value'])) {
+                //Est-ce le contenu ('value') de l'attribut est en bdd ?
+                $attribute = $attributesRepository->findOneBy(['value' => $attributeValue['value']]);
+                //Si ce n'est pas le cas, on instancie Attributes : on cré un nouvel Attribut
+                if (!$attribute) {
+                    $attribute = new Attributes();
+                    $attributeGroup = $attributeGroupsRepository->find($attributeValue['attribute_group']);
+                    $attribute->setAttributeGroup($attributeGroup);
+                    $attribute->setName($attributeValue['name']);
+                    $attribute->setValue($attributeValue['value']);
+                }
+                //Dans tous les cas, on fait persister l'attribut en bdd et on l'ajoute au produit (qui est une intanciation de l'entité Products)
+                $entityManager->persist($attribute);
+                $product->addAttribute($attribute);
             }
-            //Dans tous les cas, on fait persister l'attribut en bdd et on l'ajoute au produit (qui est une intanciation de l'entité Products)
-            $entityManager->persist($attribute);
-            $product->addAttribute($attribute);
         }
     }
 }

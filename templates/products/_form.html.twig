@@ -40,12 +40,16 @@
 	<div id="{{ form.attribute.vars.id }}">
 
 		<ul id="attribute-fields-list" data-prototype="{{ form_widget(form.attribute.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.attribute|length }}" data-url-path="{{ absolute_url(path('give_attributes')) }}">
+			{% set counter = 0 %}
 			{% for attribute in form.attribute %}
 				<li>
-					{{ form_row(attribute.attribute_group) }}
-					{{ form_row(attribute.name) }}
-					{{ form_row(attribute.value) }}
+					<div id="{{ form.attribute.vars.id }}_{{ counter }}">
+						{{ form_row(attribute.attribute_group) }}
+						{{ form_row(attribute.name) }}
+						{{ form_row(attribute.value) }}				
+					</div>
 				</li>
+				{% set counter = counter + 1 %}
 			{% endfor %}
 		</ul>
 
