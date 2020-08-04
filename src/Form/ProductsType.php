@@ -148,7 +148,8 @@ class ProductsType extends AbstractType
 
             // ->add('Valider', SubmitType::class);
 
-
+            //Ajout d'un ecouteur d'événements pour modifier l'option 'mapped'=>true en 'mapped'=>false
+            //sur le champ attribut lors de la soumission du formulaire
             $builder->addEventListener(
                 FormEvents::PRE_SUBMIT,
                 function(FormEvent $event) {

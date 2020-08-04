@@ -30,7 +30,7 @@ class AttributesType extends AbstractType
 
 
         if($options['embeddedToProductForm'] == false){
-            
+            //Cas où l'utilisateur édite/crée un attribut en dehors du formulaire ProductsType
             $builder
                 ->add('name', TextType::class, [
                     'required' => true,
@@ -52,6 +52,7 @@ class AttributesType extends AbstractType
                 ]);
 
         }else{
+            //Cas où l'utilisateur édite/crée un attribut lors de l'édition/création d'un produit
             $builder
                 ->add('name', DatalistType::class,[
                     'required' => false,
@@ -61,6 +62,8 @@ class AttributesType extends AbstractType
                     'required' => false,
                     'label' => 'Contenu de l\'attribut : ',
                 ]);
+            //Ajout d'un ecouteur d'événements pour modifier l'option 'mapped'=>true en 'mapped'=>false
+            //sur les champs name et value de attribut lors de la soumission du formulaire    
             $builder->addEventListener(
                 FormEvents::PRE_SUBMIT,
                 function(FormEvent $event) {

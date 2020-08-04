@@ -73,7 +73,9 @@ class AttributesController extends AbstractController
      */
     public function edit(Request $request, Attributes $attribute): Response
     {
-        $form = $this->createForm(AttributesType::class, $attribute);
+        $form = $this->createForm(AttributesType::class, $attribute,[
+            'embeddedToProductForm'=>false
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
