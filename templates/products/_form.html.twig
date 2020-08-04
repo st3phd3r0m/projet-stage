@@ -36,21 +36,22 @@
 </fieldset>
 
 <fieldset class="form-group">
-	<legend class="col-form-label">{{ form.attributes.vars.label }}</legend>
-	<div id="{{ form.attributes.vars.id }}">
+	<legend class="col-form-label">{{ form.attribute.vars.label }}</legend>
+	<div id="{{ form.attribute.vars.id }}">
 
-		<ul id="attributeGroupField-fields-list" data-prototype="{{ form_widget(form.attributes.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.attributes|length }}" data-url-path="{{ absolute_url(path('give_attributes')) }}">
-			{% for attributeGroupField in form.attributes %}
+		<ul id="attribute-fields-list" data-prototype="{{ form_widget(form.attribute.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.attribute|length }}" data-url-path="{{ absolute_url(path('give_attributes')) }}">
+			{% for attribute in form.attribute %}
 				<li>
-					{{ form_row(attributeGroupField) }}
-
+					{{ form_row(attribute.attribute_group) }}
+					{{ form_row(attribute.name) }}
+					{{ form_row(attribute.value) }}
 				</li>
 			{% endfor %}
 		</ul>
 
 	</div>
 
-	<button type="button" class="add-another-collection-widget" data-list-selector="#attributeGroupField-fields-list">Ajouter un attribut
+	<button type="button" class="add-another-collection-widget" data-list-selector="#attribute-fields-list">Ajouter un attribut
 	</button>
 
 </fieldset>

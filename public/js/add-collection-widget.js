@@ -1,4 +1,4 @@
-let selectGroup;
+let newDivElement; 
 let attributes;
 let counter = 0;
 
@@ -15,7 +15,6 @@ function addAnotherCollectionWidget() {
 
     // grab the prototype template
     let newWidget = list.data('prototype');
-    // console.log(newWidget);
     // replace the "__name__" used in the id and name of the prototype
     // with a number that's unique to your emails
     // end name attribute looks like name="contact[emails][2]"
@@ -29,24 +28,21 @@ function addAnotherCollectionWidget() {
     let newElement = $(list.data('widget-tags')).html(newWidget);
     newElement.appendTo(list);
 
-    $(newElement).find('div:nth-child(2)>select').html('');
-    $(newElement).find('div:nth-child(3)>select').html('');
-    $(newElement).children().on('click', getOptionElement);
+    newDivElement = $(newElement).children();
 
-
+    $(newDivElement).on('click', getOptionElement);
 }
 
 function getOptionElement() {
     let selects = $($(this).find('select'));
-    selectGroup = $(selects[0]).attr('id');
-    let options = $('#'+selectGroup).find('option');
+    let options = $(selects[0]).find('option');
     options.on('click', ajaxCall);
 }
 
 function ajaxCall() {
 
     //Récupération url absolue de la requete
-    let url = $('#attributeGroupField-fields-list').data('url-path');
+    let url = $('#attribute-fields-list').data('url-path');
     
     //Récupération valeur de la balise option
     let groupAttributeId = this.value;
@@ -58,24 +54,21 @@ function ajaxCall() {
     }).done((response)=>{
         fillAttributeNames(response);
     });
-
 }
 
 function fillAttributeNames(response){
 
-    //Identifiant de l'élément select cible
-    let attributeNamesSelect = document.querySelector('#'+selectGroup.substring(0,31)+'_name');
+    //élément datalist cible
+    let attributeNamesDatalist = $(newDivElement).find('select')[1];
 
-    console.log(selectGroup.substring(0,31));
     //On vide l'élément de ses balises option
-    attributeNamesSelect.innerHTML = '';
+    attributeNamesDatalist.innerHTML = '';
 
     attributes = JSON.parse(response);
 
     // Récupération des noms d'attributs (sans doublons)
     let attributeNames = [];
     for (let attribute of attributes) {
-        // console.log(attributeNames.includes(attribute.name));
         if( ! attributeNames.find( entry => entry.name == attribute.name ) ){
             attributeNames.push({
                 'id': attribute.id,
@@ -86,30 +79,45 @@ function fillAttributeNames(response){
 
     for (let attribute of attributeNames) {
         let option = document.createElement("option"); 
-        option.value = attribute.id;
+        option.value = attribute.name;
         option.textContent = attribute.name;
-        attributeNamesSelect.appendChild(option);
-        option.addEventListener('click', fillAttributeContents);
+        attributeNamesDatalist.appendChild(option);
+        option.addEventListener('click', fillAttributeNamesInput);
     }
+
+    attributeNamesDatalist.setAttribute('size', attributeNames.length );
 }
 
-function fillAttributeContents(){
-    let attributeNameSelect = this.parentNode;
-    //Identifiant de l'élément select cible
-    let attributeContentsSelect = document.querySelector('#'+attributeNameSelect.id.substring(0,31)+'_value');
+function fillAttributeNamesInput(){
+    this.parentElement.previousElementSibling.previousElementSibling.value = this.value;
+    fillAttributeContents(this.value);
+}
+
+function fillAttributeContents($value){
+
+    //élément datalist cible
+    let attributeContentsDatalist = $(newDivElement).find('select')[2];
 
     //On vide l'élément de ses balises option
-    attributeContentsSelect.innerHTML = '';
+    attributeContentsDatalist.innerHTML = '';
 
+    $countValidAttributes = 0;
     for (let attribute of attributes) {
-        if(this.textContent == attribute.name){
+        if($value == attribute.name){
+            $countValidAttributes++;
             let option = document.createElement("option"); 
-            option.value = attribute.id;
+            option.value = attribute.value;
             option.textContent = attribute.value;
-            attributeContentsSelect.appendChild(option);
+            attributeContentsDatalist.appendChild(option);
+            option.addEventListener('click', fillAttributeContentsInput);
         }
     }
 
+    attributeContentsDatalist.setAttribute('size', $countValidAttributes );
+}
+
+function fillAttributeContentsInput(){
+    this.parentElement.previousElementSibling.previousElementSibling.value = this.value;
 }
 
 

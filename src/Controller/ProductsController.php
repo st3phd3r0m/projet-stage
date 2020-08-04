@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Attributes;
 use App\Entity\Products;
 use App\Form\ProductsType;
+use App\Repository\AttributeGroupsRepository;
 use App\Repository\AttributesRepository;
 use App\Repository\ImagesRepository;
 use App\Repository\ProductsRepository;
@@ -40,7 +42,7 @@ class ProductsController extends AbstractController
     /**
      * @Route("/new", name="products_new", methods={"GET","POST"})
      */
-    public function new(Request $request, ProductsRepository $productsRepository, AttributesRepository $attributesRepository): Response
+    public function new(Request $request, ProductsRepository $productsRepository, AttributesRepository $attributesRepository, AttributeGroupsRepository $attributeGroupsRepository): Response
     {
 
         //On créé la référence du produit et on l'incrémente par rapport
@@ -66,11 +68,19 @@ class ProductsController extends AbstractController
                 $images->set($key, $image);
             }
 
-            //Récupération des attributs du produit
-            $attributeValues = $request->request->get('products')['attributes'];
-            foreach ($attributeValues as $attributeValue) {
-                $attribute = $attributesRepository->find($attributeValue['attribute_value']);
-                $product->addAttribute($attribute);
+            //Ajout d'un ou des attributs au produits
+            //Lors de la soumission du fomrmulaire, le mapping pour les champs des attributs est désactivé
+            //On récupère les données saisies par l'utilisateur via $request
+            //Si la variable 'attribute' existe et n'est pas nulle (si l'utilisateur a rempli les champs relatifs à 'attribute')...
+            if (
+                isset($request->request->get('products')['attribute']) &&
+                $request->request->get('products')['attribute'] != null
+            ) {
+                //...on récupére des attributs saisis par l'utilisateur
+                $attributeValues = $request->request->get('products')['attribute'];
+
+                //Appel de la méthode de persistement des données
+                $this->addAttributesToProduct($attributeValues, $attributesRepository, $attributeGroupsRepository, $product);
             }
 
             //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
@@ -118,7 +128,7 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="products_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Products $product, Filesystem $filesystem, AttributesRepository $attributesRepository): Response
+    public function edit(Request $request, Products $product, Filesystem $filesystem, AttributesRepository $attributesRepository, AttributeGroupsRepository $attributeGroupsRepository): Response
     {
         //Récupération des noms de fichiers images pour suppression ultérieure des miniatures
         $images = $product->getImages();
@@ -159,13 +169,21 @@ class ProductsController extends AbstractController
                 }
             }
 
-            //Récupération des attributs du produit
-            $attributeValues = $request->request->get('products')['attributes'];
-            foreach ($attributeValues as $attributeValue) {
-                $attribute = $attributesRepository->find($attributeValue['attribute_value']);
-                $product->addAttribute($attribute);
-            }
 
+            //Ajout d'un ou des attributs au produits
+            //Lors de la soumission du fomrmulaire, le mapping pour les champs des attributs est désactivé
+            //On récupère les données saisies par l'utilisateur via $request
+            //Si la variable 'attribute' existe et n'est pas nulle (si l'utilisateur a rempli les champs relatifs à 'attribute')...
+            if (
+                isset($request->request->get('products')['attribute']) &&
+                $request->request->get('products')['attribute'] != null
+            ) {
+                //...on récupére des attributs saisis par l'utilisateur
+                $attributeValues = $request->request->get('products')['attribute'];
+
+                //Appel de la méthode de persistement des données
+                $this->addAttributesToProduct($attributeValues, $attributesRepository, $attributeGroupsRepository, $product);
+            }
 
             //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
             $keywords = $form->get("keywords")->getData();
@@ -247,5 +265,37 @@ class ProductsController extends AbstractController
         }
 
         return $this->redirectToRoute('products_index');
+    }
+
+    /**
+     * Méthode qui fait persister les attributs saisis par l'utilisateur lors de la création/édition d'un produit
+     *
+     * @param array $attributeValues
+     * @param AttributesRepository $attributesRepository
+     * @param AttributeGroupsRepository $attributeGroupsRepository
+     * @param Products $product
+     * @return void
+     */
+    public function addAttributesToProduct($attributeValues, AttributesRepository $attributesRepository, AttributeGroupsRepository $attributeGroupsRepository, Products $product)
+    {
+        //on appelle le manager d'entité
+        $entityManager = $this->getDoctrine()->getManager();
+
+        //L'utilisateur peut choisir plusieurs attributs dans le formulaire. On boucle sur la variable qui est un array (généré par un collectionType)
+        foreach ($attributeValues as $attributeValue) {
+            //Est-ce le contenu ('value') de l'attribut est en bdd ?
+            $attribute = $attributesRepository->findOneBy(['value' => $attributeValue['value']]);
+            //Si ce n'est pas le cas, on instancie Attributes : on cré un nouvel Attribut
+            if (!$attribute) {
+                $attribute = new Attributes();
+                $attributeGroup = $attributeGroupsRepository->find($attributeValue['attribute_group']);
+                $attribute->setAttributeGroup($attributeGroup);
+                $attribute->setName($attributeValue['name']);
+                $attribute->setValue($attributeValue['value']);
+            }
+            //Dans tous les cas, on fait persister l'attribut en bdd et on l'ajoute au produit (qui est une intanciation de l'entité Products)
+            $entityManager->persist($attribute);
+            $product->addAttribute($attribute);
+        }
     }
 }

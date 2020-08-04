@@ -2,44 +2,38 @@
 
 namespace App\Form;
 
-use App\Entity\AttributeGroups;
-use App\Entity\Attributes;
+
 use App\Entity\Products;
 use App\Entity\Categories;
 use App\Entity\Languages;
 use App\Repository\LanguagesRepository;
 use App\Form\ImagesType;
-use App\Repository\AttributesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ProductsType extends AbstractType
 {
 
     private $languagesRepository;
-    private $attributesRepository;
 
-    public function __construct(LanguagesRepository $languagesRepository, AttributesRepository $attributesRepository)
+    public function __construct(LanguagesRepository $languagesRepository)
     {
         $this->languagesRepository = $languagesRepository;
-        $this->attributesRepository = $attributesRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder
             ->add('title', TextType::class, [
                 'required' => true,
@@ -143,17 +137,28 @@ class ProductsType extends AbstractType
                 'prototype' => true,
                 'by_reference'=> false
             ])
-            ->add('attributes', CollectionType::class, [
+            ->add('attribute', CollectionType::class, [
                 'required' => false,
-                'mapped'=>false,
                 'label' => 'Ajoutez un ou des attributs au produit',
-                'entry_type' => SelectAttributeType::class,
+                'entry_type' => AttributesType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'prototype' => true
+                'prototype' => true,                
             ]);
 
             // ->add('Valider', SubmitType::class);
+
+
+            $builder->addEventListener(
+                FormEvents::PRE_SUBMIT,
+                function(FormEvent $event) {
+                    $form = $event->getForm();
+                    $attributeFieldoptions = $form->get('attribute')->getConfig()->getOptions();
+                    $attributeFieldoptions["mapped"] = false;
+                    $form->add('attribute', CollectionType::class, $attributeFieldoptions);
+                }
+            );
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

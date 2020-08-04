@@ -22,10 +22,6 @@ class ImagesType extends AbstractType
                 'imagine_pattern' => 'miniatures',
                 'by_reference'=> false,
                 'constraints' => [
-                    // new NotBlank([
-                    //     'message' => 'Veuillez choisir une image de présentation',
-                    //     // 'groups' => ['new']
-                    // ]),
                     new Image([
                         'maxSize' => '2M',
                         'maxSizeMessage' => 'Votre image dépasse les 2Mo',
