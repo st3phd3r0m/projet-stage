@@ -48,6 +48,9 @@
 						<th>
 							{{ knp_pagination_sortable(attributes, 'Contenu', 'value') }}
 						</th>
+						<th>
+							{{ knp_pagination_sortable(attributes, 'Nombre de produits associés', 'products.count' ) }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -61,6 +64,12 @@
 							{{ (attribute.attributeGroup.name is defined)? attribute.attributeGroup.name :'Pas de groupe pour cet attribut' }}
 							</td>
 							<td>{{ attribute.value }}</td>
+
+							<td>{{ attribute.products | length }}
+								{# {% if attribute.products | length > 0 %}
+									<a title="Voir les produits associés à cet attribut" href="{{ path('products_index', {attributeId:attribute.id}) }}">Voir</a>
+								{% endif %} #}
+							</td>
 							<td>
 								<a href="{{ path('attributes_edit', {'id': attribute.id}) }}">Modifier</a>
 								{{ include('attributes/_delete_form.html.twig') }}

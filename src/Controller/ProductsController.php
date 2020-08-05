@@ -263,7 +263,7 @@ class ProductsController extends AbstractController
                 //Rupture entre les commentaires et le produit
                 $product->removeComment($comment);
                 //Suppression des commentaires si l'utilisateur le décide
-                if($request->request->get('delete_related')==="true"){
+                if ($request->request->get('delete_related') === "true") {
                     $entityManager->remove($comment);
                 }
             }
@@ -274,7 +274,7 @@ class ProductsController extends AbstractController
                 //Rupture entre les messages et le produit
                 $product->removeMessage($message);
                 //Suppression des messages si l'utilisateur le décide
-                if($request->request->get('delete_related')==="true"){
+                if ($request->request->get('delete_related') === "true") {
                     $entityManager->remove($message);
                 }
             }

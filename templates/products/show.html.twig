@@ -157,7 +157,7 @@
 							<ul>
 								{% for attribute in product.attribute %}
 								<li>
-									{{ attribute.name }} : "{{ attribute.value }}"
+									{{ attribute.attributeGroup.name }} => {{ attribute.name }} : "{{ attribute.value }}"
 								</li>
 								{% else %}
 									Pas d'attribut associé à ce produit
