@@ -1,4 +1,8 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div id="attribute-fields-list" data-url-path="{{ absolute_url(path('give_attributes')) }}">
+        {{ form_row(form.attribute_group) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.value) }}	
+    </div>
     <button class="btn">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}

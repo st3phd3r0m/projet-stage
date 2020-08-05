@@ -1,87 +1,20 @@
-let id; 
-let attributesFormElements;
+let id;
+let attributesFormElement;
 let attributes;
 let counter = 0;
 
 $(document).ready(function () {
-    //Ecouteur d'évémenents sur le bouton d'ajout de formulaire de collection (fonctionne pour l'ajout d'image et l'ajout d'attributs) 
-    $('.add-another-collection-widget').on('click', addAnotherCollectionWidget);
 
     //Selection des éléments li>div de la collection des attributs
-    attributesFormElements = $('#attribute-fields-list>li>div');
+    attributesFormElement = $('#attribute-fields-list');
 
-    for (let attributesFormElement of attributesFormElements) {
-        let firstSelectElement = $(attributesFormElement).find('select')[0];
-        $(firstSelectElement).on('click', getOptionElement);
-
-        $(attributesFormElement).find('a').on('click', removeAttributeFromProduct);
-    }
+    $($(attributesFormElement).find('select')[0]).on('click', getOptionElement);
 
 });
 
-/**
- * Cette fonction ajoute un champs ou un groupe de champs, à l'image des prototypes délivrés 
- * par les collectionType du formulaire ProductsType 
- */
-function addAnotherCollectionWidget(event) {
-
-    event.preventDefault();
-
-    let list = $($(this).data('list-selector'));
-    //Donne le nombre d'éléments dans la liste de collection, soit via le data dans l'élémént 'list', soit
-    //en utilisant la méthode children
-    counter = list.data('widget-counter') || list.children().length;
-
-    // Récupération en data du prototype qui se trouve dans l'élément 'list'
-    let newWidget = list.data('prototype');
-
-    // Remplacement, dans le prototype (qui est très basiquement une chaine de caractères), de 
-    //"__name__" par un identifiant numérique unique qu'on incrémente par la suite : counter
-    newWidget = newWidget.replace(/__name__/g, counter);
-    // Incrémentation de counter
-    counter++;
-    // Ecrasement de counter en data dans l'élément 'list'
-    list.data('widget-counter', counter);
-
-    // Création d'un nouvel élément encapsulé dans un élément li grace au prototype encodé dans 'newWidget'
-    let newElement = $(list.data('widget-tags')).html(newWidget);
-    //Insertion du nouvel élément dans l'élément 'list' 
-    newElement.appendTo(list);
-    // Ajout du nouvel élément dans un array
-    attributesFormElements.push($(newElement).children()[0]);
-    //Ajout d'un écouteur d'évenements sur les balises option de la première balise select dans le nouvel élément
-    let divElement = $(newElement).children()[0];
-    let firstSelectElement = $(divElement).find('select')[0];
-    $(firstSelectElement).on('click', getOptionElement);
-
-    $($(divElement).children()[1]).hide();
-    $($(divElement).children()[2]).hide();
-
-    //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attribut
-    if(divElement.id.includes('products_attribute')){
-        let deleteLink = document.createElement('a');
-        deleteLink.setAttribute('href','#');
-        deleteLink.classList.add("float-right");
-        deleteLink.textContent ="Enlever l\'attribut du produit ?";
-        divElement.prepend(deleteLink);
-        deleteLink.addEventListener('click', removeAttributeFromProduct);
-    }
-
-}
-
 function getOptionElement() {
-
-    //Récupération du numéro de l'élémént de formulaire de collection cliqué
-    id = this.id.replace('_attribute_group','').replace('products_attribute_','');
-    //On vide les champs <input> de l'élément de formulaire de collection
-    let inputs =  $(attributesFormElements[id]).find('input');
-
-    for (let input of inputs) {
-        input.value = '';
-    }
-    
-    let options = $(this).find('option');
-    options.on('click', ajaxCall);
+    $($(attributesFormElement).find('input')).value = '';
+    $($(this).find('option')).on('click', ajaxCall);
 }
 
 /**
@@ -91,37 +24,36 @@ function getOptionElement() {
 function ajaxCall() {
     //Récupération url absolue de la requete
     let url = $('#attribute-fields-list').data('url-path');
+
     //Récupération valeur de la balise option
     let groupAttributeId = this.value;
     $.ajax({
         url: url,
         method: "get",
-        data: {id: groupAttributeId}
-    }).done((response)=>{
+        data: { id: groupAttributeId }
+    }).done((response) => {
         fillAttributeNames(response);
     });
 }
 
-function fillAttributeNames(response){
-    //élément select cible
-    let attributeNamesDatalist = $(attributesFormElements[id]).find('select')[1];
+function fillAttributeNames(response) {
 
-    //Apparition du champ Nom d'attribut
-    $($(attributesFormElements[id]).children()[2]).show();
+    //élément select cible
+    let attributeNamesDatalist = $(attributesFormElement).find('select')[1];
 
     //On vide l'élément de ses balises option
     attributeNamesDatalist.innerHTML = '';
 
     attributes = JSON.parse(response);
 
-    if(attributes.length == 0){
+    if (attributes.length == 0) {
 
-        let option = document.createElement("option"); 
+        let option = document.createElement("option");
         option.value = "Aucun attribut appartenant à ce groupe en bdd";
         option.textContent = "Aucun attribut appartenant à ce groupe en bdd";
         attributeNamesDatalist.appendChild(option);
 
-    }else{
+    } else {
 
         //On vide l'élément de ses balises option
         attributeNamesDatalist.innerHTML = '';
@@ -129,7 +61,7 @@ function fillAttributeNames(response){
         // Récupération des noms d'attributs (sans doublons)
         let attributeNames = [];
         for (let attribute of attributes) {
-            if( ! attributeNames.find( entry => entry.name == attribute.name ) ){
+            if (!attributeNames.find(entry => entry.name == attribute.name)) {
                 attributeNames.push({
                     'id': attribute.id,
                     'name': attribute.name
@@ -138,42 +70,39 @@ function fillAttributeNames(response){
         }
 
         for (let attribute of attributeNames) {
-            let option = document.createElement("option"); 
+            let option = document.createElement("option");
             option.value = attribute.name;
             option.textContent = attribute.name;
             attributeNamesDatalist.appendChild(option);
             option.addEventListener('click', fillAttributeNamesInput);
         }
 
-        attributeNamesDatalist.setAttribute('size', attributeNames.length );
+        attributeNamesDatalist.setAttribute('size', attributeNames.length);
     }
-    
+
 }
 
-function fillAttributeNamesInput(){
-    $id = this.parentElement.id.replace('_name_list','').replace('products_attribute_','');
+function fillAttributeNamesInput() {
+    $id = this.parentElement.id.replace('_name_list', '').replace('products_attribute_', '');
     let selectElementId = this.parentElement.id;
-    let attachedInput = document.querySelector('[list='+selectElementId+']')
+    let attachedInput = document.querySelector('[list=' + selectElementId + ']')
     attachedInput.value = this.value;
     fillAttributeContents(this.value);
 }
 
-function fillAttributeContents($value){
+function fillAttributeContents($value) {
 
     //élément select cible
-    let attributeContentsDatalist = $(attributesFormElements[id]).find('select')[2];
-
-    //Apparition du champ Contenu d'attribut
-    $($(attributesFormElements[id]).children()[3]).show();
+    let attributeContentsDatalist = $(attributesFormElement).find('select')[2];
 
     //On vide l'élément de ses balises option
     attributeContentsDatalist.innerHTML = '';
 
     $countValidAttributes = 0;
     for (let attribute of attributes) {
-        if($value == attribute.name){
+        if ($value == attribute.name) {
             $countValidAttributes++;
-            let option = document.createElement("option"); 
+            let option = document.createElement("option");
             option.value = attribute.value;
             option.textContent = attribute.value;
             attributeContentsDatalist.appendChild(option);
@@ -181,21 +110,13 @@ function fillAttributeContents($value){
         }
     }
 
-    attributeContentsDatalist.setAttribute('size', $countValidAttributes );
+    attributeContentsDatalist.setAttribute('size', $countValidAttributes);
 }
 
-function fillAttributeContentsInput(){
+function fillAttributeContentsInput() {
 
     let selectElementId = this.parentElement.id;
-    let attachedInput = document.querySelector('[list='+selectElementId+']')
+    let attachedInput = document.querySelector('[list=' + selectElementId + ']')
     attachedInput.value = this.value;
-}
-
-
-
-function removeAttributeFromProduct(event){
-    event.preventDefault();
-
-    this.parentElement.parentElement.remove();
 }
 

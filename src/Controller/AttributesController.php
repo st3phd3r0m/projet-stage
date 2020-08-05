@@ -47,7 +47,7 @@ class AttributesController extends AbstractController
     {
         $attribute = new Attributes();
         $form = $this->createForm(AttributesType::class, $attribute,[
-            'embeddedToProductForm'=>false
+            'embeddedToProductForm'=>true
         ]);
         $form->handleRequest($request);
 
@@ -74,7 +74,7 @@ class AttributesController extends AbstractController
     public function edit(Request $request, Attributes $attribute): Response
     {
         $form = $this->createForm(AttributesType::class, $attribute,[
-            'embeddedToProductForm'=>false
+            'embeddedToProductForm'=>true
         ]);
         $form->handleRequest($request);
 
