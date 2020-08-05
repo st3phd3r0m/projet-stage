@@ -197,13 +197,13 @@ class CategoriesController extends AbstractController
                 $entityManager->remove($image);
             }
 
-            //Suppression des produits associés à la ctégorie
+            //Produits associés à la catégorie
             $products = $category->getProducts();
             foreach ($products as $product) {
+                //Rupture entre les produits et la catégorie
                 $category->removeProduct($product);
-                // $entityManager->remove($product);
+                //On ne supprime pas les produits associés
             }
-
 
             $entityManager->remove($category);
             $entityManager->flush();

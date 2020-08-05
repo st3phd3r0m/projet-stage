@@ -103,14 +103,25 @@ class LanguagesController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $language->getId(), $request->request->get('_token'))) {
             //Stockage de l'ancien nom de fichier image
             $oldImage = $language->getFlag();
+
             $entityManager = $this->getDoctrine()->getManager();
+
+            //Produits associés à la langue de publication
+            $products = $language->getProducts();
+            foreach ($products as $product) {
+                //Rupture entre les produits et la langue de publication
+                $language->removeProduct($product);
+                //On ne supprime pas les produits associés
+            }
+
             $entityManager->remove($language);
             $entityManager->flush();
 
+            //Suppression de la miniature associée à la langue de publication
             $oldImage = '../public/media/cache/miniatures/images/languages/' . $oldImage;
-            //On supprime la miniature correspondante à l'image
+            //Si le fichier existe
             if ($filesystem->exists($oldImage)) {
-                //Alors on supprime la miniature correspondante
+                //Alors on le supprime
                 $filesystem->remove($oldImage);
             }
 

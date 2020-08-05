@@ -55,12 +55,11 @@
 					{% for attribute in attributes %}
 						<tr>
 							<td>
-								{# Déoncaténation du groupe d'attribut avec le nom de l'attribut #}
-								{# {% set attrname = attribute.name|split('->') %}
-								{{ attrname[1] }} #}
 								{{ attribute.name }}
 							</td>
-							<td>{{ attribute.attributeGroup.name }}</td>
+							<td>
+							{{ (attribute.attributeGroup.name is defined)? attribute.attributeGroup.name :'Pas de groupe pour cet attribut' }}
+							</td>
 							<td>{{ attribute.value }}</td>
 							<td>
 								<a href="{{ path('attributes_edit', {'id': attribute.id}) }}">Modifier</a>

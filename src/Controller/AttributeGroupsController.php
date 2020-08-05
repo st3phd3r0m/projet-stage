@@ -91,6 +91,15 @@ class AttributeGroupsController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $attributeGroup->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            //Attributs associés au groupe
+            $attributes = $attributeGroup->getAttributes();
+            foreach ($attributes as $attribute) {
+                //Rupture entre les attributs et leur groupe
+                $attributeGroup->removeAttribute($attribute);
+                //On ne supprime pas les attributs associés
+            }
+
             $entityManager->remove($attributeGroup);
             $entityManager->flush();
             //Envoi d'un message utilisateur

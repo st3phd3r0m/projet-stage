@@ -42,6 +42,9 @@
 						<th>
 							{{ knp_pagination_sortable(attribute_groups, 'Nom', 'name') }}
 						</th>
+						<th>
+							{{ knp_pagination_sortable(attribute_groups, 'Nombre d\'attributs associés', 'attributes.count' ) }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -49,6 +52,11 @@
 					{% for attribute_group in attribute_groups %}
 						<tr>
 							<td>{{ attribute_group.name }}</td>
+							<td>{{ attribute_group.attributes | length }}
+								{% if attribute_group.attributes | length > 0 %}
+									<a title="Voir les attributs appartenants à ce groupe" href="{{ path('attributes_index', {attributeGroupId:attribute_group.id}) }}">Voir</a>
+								{% endif %}
+							</td>
 							<td>
 								<a href="{{ path('attribute_groups_edit', {'id': attribute_group.id}) }}">Modifier</a>
 								{{ include('attribute_groups/_delete_form.html.twig') }}

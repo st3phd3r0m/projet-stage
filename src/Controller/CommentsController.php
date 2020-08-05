@@ -30,7 +30,6 @@ class CommentsController extends AbstractController
         }
 
         $comments = $paginator->paginate(
-            //Appel de la méthode de requete DQL de recherche
             $commentsBuffer,
             //Le numero de la page, si aucun numero, on force la page 1
             $request->query->getInt('page', 1),

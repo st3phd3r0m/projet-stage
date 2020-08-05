@@ -1,5 +1,36 @@
-<form method="post" action="{{ path('messages_delete', {'id': message.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+{# <form method="post" action="{{ path('messages_delete', {'id': message.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.id) }}">
     <button class="btn">Supprimer</button>
-</form>
+</form> #}
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteMessage{{ message.id }}ModalCenter">
+    Supprimer
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteMessage{{ message.id }}ModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteMessage{{ message.id }}ModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteMessage{{ message.id }}ModalLongTitle">Suppression du message de <span class="font-italic">{{ message.name }}</span> du <span class="font-italic">{{ message.sentAt | date('d.m.Y H:i:s') }}</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                La suppression du message de <span class="font-italic">{{ message.name }}</span> du <span class="font-italic">{{ message.sentAt | date('d.m.Y H:i:s') }}</span> sera irréversible.
+                Voulez-vous vraiment supprimer ce message ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <form method="post" action="{{ path('messages_delete', {'id': message.id}) }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.id) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

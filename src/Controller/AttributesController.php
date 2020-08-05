@@ -21,9 +21,14 @@ class AttributesController extends AbstractController
      */
     public function index(AttributesRepository $attributesRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        if ($request->get('attributeGroupId')) {
+            $attributesBuffer = $attributesRepository->findBy(['attribute_group' => $request->get('attributeGroupId')]);
+        } else {
+            $attributesBuffer = $attributesRepository->findAll();
+        }
+
         $attributes = $paginator->paginate(
-            //Appel de la méthode de requete DQL de recherche
-            $attributesRepository->findAll(),
+            $attributesBuffer,
             //Le numero de la page, si aucun numero, on force la page 1
             $request->query->getInt('page', 1),
             //Nombre d'élément par page

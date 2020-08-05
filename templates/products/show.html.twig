@@ -36,11 +36,15 @@
 				<tbody>
 					<tr>
 						<th>Titre</th>
-						<td>{{ product.title }}</td>
+						<td>
+							{{ (product.title is defined)? product.title :'Pas de titre pour ce produit' }}
+						</td>
 					</tr>
 					<tr>
 						<th>Description</th>
-						<td>{{ product.description }}</td>
+						<td>
+							{{ (product.description is defined)? product.description :'Pas de description pour ce produit' }}
+						</td>
 					</tr>
 					<tr>
 						<th>Images d'illustration</th>
@@ -55,13 +59,17 @@
 					</tr>
 					<tr>
 						<th>Lieu de sortie</th>
-						<td>{{ product.hangoutLocation }}</td>
+						<td>
+							{{ (product.hangoutLocation is defined)? product.hangoutLocation :'Pas de lieu de sortie pour ce produit' }}
+						</td>
 					</tr>
 					<tr>
 						<th>Mots-clés</th>
 						<td>
 							{% for keyWords in product.keywords %}
 								#{{ keyWords }}
+							{% else %}
+								Pas de mot-clés pour ce produit
 							{% endfor %}
 						</td>
 					</tr>
@@ -70,24 +78,34 @@
 						<td>
 							{% for keyWords in product.metaTagKeywords %}
 								#{{ keyWords }}
+							{% else %}
+								Pas de mot-clés pour ce produit
 							{% endfor %}
 						</td>
 					</tr>
 					<tr>
 						<th>Titre en méta donnée</th>
-						<td>{{ product.metaTagTitle }}</td>
+						<td>
+							{{ (product.metaTagTitle is defined)? product.metaTagTitle :'Pas de titre en méta donnée pour ce produit' }}
+						</td>
 					</tr>
 					<tr>
 						<th>Description en méta donnée</th>
-						<td>{{ product.metaTagDescription }}</td>
+						<td>
+							{{ (product.metaTagDescription is defined)? product.metaTagDescription :'Pas de description en méta donnée pour ce produit' }}
+						</td>
 					</tr>
 					<tr>
-						<th>Reference</th>
-						<td>{{ product.reference }}</td>
+						<th>Référence</th>
+						<td>
+							{{ (product.reference is defined)? product.reference :'Pas de référence pour ce produit' }}
+						</td>
 					</tr>
 					<tr>
 						<th>Weezeevent</th>
-						<td>{{ product.weezeevent }}</td>
+						<td>
+							{{ (product.weezeevent is defined)? product.weezeevent :'Pas de lien weezeevent pour ce produit' }}
+						</td>
 					</tr>
 					<tr>
 						<th>Créé le</th>
@@ -99,21 +117,39 @@
 					</tr>
 					<tr>
 						<th>Prix HT</th>
-						<td>{{ product.preTaxPrice }}
-							&euro;</td>
+						<td>
+							{% if product.preTaxPrice is defined %}
+								{{ product.preTaxPrice }} &euro;
+							{% else %}
+								Pas de prix HT pour ce produit
+							{% endif %}
+						</td>
 					</tr>
 					<tr>
 						<th>Prix TTC</th>
-						<td>{{ product.taxIncludedPrice }}
-							&euro;</td>
+						<td>
+							{% if product.taxIncludedPrice is defined %}
+								{{ product.taxIncludedPrice }} &euro;
+							{% else %}
+								Pas de prix TTC pour ce produit
+							{% endif %}
+						</td>
 					</tr>
 					<tr>
 						<th>Catégorie</th>
-						<td>{{ product.category.title }}</td>
+						<td>
+							{% if product.category.title is defined  %}
+								<a title="Voir la catégorie associée à ce produit" href="{{ path('categories_show', {id:product.category.id}) }}">{{ product.category.title }}</a>
+							{% else %}
+								Pas de catégorie associée à ce produit
+							{% endif %}
+						</td>
 					</tr>
 					<tr>
 						<th>Langue</th>
-						<td>{{ product.language.name }}</td>
+						<td>
+							{{ (product.language.name is defined)? product.language.name :'Pas de langue de publication associée à ce produit' }}
+						</td>
 					</tr>
 					<tr>
 						<th>Attributs</th>
@@ -123,12 +159,12 @@
 								<li>
 									{{ attribute.name }} : "{{ attribute.value }}"
 								</li>
-								{% endfor %}						
+								{% else %}
+									Pas d'attribut associé à ce produit
+								{% endfor %}					
 							</ul>					
 						</td>
 					</tr>
-
-
 					<tr>
 						<th>Nombre d'avis clients</th>
 						<td>{{ product.comments | length }}

@@ -58,18 +58,18 @@
 					<th>
 						{{ knp_pagination_sortable(products, 'Modifié le', 'updatedAt') }}
 					</th>
-					<th>
+					{# <th>
 						{{ knp_pagination_sortable(products, 'Prix HT', 'preTaxPrice') }}
 					</th>
 					<th>
 						{{ knp_pagination_sortable(products, 'Prix TTC', 'taxIncludedPrice') }}
-					</th>
+					</th> #}
 					<th>
 						Catégorie
 					</th>
-					<th>
+					{# <th>
 						Langue de publication
-					</th>
+					</th> #}
 					<th>
 						{{ knp_pagination_sortable(products, 'Nombre d\'avis clients', 'comments.count' ) }}
 					</th>
@@ -82,28 +82,41 @@
 			<tbody>
 				{% for product in products %}
 					<tr>
-						<td>{{ product.title }}</td>
-						<td>{{ product.hangoutLocation }}</td>
-						<td>{{ product.reference }}</td>
+						<td>{{ (product.title is defined)? product.title :'Pas de titre pour ce produit' }}</td>
+						<td>{{ (product.hangoutLocation is defined)? product.hangoutLocation :'Pas de lieu de sortie pour ce produit' }}</td>
+						<td>{{ (product.reference is defined)? product.reference :'Pas de référence pour ce produit' }}</td>
 						<td>{{ product.createdAt ? product.createdAt|date('d-m-Y H:i:s') : '' }}</td>
 						<td>{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
-						<td>{{ product.preTaxPrice }}
-							&euro;</td>
-						<td>{{ product.taxIncludedPrice }}
-							&euro;</td>
-						<td>
-							{{ product.category.title }}
+						{# <td>
+							{% if product.preTaxPrice is defined %}
+								{{ product.preTaxPrice }} &euro;
+							{% else %}
+								Pas de prix HT pour ce produit
+							{% endif %}
 						</td>
 						<td>
-							{{ product.language.name }}
+							{% if product.taxIncludedPrice is defined %}
+								{{ product.taxIncludedPrice }} &euro;
+							{% else %}
+								Pas de prix TTC pour ce produit
+							{% endif %}
+						</td> #}
+						<td>
+							{% if product.category.title is defined  %}
+								<a title="Voir la catégorie associée à ce produit" href="{{ path('categories_show', {id:product.category.id}) }}">{{ product.category.title }}</a>
+							{% else %}
+								Pas de catégorie associée à ce produit
+							{% endif %}
 						</td>
+						{# <td>
+							{{ (product.language.name is defined)? product.language.name :'Pas de langue de publication associée à ce produit' }}
+						</td> #}
 						<td>{{ product.comments | length }}
 							{% if product.comments | length > 0 %}
 								<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}">Voir</a>
 							{% endif %}
 						</td>
 						<td>{{ product.messages | length }}
-
 							{% if product.messages | length > 0 %}
 								<a title="Voir les messages clients pour cette sortie" href="{{ path('messages_index', {productId:product.id}) }}">Voir</a>
 							{% endif %}

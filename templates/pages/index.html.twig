@@ -65,11 +65,17 @@
 							<td>{{ page.title }}</td>
 							<td>{{ page.createdAt ? page.createdAt|date('d-m-Y H:i:s') : '' }}</td>
 							<td>{{ page.updatedAt ? page.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
-							<td>{{ page.user.firstname }}
-								{{ page.user.lastname }}</td>
+							<td>
+								{% if page.user.email is defined %}
+									<a href="{{ path('users_show', {'id': page.user.id}) }}" title="Voir l'auteur de la publication">{{ page.user.firstname }} {{ page.user.lastname }}</a>
+								{% else %}
+									Pas d'auteur enregistré pour cette publication
+								{% endif %}
+							</td>
 							<td>
 								<a href="{{ path('pages_show', {'id': page.id}) }}">Voir</a>
 								<a href="{{ path('pages_edit', {'id': page.id}) }}">Modifier</a>
+								{{ include('pages/_delete_form.html.twig') }}
 							</td>
 						</tr>
 					{% else %}

@@ -52,6 +52,9 @@
 						<th>
 							{{ knp_pagination_sortable(categories, 'Modifiée le', 'updated_at') }}
 						</th>
+						<th>
+							{{ knp_pagination_sortable(categories, 'Nombre de produits associés', 'products.count' ) }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -61,6 +64,11 @@
 							<td>{{ category.title }}</td>
 							<td>{{ category.createdAt|date('d-m-Y H:i:s') }}</td>
 							<td>{{ category.updatedAt|date('d-m-Y H:i:s') }}</td>
+							<td>{{ category.products | length }}
+								{% if category.products | length > 0 %}
+									<a title="Voir les produits associés à cette catégorie" href="{{ path('products_index', {categoryId:category.id}) }}">Voir</a>
+								{% endif %}
+							</td>
 							<td>
 								<a href="{{ path('categories_show', {'id': category.id}) }}">Voir</a>
 								<a href="{{ path('categories_edit', {'id': category.id}) }}">Modifier</a>

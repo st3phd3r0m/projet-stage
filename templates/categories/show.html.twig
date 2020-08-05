@@ -68,14 +68,21 @@
 						</td>
 					</tr>
 					<tr>
-						<th>Image</th>
+						<th>Images d'illustration</th>
 						<td>
 						{% for image in category.images %}
 						<img src="{{ asset('images/products/'~ image.name ) | imagine_filter('miniatures') }}" alt="Image d'illustration de la catégorie : '{{ category.title }}'">
 						{% else %}
 						Aucune image d'illustration pour cette catégorie
 						{% endfor %}
-						
+						</td>
+					</tr>
+					<tr>
+						<th>Produits associés à la catégorie</th>
+						<td>{{ category.products | length }}
+							{% if category.products | length > 0 %}
+								<a title="Voir les produits associés à cette catégorie" href="{{ path('products_index', {categoryId:category.id}) }}">Voir</a>
+							{% endif %}
 						</td>
 					</tr>
 					<tr>

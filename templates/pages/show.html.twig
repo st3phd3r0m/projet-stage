@@ -72,7 +72,13 @@
 					</tr>
 					<tr>
 						<th>Auteur</th>
-						<td>{{ page.user.firstname}} {{ page.user.lastname}}</td>
+						<td>
+							{% if page.user.email is defined %}
+								<a href="{{ path('users_show', {'id': page.user.id}) }}" title="Voir l'auteur de la publication">{{ page.user.firstname }} {{ page.user.lastname }}</a>
+							{% else %}
+								Pas d'auteur enregistré pour cette publication
+							{% endif %}
+						</td>
 					</tr>
 				</tbody>
 			</table>

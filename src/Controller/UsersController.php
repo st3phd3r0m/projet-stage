@@ -156,9 +156,6 @@ class UsersController extends AbstractController
         ]);
     }
 
-
-
-
     /**
      * @Route("/{id}", name="users_delete", methods={"DELETE"})
      */
@@ -166,6 +163,15 @@ class UsersController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            //Publications associés à l'utilisateur
+            $pages = $user->getPages();
+            foreach ($pages as $page) {
+                //Rupture entre les publications et l'utilisateur
+                $user->removePage($page);
+                //On ne supprime pas les publications associées
+            }
+
             $entityManager->remove($user);
             $entityManager->flush();
 

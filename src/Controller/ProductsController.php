@@ -26,9 +26,15 @@ class ProductsController extends AbstractController
      */
     public function index(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request): Response
     {
+
+        if ($request->get('categoryId')) {
+            $productsBuffer = $productsRepository->findBy(['category' => $request->get('categoryId')], ['created_at' => 'DESC']);
+        } else {
+            $productsBuffer = $productsRepository->findAll();
+        }
+
         $products = $paginator->paginate(
-            //Appel de la méthode de requete DQL de recherche
-            $productsRepository->findAll(), //findBy([], ['created_at' => 'DESC']),
+            $productsBuffer,
             //Le numero de la page, si aucun numero, on force la page 1
             $request->query->getInt('page', 1),
             //Nombre d'élément par page
@@ -232,6 +238,10 @@ class ProductsController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
 
+
+            // dd($request->request->get('delete_related'));
+
+
             $entityManager = $this->getDoctrine()->getManager();
 
             //Suppression des images et des miniatures associés au produit
@@ -247,18 +257,26 @@ class ProductsController extends AbstractController
                 $entityManager->remove($image);
             }
 
-            //Suppression des commentaires associés au produit
+            //Commentaires associés au produit
             $comments = $product->getComments();
             foreach ($comments as $comment) {
+                //Rupture entre les commentaires et le produit
                 $product->removeComment($comment);
-                // $entityManager->remove($comment);
+                //Suppression des commentaires si l'utilisateur le décide
+                if($request->request->get('delete_related')==="true"){
+                    $entityManager->remove($comment);
+                }
             }
 
-            //Suppression des messages associés au produit
+            //Messages associés au produit
             $messages = $product->getMessages();
             foreach ($messages as $message) {
+                //Rupture entre les messages et le produit
                 $product->removeMessage($message);
-                // $entityManager->remove($message);
+                //Suppression des messages si l'utilisateur le décide
+                if($request->request->get('delete_related')==="true"){
+                    $entityManager->remove($message);
+                }
             }
 
             $entityManager->remove($product);
