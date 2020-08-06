@@ -46,11 +46,11 @@
 					<div class="row">
 						<input class="col-5 p-2" type="text" name="search" placeholder="Rechercher parmis les pseudos des auteurs et leurs contenus">
 						
-							<select name="isModaratedFilter" id="isModaratedFilter">
-								<option value="">Messages modérés</option>
-								<option value=1>Oui</option> 
-								<option value=0>Non</option> 
-							</select>
+						<select name="isModaratedFilter" id="isModaratedFilter">
+							<option value="">Commentaires modérés</option>
+							<option value="true">Oui</option> 
+							<option value="false">Non</option> 
+						</select>
 						
 						<button type="submit" class="btn btn-primary" class=" button violetBackground">OK</button>		
 						<a class="btn btn-secondary mx-1" href="{{ path('comments_index') }}" title="Retour à la liste des produits">Reset</a>	
@@ -74,6 +74,9 @@
 						<th>
 							{{ knp_pagination_sortable(comments, 'Date', 'created_at') }}
 						</th>
+						<th>
+							{{ knp_pagination_sortable(comments, 'Commentaire modéré', 'isModerated') }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -90,6 +93,9 @@
 								{% endif %}
 							</td>
 							<td>{{ comment.createdAt|date('d-m-Y H:i:s') }}</td>
+							<td>
+								{{ (comment.isModerated)?'Oui':'Non' }}
+							</td>
 							<td>
 								<a href="{{ path('comments_show', {'id': comment.id}) }}" class="btn btn-primary" >Voir</a>
 								<a href="{{ path('comments_edit', {'id': comment.id}) }}" class="btn btn-warning">Modérer</a>

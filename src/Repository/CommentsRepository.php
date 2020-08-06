@@ -26,7 +26,7 @@ class CommentsRepository extends ServiceEntityRepository
 
         if( !empty($criteria["isModaratedFilter"]) ){
             $query->andWhere('c.isModerated = :isModerated')
-                ->setParameter('isModerated', $criteria["isModaratedFilter"]);
+                ->setParameter('isModerated', ($criteria["isModaratedFilter"]==="true")?true:false );
         }
         if( !empty($criteria["search"]) ){
             $query->andWhere('MATCH_AGAINST(c.pseudo, c.content) AGAINST (:searchterm boolean) >0')
