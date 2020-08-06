@@ -33,7 +33,7 @@
 
 			{{ include('users/_form.html.twig', {'button_label': 'Modifier'}) }}
 			<a class="d-block" href="{{ path('users_change_password', {id: user.id}) }}">Changer de mot de passe ?</a>
-			<a class="d-block" href="{{ path('users_index') }}">Retour à la liste</a>
+			<a class="d-block" href="{{ path('users_index') }}" class="btn btn-primary" >Retour à la liste</a>
 
 			{{ include('users/_delete_form.html.twig') }}
 		</div>

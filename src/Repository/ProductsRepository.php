@@ -27,6 +27,29 @@ class ProductsRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function searchFilter(array $criteria)
+    {
+        $query = $this->createQueryBuilder('p')
+                ->select('p')
+                ->innerJoin('p.category', 'c');
+
+        if( !empty($criteria["categoryFilter"]) ){
+            $query->andWhere('c.id = :category')
+                ->setParameter('category', $criteria["categoryFilter"]);
+        }
+        if( !empty($criteria["search"]) ){
+            $query->andWhere('MATCH_AGAINST(p.title, p.meta_tag_title, p.description, p.meta_tag_description) AGAINST (:searchterm boolean) >0')
+                ->orWhere("p.keywords LIKE :searchterm2")
+                ->orWhere("p.meta_tag_keywords LIKE :searchterm2")
+                ->setParameter('searchterm', $criteria["search"])
+                ->setParameter('searchterm2', '%'.$criteria["search"].'%');
+        }
+
+        $query->getQuery()->getResult();
+
+        return $query;
+    }
+
     // /**
     //  * @return Products[] Returns an array of Products objects
     //  */

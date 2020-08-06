@@ -40,6 +40,22 @@
 				<div class="alert alert-warning" role="alert">{{ message }}</div>
 			{% endfor %}
 
+			{# Barre de recherche #}
+			<div class="search_filter"> 
+				<form class="search_bar" action="{{ path('categories_index') }}" method="get">
+					<div class="row">
+						<input class="col-5 p-2" type="text" name="search" placeholder="Rechercher parmis les titres, les contenus et les mots-clés">
+						<button type="submit" class="btn btn-primary" class=" button violetBackground">OK</button>		
+						<a class="btn btn-secondary mx-1" href="{{ path('categories_index') }}" title="Retour à la liste des produits">Reset</a>	
+					</div>
+				</form>
+			</div>
+			{# Fin barre de recherche #}
+
+
+
+			<a href="{{ path('categories_new') }}" class="btn btn-success my-5" >Créer nouvelle catégorie</a>
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -66,12 +82,12 @@
 							<td>{{ category.updatedAt|date('d-m-Y H:i:s') }}</td>
 							<td>{{ category.products | length }}
 								{% if category.products | length > 0 %}
-									<a title="Voir les produits associés à cette catégorie" href="{{ path('products_index', {categoryId:category.id}) }}">Voir</a>
+									<a title="Voir les produits associés à cette catégorie" href="{{ path('products_index', {categoryId:category.id}) }}" class="btn btn-primary" >Voir</a>
 								{% endif %}
 							</td>
 							<td>
-								<a href="{{ path('categories_show', {'id': category.id}) }}">Voir</a>
-								<a href="{{ path('categories_edit', {'id': category.id}) }}">Modifier</a>
+								<a href="{{ path('categories_show', {'id': category.id}) }}" class="btn btn-primary" >Voir</a>
+								<a href="{{ path('categories_edit', {'id': category.id}) }}" class="btn btn-warning" >Modifier</a>
 								{{ include('categories/_delete_form.html.twig') }}
 							</td>
 						</tr>
@@ -89,7 +105,7 @@
 				{{ knp_pagination_render(categories) }}
 			</div>
 
-			<a href="{{ path('categories_new') }}">Créer nouvelle catégorie</a>
+			<a href="{{ path('categories_new') }}" class="btn btn-success my-5" >Créer nouvelle catégorie</a>
 
 		</div>
 	</div>

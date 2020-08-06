@@ -40,6 +40,34 @@
 			<div class="alert alert-warning" role="alert">{{ message }}</div>
 		{% endfor %}
 
+		{# Barre de recherche #}
+		<div class="search_filter"> 
+			<form class="search_bar" action="{{ path('products_index') }}" method="get">
+				<div class="row">
+					<input class="col-5 p-2" type="text" name="search" placeholder="Rechercher parmis les titres, les contenus et les mots-clés">
+					<select class="col-3 p-2" name="categoryFilter" id="categoryFilter">
+						<option value="">Rechercher par catégorie</option>     
+						{% for categorie in categories|sort((a, b) => a.title <=> b.title) %} 
+							<option value={{ categorie.id }}>{{ categorie.title }}</option>
+						{% endfor %}                         
+					</select>
+					{# <div>
+						<select name="attributeFilter" id="attributeFilter">
+							<option value="">Rechercher par Attribut</option> #}
+							{# {% for category in categories %} 
+								<option value={{ category.id }}>{{ category.name }}</option>
+							{% endfor %}    #}
+						{# </select>
+					</div> #}
+					<button type="submit" class="btn btn-primary" class=" button violetBackground">OK</button>		
+					<a class="btn btn-secondary mx-1" href="{{ path('products_index') }}" title="Retour à la liste des produits">Reset</a>	
+				</div>
+			</form>
+		</div>
+		{# Fin barre de recherche #}
+
+		<a href="{{ path('products_new') }}" class="btn btn-success my-5" >Créer nouvelle sortie</a>
+
 		<table class="table">
 			<thead>
 				<tr>
@@ -113,17 +141,17 @@
 						</td> #}
 						<td>{{ product.comments | length }}
 							{% if product.comments | length > 0 %}
-								<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}">Voir</a>
+								<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}" class="btn btn-primary" >Voir</a>
 							{% endif %}
 						</td>
 						<td>{{ product.messages | length }}
 							{% if product.messages | length > 0 %}
-								<a title="Voir les messages clients pour cette sortie" href="{{ path('messages_index', {productId:product.id}) }}">Voir</a>
+								<a title="Voir les messages clients pour cette sortie" href="{{ path('messages_index', {productId:product.id}) }}" class="btn btn-primary" >Voir</a>
 							{% endif %}
 						</td>
 						<td>
-							<a href="{{ path('products_show', {'id': product.id}) }}">Voir</a>
-							<a href="{{ path('products_edit', {'id': product.id}) }}">Modifier</a>
+							<a href="{{ path('products_show', {'id': product.id}) }}" class="btn btn-primary" >Voir</a>
+							<a href="{{ path('products_edit', {'id': product.id}) }}" class="btn btn-warning" >Modifier</a>
 							{{ include('products/_delete_form.html.twig') }}
 						</td>
 					</tr>
@@ -142,7 +170,7 @@
 			{{ knp_pagination_render(products) }}
 		</div>
 
-		<a href="{{ path('products_new') }}">Créer nouvelle sortie</a>
+		<a href="{{ path('products_new') }}" class="btn btn-success my-5" >Créer nouvelle sortie</a>
 
 	</div>
 </div>

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommentsRepository::class)
+ * @ORM\Table(indexes={@ORM\Index(columns={"pseudo", "content"}, flags={"fulltext"})})
  */
 class Comments
 {

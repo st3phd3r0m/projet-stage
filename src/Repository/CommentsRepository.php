@@ -19,6 +19,25 @@ class CommentsRepository extends ServiceEntityRepository
         parent::__construct($registry, Comments::class);
     }
 
+    public function searchFilter(array $criteria)
+    {
+        $query = $this->createQueryBuilder('c')
+                ->select('c');
+
+        if( !empty($criteria["isModaratedFilter"]) ){
+            $query->andWhere('c.isModerated = :isModerated')
+                ->setParameter('isModerated', $criteria["isModaratedFilter"]);
+        }
+        if( !empty($criteria["search"]) ){
+            $query->andWhere('MATCH_AGAINST(c.pseudo, c.content) AGAINST (:searchterm boolean) >0')
+                ->setParameter('searchterm', $criteria["search"]);
+        }
+
+        $query->getQuery()->getResult();
+
+        return $query;
+    }
+
     // /**
     //  * @return Comments[] Returns an array of Comments objects
     //  */

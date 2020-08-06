@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Attributes;
 use App\Form\AttributesType;
+use App\Repository\AttributeGroupsRepository;
 use App\Repository\AttributesRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,10 +20,18 @@ class AttributesController extends AbstractController
     /**
      * @Route("/", name="attributes_index", methods={"GET"})
      */
-    public function index(AttributesRepository $attributesRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(AttributesRepository $attributesRepository, AttributeGroupsRepository $attributeGroupsRepository, PaginatorInterface $paginator, Request $request): Response
     {
         if ($request->get('attributeGroupId')) {
             $attributesBuffer = $attributesRepository->findBy(['attribute_group' => $request->get('attributeGroupId')]);
+
+        } else if( $request->get('search') || $request->get('attributeGroupFilter') ){
+
+            //Récupération des données de la requete GET
+            $criteria = $request->query->all();
+            //Appel de la méthode de requete DQL de recherche
+            $attributesBuffer = $attributesRepository->searchFilter($criteria);
+
         } else {
             $attributesBuffer = $attributesRepository->findAll();
         }
@@ -36,7 +45,8 @@ class AttributesController extends AbstractController
         );
 
         return $this->render('attributes/index.html.twig', [
-            'attributes' => $attributes
+            'attributes' => $attributes,
+            'attributeGroups'=>$attributeGroupsRepository->findAll()
         ]);
     }
 

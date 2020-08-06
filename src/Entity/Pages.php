@@ -9,6 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=PagesRepository::class)
+ * @ORM\Table(indexes={@ORM\Index(columns={"title", "content", "meta_tag_title", "meta_tag_description"}, flags={"fulltext"})})
  */
 class Pages
 {

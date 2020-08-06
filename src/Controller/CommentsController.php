@@ -25,6 +25,13 @@ class CommentsController extends AbstractController
 
         if ($request->get('productId')) {
             $commentsBuffer = $commentsRepository->findBy(['product' => $request->get('productId')], ['created_at' => 'DESC']);
+        } else if( $request->get('search') || $request->get('isModaratedFilter') ){ 
+            
+            //Récupération des données de la requete GET
+            $criteria = $request->query->all();
+            //Appel de la méthode de requete DQL de recherche
+            $commentsBuffer = $commentsRepository->searchFilter($criteria);
+
         } else {
             $commentsBuffer = $commentsRepository->findBy([], ['created_at' => 'DESC']);
         }

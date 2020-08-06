@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Pages;
 use App\Form\PagesType;
 use App\Repository\PagesRepository;
+use App\Repository\UsersRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,17 @@ class PagesController extends AbstractController
     /**
      * @Route("/", name="pages_index", methods={"GET"})
      */
-    public function index(PagesRepository $pagesRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(PagesRepository $pagesRepository, UsersRepository $usersRepository, PaginatorInterface $paginator, Request $request): Response
     {
         if ($request->get('userId')) {
             $pagesBuffer = $pagesRepository->findBy(['user' => $request->get('userId')], ['created_at' => 'DESC']);
+        } else if( $request->get('search') || $request->get('usersFilter') ){
+
+            //Récupération des données de la requete GET
+            $criteria = $request->query->all();
+            //Appel de la méthode de requete DQL de recherche
+            $pagesBuffer = $pagesRepository->searchFilter($criteria);
+
         } else {
             $pagesBuffer = $pagesRepository->findBy([], ['created_at' => 'DESC']);
         }
@@ -37,7 +45,8 @@ class PagesController extends AbstractController
         );
 
         return $this->render('pages/index.html.twig', [
-            'pages' => $pages
+            'pages' => $pages,
+            'users'=> $usersRepository->findAll()
         ]);
     }
 

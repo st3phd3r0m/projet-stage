@@ -22,10 +22,20 @@ class CategoriesController extends AbstractController
      */
     public function index(CategoriesRepository $categoriesRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        if( $request->get('search') ){
+
+            //Récupération des données de la requete GET
+            $criteria = $request->query->all();
+            //Appel de la méthode de requete DQL de recherche
+            $categoryBuffer = $categoriesRepository->searchFilter($criteria);
+
+        } else {
+            $categoryBuffer = $categoriesRepository->findBy([], ['created_at' => 'DESC']);
+        }
 
         $categories = $paginator->paginate(
             //Appel de la méthode de requete DQL de recherche
-            $categoriesRepository->findBy([], ['created_at' => 'DESC']),
+            $categoryBuffer,
             //Le numero de la page, si aucun numero, on force la page 1
             $request->query->getInt('page', 1),
             //Nombre d'élément par page

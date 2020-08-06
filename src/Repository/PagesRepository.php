@@ -19,6 +19,29 @@ class PagesRepository extends ServiceEntityRepository
         parent::__construct($registry, Pages::class);
     }
 
+    public function searchFilter(array $criteria)
+    {
+        $query = $this->createQueryBuilder('p')
+                ->select('p')
+                ->innerJoin('p.user', 'u');
+
+        if( !empty($criteria["usersFilter"]) ){
+            $query->andWhere('u.id = :user')
+                ->setParameter('user', $criteria["usersFilter"]);
+        }
+        if( !empty($criteria["search"]) ){
+            $query->andWhere('MATCH_AGAINST(p.title, p.content, p.meta_tag_title, p.meta_tag_description) AGAINST (:searchterm boolean) >0')
+                ->orWhere("p.keywords LIKE :searchterm2")
+                ->orWhere("p.meta_tag_keywords LIKE :searchterm2")
+                ->setParameter('searchterm', $criteria["search"])
+                ->setParameter('searchterm2', '%'.$criteria["search"].'%');
+        }
+
+        $query->getQuery()->getResult();
+
+        return $query;
+    }
+
     // /**
     //  * @return Pages[] Returns an array of Pages objects
     //  */

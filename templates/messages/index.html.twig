@@ -40,6 +40,26 @@
 				<div class="alert alert-warning" role="alert">{{ message }}</div>
 			{% endfor %}
 
+			{# Barre de recherche #}
+			<div class="search_filter mb-5"> 
+				<form class="search_bar" action="{{ path('messages_index') }}" method="get">
+					<div class="row">
+						<input class="col-6 p-2" type="text" name="search" placeholder="Rechercher parmis les infos expéditeurs, objets des messages et leurs contenus">
+						{# <div>
+							<select name="attributeFilter" id="attributeFilter">
+								<option value="">Rechercher par Attribut</option> #}
+								{# {% for category in categories %} 
+									<option value={{ category.id }}>{{ category.name }}</option>
+								{% endfor %}    #}
+							{# </select>
+						</div> #}
+						<button type="submit" class="btn btn-primary" class=" button violetBackground">OK</button>		
+						<a class="btn btn-secondary mx-1" href="{{ path('messages_index') }}" title="Retour à la liste des produits">Reset</a>	
+					</div>
+				</form>
+			</div>
+			{# Fin barre de recherche #}
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -76,7 +96,7 @@
 							</td>
 							<td>{{ message.sentAt | date('d.m.Y H:i:s') }}</td>
 							<td>
-								<a href="{{ path('messages_show', {'id': message.id}) }}">Lire</a>
+								<a href="{{ path('messages_show', {'id': message.id}) }}" class="btn btn-primary">Lire</a>
 								{{ include('messages/_delete_form.html.twig') }}
 							</td>
 						</tr>

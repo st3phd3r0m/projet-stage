@@ -169,7 +169,7 @@
 						<th>Nombre d'avis clients</th>
 						<td>{{ product.comments | length }}
 							{% if product.comments | length > 0 %}
-								<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}">Voir</a>
+								<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}" class="btn btn-primary" >Voir</a>
 							{% endif %}
 						</td>
 					</tr>
@@ -177,16 +177,16 @@
 						<th>Nombre de messages clients</th>
 						<td>{{ product.messages | length }}
 							{% if product.messages | length > 0 %}
-								<a title="Voir les messages clients pour cette sortie" href="{{ path('messages_index', {productId:product.id}) }}">Voir</a>
+								<a title="Voir les messages clients pour cette sortie" href="{{ path('messages_index', {productId:product.id}) }}" class="btn btn-primary" >Voir</a>
 							{% endif %}
 						</td>
 					</tr>
 				</tbody>
 			</table>
 
-			<a href="{{ path('products_index') }}">Retour à la liste</a>
+			<a href="{{ path('products_index') }}" class="btn btn-primary" >Retour à la liste</a>
 
-			<a href="{{ path('products_edit', {'id': product.id}) }}">Modifier</a>
+			<a href="{{ path('products_edit', {'id': product.id}) }}" class="btn btn-warning" >Modifier</a>
 
 			{{ include('products/_delete_form.html.twig') }}
 		</div>
@@ -206,7 +206,7 @@
 							<p class="card-text">
 								{{ comment.content }}
 							</p>
-							<a href="{{ path('comments_show', {id: comment.id}) }}" class="card-link">Voir</a>
+							<a href="{{ path('comments_show', {id: comment.id}) }}" class="card-link" class="btn btn-primary" >Voir</a>
 							<a href="{{ path('comments_edit', {id: comment.id}) }}" class="card-link">Modérer</a>
 							{{ include('comments/_delete_form.html.twig') }}
 						</div>

@@ -23,6 +23,13 @@ class MessagesController extends AbstractController
     {
         if ($request->get('productId')) {
             $messagesBuffer = $messagesRepository->findBy(['product' => $request->get('productId')]);
+        } else if( $request->get('search')){
+
+            //Récupération des données de la requete GET
+            $criteria = $request->query->all();
+            //Appel de la méthode de requete DQL de recherche
+            $messagesBuffer = $messagesRepository->searchFilter($criteria);
+    
         } else {
             $messagesBuffer = $messagesRepository->findBy([], ['sent_at' => 'DESC']);
         }

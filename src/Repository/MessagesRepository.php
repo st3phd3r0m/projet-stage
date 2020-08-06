@@ -19,6 +19,21 @@ class MessagesRepository extends ServiceEntityRepository
         parent::__construct($registry, Messages::class);
     }
 
+    public function searchFilter(array $criteria)
+    {
+        $query = $this->createQueryBuilder('m')
+                ->select('m');
+
+        if( !empty($criteria["search"]) ){
+            $query->andWhere('MATCH_AGAINST(m.name, m.email, m.phone, m.subject, m.message) AGAINST (:searchterm boolean) >0')
+                ->setParameter('searchterm', $criteria["search"]);
+        }
+
+        $query->getQuery()->getResult();
+
+        return $query;
+    }
+    
     // /**
     //  * @return Messages[] Returns an array of Messages objects
     //  */

@@ -19,6 +19,26 @@ class AttributesRepository extends ServiceEntityRepository
         parent::__construct($registry, Attributes::class);
     }
 
+    public function searchFilter(array $criteria)
+    {
+        $query = $this->createQueryBuilder('a')
+                ->select('a')
+                ->innerJoin('a.attribute_group', 'g');
+
+        if( !empty($criteria["attributeGroupFilter"]) ){
+            $query->andWhere('g.id = :attributeGroup')
+                ->setParameter('attributeGroup', $criteria["attributeGroupFilter"]);
+        }
+        if( !empty($criteria["search"]) ){
+            $query->andWhere('MATCH_AGAINST(a.name, a.value) AGAINST (:searchterm boolean) >0')
+                ->setParameter('searchterm', $criteria["search"]);
+        }
+
+        $query->getQuery()->getResult();
+
+        return $query;
+    }
+
     // /**
     //  * @return Attributes[] Returns an array of Attributes objects
     //  */

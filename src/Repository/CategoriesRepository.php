@@ -19,6 +19,24 @@ class CategoriesRepository extends ServiceEntityRepository
         parent::__construct($registry, Categories::class);
     }
 
+    public function searchFilter(array $criteria)
+    {
+        $query = $this->createQueryBuilder('c')
+                ->select('c');
+
+        if( !empty($criteria["search"]) ){
+            $query->andWhere('MATCH_AGAINST(c.title, c.meta_tag_title, c.description, c.meta_tag_description) AGAINST (:searchterm boolean) >0')
+                ->orWhere("c.keywords LIKE :searchterm2")
+                ->orWhere("c.meta_tag_keywords LIKE :searchterm2")
+                ->setParameter('searchterm', $criteria["search"])
+                ->setParameter('searchterm2', '%'.$criteria["search"].'%');
+        }
+
+        $query->getQuery()->getResult();
+
+        return $query;
+    }
+
     // /**
     //  * @return Categories[] Returns an array of Categories objects
     //  */

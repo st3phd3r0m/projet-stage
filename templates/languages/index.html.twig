@@ -40,6 +40,8 @@
 				<div class="alert alert-warning" role="alert">{{ message }}</div>
 			{% endfor %}
 
+			<a href="{{ path('languages_new') }}" class="btn btn-success my-5">Ajouter langue de publication des ***REMOVED***</a>
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -56,7 +58,7 @@
 								<img src="{{ asset('images/languages/'~ language.flag ) | imagine_filter('miniatures') }}" alt="Drapeau associé à la langue {{ language.name }}">
 							</td>
 							<td>
-								<a href="{{ path('languages_edit', {'id': language.id}) }}">Editer</a>
+								<a href="{{ path('languages_edit', {'id': language.id}) }}" class="btn btn-warning">Editer</a>
 								{{ include('languages/_delete_form.html.twig') }}
 							</td>
 						</tr>
@@ -68,7 +70,7 @@
 				</tbody>
 			</table>
 
-			<a href="{{ path('languages_new') }}">Ajouter langue de publication des ***REMOVED***</a>
+			<a href="{{ path('languages_new') }}" class="btn btn-success my-5">Ajouter langue de publication des ***REMOVED***</a>
 		</div>
 	</div>
 {% endblock %}

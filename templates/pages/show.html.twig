@@ -1,6 +1,6 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Ludo et Sophie - Publication {{ page.id }}
+{% block title %}Ludo et Sophie - Publication <span class="font-italic">"{{ page.title }}"</span>
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1 class="m-0 text-dark">Ludo et Sophie - Publication {{ page.id }}</h1>
+					<h1 class="m-0 text-dark">Ludo et Sophie - Publication <span class="font-italic">"{{ page.title }}"</span></h1>
 				</div>
 				<!-- /.col -->
 				<div class="col-sm-6">
@@ -83,9 +83,9 @@
 				</tbody>
 			</table>
 
-			<a href="{{ path('pages_index') }}">Retour à la liste des publications</a>
+			<a href="{{ path('pages_index') }}" class="btn btn-primary">Retour à la liste des publications</a>
 
-			<a href="{{ path('pages_edit', {'id': page.id}) }}">Modifier</a>
+			<a href="{{ path('pages_edit', {'id': page.id}) }}" class="btn btn-warning" >Modifier</a>
 
 			{{ include('pages/_delete_form.html.twig') }}
 		</div>

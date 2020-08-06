@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity(repositoryClass=CategoriesRepository::class)
+ * @ORM\Table(indexes={@ORM\Index(columns={"title", "meta_tag_title", "description", "meta_tag_description"}, flags={"fulltext"})})
  */
 class Categories
 {

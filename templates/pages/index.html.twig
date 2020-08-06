@@ -40,6 +40,27 @@
 				<div class="alert alert-warning" role="alert">{{ message }}</div>
 			{% endfor %}
 
+			{# Barre de recherche #}
+			<div class="search_filter"> 
+				<form class="search_bar" action="{{ path('pages_index') }}" method="get">
+					<div class="row">
+						<input class="col-5 p-2" type="text" name="search" placeholder="Rechercher parmis les titres, les contenus et les mots-clés">
+						<select class="col-3 p-2" name="usersFilter" id="usersFilter">
+							<option value="">Rechercher par utilisateur</option>     
+							{% for user in users|sort((a, b) => a.lastname <=> b.lastname) %} 
+								<option value={{ user.id }}>{{ user.firstname }} {{ user.lastname }}</option>
+							{% endfor %}                         
+						</select>
+						<button type="submit" class="btn btn-primary" class=" button violetBackground">OK</button>		
+						<a class="btn btn-secondary mx-1" href="{{ path('pages_index') }}" title="Retour à la liste des pages">Reset</a>	
+					</div>
+				</form>
+			</div>
+			{# Fin barre de recherche #}
+
+
+			<a href="{{ path('pages_new') }}" class="btn btn-success my-5" >Créer nouvelle publication</a>
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -73,8 +94,8 @@
 								{% endif %}
 							</td>
 							<td>
-								<a href="{{ path('pages_show', {'id': page.id}) }}">Voir</a>
-								<a href="{{ path('pages_edit', {'id': page.id}) }}">Modifier</a>
+								<a href="{{ path('pages_show', {'id': page.id}) }}" class="btn btn-primary" >Voir</a>
+								<a href="{{ path('pages_edit', {'id': page.id}) }}" class="btn btn-warning" >Modifier</a>
 								{{ include('pages/_delete_form.html.twig') }}
 							</td>
 						</tr>
@@ -92,7 +113,7 @@
 				{{ knp_pagination_render(pages) }}
 			</div>
 
-			<a href="{{ path('pages_new') }}">Créer nouvelle publication</a>
+			<a href="{{ path('pages_new') }}" class="btn btn-success my-5" >Créer nouvelle publication</a>
 		</div>
 	</div>
 {% endblock %}

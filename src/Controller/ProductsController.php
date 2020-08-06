@@ -7,6 +7,7 @@ use App\Entity\Products;
 use App\Form\ProductsType;
 use App\Repository\AttributeGroupsRepository;
 use App\Repository\AttributesRepository;
+use App\Repository\CategoriesRepository;
 use App\Repository\ImagesRepository;
 use App\Repository\ProductsRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -24,11 +25,18 @@ class ProductsController extends AbstractController
     /**
      * @Route("/", name="products_index", methods={"GET"})
      */
-    public function index(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request, CategoriesRepository $categoriesRepository): Response
     {
 
         if ($request->get('categoryId')) {
             $productsBuffer = $productsRepository->findBy(['category' => $request->get('categoryId')], ['created_at' => 'DESC']);
+        } else if( $request->get('search') || $request->get('categoryFilter') ){
+
+            //Récupération des données de la requete GET
+            $criteria = $request->query->all();
+            //Appel de la méthode de requete DQL de recherche
+            $productsBuffer = $productsRepository->searchFilter($criteria);
+
         } else {
             $productsBuffer = $productsRepository->findAll();
         }
@@ -41,7 +49,8 @@ class ProductsController extends AbstractController
             10
         );
         return $this->render('products/index.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'categories'=>$categoriesRepository->findAll()
         ]);
     }
 

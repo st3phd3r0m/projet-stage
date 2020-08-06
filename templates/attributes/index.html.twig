@@ -36,6 +36,26 @@
 				<div class="alert alert-success" role="alert">{{ message }}</div>
 			{% endfor %}
 
+			{# Barre de recherche #}
+			<div class="search_filter"> 
+				<form class="search_bar" action="{{ path('attributes_index') }}" method="get">
+					<div class="row">
+						<input class="col-4 p-2" type="text" name="search" placeholder="Rechercher parmis les noms et les contenus">
+						<select class="col-3 p-2" name="attributeGroupFilter" id="attributeGroupFilter">
+							<option value="">Rechercher par groupes d'attributs</option>     
+							{% for attributeGroup in attributeGroups|sort((a, b) => a.name <=> b.name) %} 
+								<option value={{ attributeGroup.id }}>{{ attributeGroup.name }}</option>
+							{% endfor %}                         
+						</select>
+						<button type="submit" class="btn btn-primary" class=" button violetBackground">OK</button>		
+						<a class="btn btn-secondary mx-1" href="{{ path('attributes_index') }}" title="Retour à la liste des produits">Reset</a>	
+					</div>
+				</form>
+			</div>
+			{# Fin barre de recherche #}
+
+			<a href="{{ path('attributes_new') }}" class="btn btn-success my-5" >Créer nouvel attribut</a>
+
 			<table class="table">
 				<thead>
 					<tr>
@@ -67,11 +87,11 @@
 
 							<td>{{ attribute.products | length }}
 								{# {% if attribute.products | length > 0 %}
-									<a title="Voir les produits associés à cet attribut" href="{{ path('products_index', {attributeId:attribute.id}) }}">Voir</a>
+									<a title="Voir les produits associés à cet attribut" href="{{ path('products_index', {attributeId:attribute.id}) }}" class="btn btn-primary" >Voir</a>
 								{% endif %} #}
 							</td>
 							<td>
-								<a href="{{ path('attributes_edit', {'id': attribute.id}) }}">Modifier</a>
+								<a href="{{ path('attributes_edit', {'id': attribute.id}) }}" class="btn btn-warning" >Modifier</a>
 								{{ include('attributes/_delete_form.html.twig') }}
 							</td>
 						</tr>
@@ -89,7 +109,7 @@
 				{{ knp_pagination_render(attributes) }}
 			</div>
 
-			<a href="{{ path('attributes_new') }}">Créer nouvel attribut</a>
+			<a href="{{ path('attributes_new') }}" class="btn btn-success my-5" >Créer nouvel attribut</a>
 
 
 		</div>
