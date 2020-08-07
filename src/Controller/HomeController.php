@@ -19,7 +19,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/Acceuil", name="home")
+     * @Route("/acceuil", name="home")
      */
     public function index()
     {
@@ -30,7 +30,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="foreign")
+     * @Route("/home/{slug}", name="foreign")
      */
     public function foreignIndex()
     {
