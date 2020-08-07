@@ -21,22 +21,22 @@ class MessagesType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'label' => 'Saisissez votre prénom et votre nom',
+                'label' => 'Saisissez vos nom et prénom',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez saisir votre prénom et votre nom'
+                        'message' => 'Veuillez saisir vos nom et prénom'
                     ])
                 ]
             ])
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label' => 'Adresse e-mail',
+                'label' => 'E-mail',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez saisir une adresse e-mail'
+                        'message' => 'Veuillez saisir une adresse e-mail valide'
                     ]),
                     new Email([
-                        'message' => 'Votre adresse e-mail n\'est pas valide'
+                        'message' => 'Veuillez saisir une adresse e-mail valide'
                     ])
                 ]
             ])
@@ -63,7 +63,7 @@ class MessagesType extends AbstractType
                 'label' => 'Saisissez votre message',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Veuillez saisir votre commentaire',
+                        'message' => 'Veuillez saisir votre message',
                     ]),
                     new Length([
                         'min' => 10,
