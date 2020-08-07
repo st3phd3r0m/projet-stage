@@ -19,16 +19,20 @@ class LanguagesType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'label' => 'Langue (FR pour français) : ',
-
+                'label' => 'Code de la langue (fr pour français) : ',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir une langue.',
                     ]),
-                    new Length([
-                        'min' => 1,
-                        'minMessage' => "La langue doit comporter au minimum {{ limit }} caractère.",
-                    ])
+                ]
+            ])
+            ->add('slug', TextType::class, [
+                'required' => true,
+                'label' => 'Slug : ',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un slug.',
+                    ]),
                 ]
             ])
             ->add('imageFile', VichImageType::class, [

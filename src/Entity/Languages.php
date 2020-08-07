@@ -38,6 +38,11 @@ class Languages
     private $flag;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
+    /**
      * @var File|null
      * @Vich\UploadableField(mapping="languages_images", fileNameProperty="flag")
      */
@@ -94,6 +99,18 @@ class Languages
         return $this;
     }
 
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+    
     public function getImageFile(): ?File
     {
         return $this->imageFile;

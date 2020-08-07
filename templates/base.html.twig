@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Ludo et Sophie{% endblock %}</title>
+        <title>{% block title %}Ludo et Sophie Accueil{% endblock %}</title>
 
         {# Chargement CDNs #}
         <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
@@ -12,6 +12,39 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+
+        <header>
+            <div class="row">
+                <div class="col-2">
+                    <a href="" title="Inscrivez-vous à la Newsletter de Ludo et Sophie"><img src="{{ asset('images/icones/picto_newsletter.jpg') | imagine_filter('miniatures') }}" alt="Logo d'inscription à la Newsletter de Ludo et Sophie"></a>
+                    <p>Newsletter</p>
+                </div>
+                <div class="col-8">
+                    <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" ><img src="{{ asset('images/icones/logo_neutrenew.jpg') }}" alt="Image d'acceuil du site Ludo et Sophie"></a>
+                </div>
+                <div class="col-2">
+                    <ul>
+                        {% for foreignLanguage in foreignLanguages() %} 
+                            <li>
+                                <a href="{{ path('foreign', { slug: foreignLanguage.slug}) }}"><img src="{{ asset('images/languages/' ~ foreignLanguage.flag ) | imagine_filter('miniatures') }}" alt="Icone de la langue {{ foreignLanguage.name }}"></a>
+                            
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <p>English and Spanish family tours</p>
+                </div>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" >Acceuil</a></li>
+                    <li><a href=""></a></li>
+                    <li><a href=""></a></li>
+                    <li><a href=""></a></li>
+                    <li><a href=""></a></li>
+                </ul>
+            </nav>
+        </header>
         {% block body %}{% endblock %}
 
         <!-- JS, Popper.js-->
