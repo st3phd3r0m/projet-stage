@@ -13,4 +13,4 @@ liip_imagine:
         miniatures:
             quality: 70
             filters:
-                thumbnail: { size: [100, 70], mode: outbound }
+                thumbnail: { size: [100, 100] }

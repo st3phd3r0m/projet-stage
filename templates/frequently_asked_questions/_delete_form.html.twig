@@ -1,0 +1,37 @@
+{# <form method="post" action="{{ path('frequently_asked_questions_delete', {'id': frequently_asked_question.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ frequently_asked_question.id) }}">
+    <button class="btn">Delete</button>
+</form> #}
+
+
+<!-- Button trigger modal -->
+<button class="btn btn-danger" data-toggle="modal" data-target="#deleteFAQ{{ frequently_asked_question.id }}ModalCenter">
+  Supprimer
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteFAQ{{ frequently_asked_question.id }}ModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteFAQ{{ frequently_asked_question.id }}ModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteFAQ{{ frequently_asked_question.id }}ModalLongTitle">Suppression d'une question-réponse <span class="font-italic">{{ frequently_asked_question.question }}</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                La suppression de la question-réponse <span class="font-italic">{{ frequently_asked_question.question }}</span> sera irréversible.
+                Voulez-vous vraiment supprimer cet item ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <form method="post" action="{{ path('frequently_asked_questions_delete', {'id': frequently_asked_question.id}) }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ frequently_asked_question.id) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

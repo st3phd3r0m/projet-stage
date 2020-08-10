@@ -1,0 +1,13 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Edit FrequentlyAskedQuestions{% endblock %}
+
+{% block body %}
+    <h1>Edit FrequentlyAskedQuestions</h1>
+
+    {{ include('frequently_asked_questions/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('frequently_asked_questions_index') }}">back to list</a>
+
+    {{ include('frequently_asked_questions/_delete_form.html.twig') }}
+{% endblock %}

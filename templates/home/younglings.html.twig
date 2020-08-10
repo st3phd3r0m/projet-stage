@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ludo et Sophie - L'équipe Petits Éclaireurs
+{% endblock %}
+
+{% block body %}
+
+    <h1>Découvrez toute l'équipe des petits éclaireurs</h1>
+
+    <p>{{ page.content|raw }}</p>
+
+    <div class="row">
+        {% for youngling in younglings %}
+            <div class="col-3">
+                {% if youngling.picture is not empty %}
+                    <img src="{{ asset('images/younglings/'~ youngling.picture ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des petits éclaireurs">
+                {% else %}
+                    <img src="{{ asset('images/younglings/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des petits éclaireurs">
+                {% endif %}
+                    <div>{{ youngling.name }}</div>
+            </div>                    
+            
+        {% endfor %}
+    </div>
+{% endblock %}

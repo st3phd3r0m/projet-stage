@@ -53,10 +53,10 @@
                 <tr>
                     <th>Photo</th>
                     <td>
-                    	{% if person.picture is defined %}
-						    <img src="{{ asset('images/people/'~ person.picture ) | imagine_filter('miniatures') }}" alt="Photo de : '{{ person.name }}'">
+                    	{% if person.picture is not empty %}
+						    <img src="{{ asset('images/people/'~ person.picture ) | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
 						{% else %}
-                            <img src="{{ asset('images/people/noone.jpg') }}" alt="Photo de : '{{ person.name }}'">
+                            <img src="{{ asset('images/people/noone.jpg') | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
 						{% endif %}
                     </td>
                 </tr>

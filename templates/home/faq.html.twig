@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ludo et Sophie - Foire aux Questions
+{% endblock %}
+
+{% block body %}
+
+        <h1>Foire aux Questions</h1>
+
+        <section>
+            {% for faq in faqs %}
+                <article>
+                    <div>
+                        <p>{{ faq.question }}</p>
+                    </div>
+                    <div>
+                        <p>{{ faq.answer }}</p>
+                    </div>
+                </article>                    
+            {% endfor %}
+        </section>
+{% endblock %}

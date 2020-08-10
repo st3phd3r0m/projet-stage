@@ -82,6 +82,15 @@
         </header>
 
         <main class="container">
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success" role="alert">{{ message }}</div>
+            {% endfor %}
+
+            {% for message in app.flashes('fail') %}
+                <div class="alert alert-warning" role="alert">{{ message }}</div>
+            {% endfor %}
+
             {% block body %}{% endblock %}        
         </main>
 
@@ -128,19 +137,19 @@
                     </div>
                 </div>
 
-                <ul>
+                {# <ul>
                     <li><a href="{{ path('home_people') }}" title="Qui sommes-nous?">Qui sommes-nous?</a></li>
-                    <li><a href="" title="">Nous rejoindre</a></li>
-                    <li><a href="" title="">*Conditions Générales de Services</a></li>
-                    <li><a href="" title="">Merci à...</a></li>
-                    <li><a href="" title="">F.A.Q.</a></li>
-                </ul>
+                    <li><a href="{{ path('home_post', {slug:'nous-rejoindre'}) }}" title="">Nous rejoindre</a></li>
+                    <li><a href="{{ path('home_post', {slug:'conditions-generales'}) }}" title="">*Conditions Générales de Services</a></li>
+                    <li><a href="{{ path('home_post', {slug:'ludo-et-sophie-nos-partenaires'}) }}" title="">Merci à...</a></li>
+                    <li><a href="{{ path('home_faq') }}" title="Aller à la Foire aux Questions">F.A.Q.</a></li>
+                </ul> #}
 
                 <ul>
                     <li><a href="">Toutes nos ***REMOVED***</a></li>
                     <li><a href="">Pour nos ados</a></li>
                     <li><a href="">Anniversaire</a></li>
-                    <li><a href="">Presse</a></li>
+                    <li><a href="https://app.algolinked.com/room/Ludo%20et%20Sophie" target="_blank" rel="noopener noreferrer">Presse</a></li>
                 </ul>
 
             

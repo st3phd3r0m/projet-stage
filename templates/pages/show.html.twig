@@ -71,6 +71,10 @@
 						<td>{{ page.updatedAt ? page.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
 					</tr>
 					<tr>
+						<th>Slug</th>
+						<td>{{ page.slug }}</td>
+					</tr>
+					<tr>
 						<th>Auteur</th>
 						<td>
 							{% if page.user.email is defined %}

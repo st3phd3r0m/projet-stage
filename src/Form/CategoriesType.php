@@ -53,11 +53,6 @@ class CategoriesType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir la description de la catégorie',
-                    ]),
-                    new Length([
-                        'min' => 20,
-                        'minMessage' => "Le texte doit comporter au minimum {{ limit }}
-                    catégorie.",
                     ])
                 ]
             ])
@@ -68,10 +63,6 @@ class CategoriesType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir la description de la sortie',
-                    ]),
-                    new Length([
-                        'min' => 20,
-                        'minMessage' => "Le texte doit comporter au minimum {{ limit }} caractères.",
                     ])
                 ]
             ])

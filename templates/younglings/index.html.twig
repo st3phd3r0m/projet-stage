@@ -1,6 +1,6 @@
 {% extends 'base-admin.html.twig' %}
 
-{% block title %}Ludo et Sophie - Index des collaborateurs
+{% block title %}Ludo et Sophie - Index des petits éclaireurs
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1 class="m-0 text-dark">Ludo et Sophie - Index des collaborateurs</h1>
+					<h1 class="m-0 text-dark">Ludo et Sophie - Index des petits éclaireurs</h1>
 				</div>
 				<!-- /.col -->
 				<div class="col-sm-6">
@@ -17,7 +17,7 @@
 						<li class="breadcrumb-item">
 							<a href="{{ path('admin') }}">Dashboard</a>
 						</li>
-						<li class="breadcrumb-item active">collaborateurs</li>
+						<li class="breadcrumb-item active">Les petits éclaireurs</li>
 					</ol>
 				</div>
 				<!-- /.col -->
@@ -41,46 +41,41 @@
 			{% endfor %}
 
 
-			<a href="{{ path('people_new') }}" class="btn btn-success my-5" >Créer nouveau collaborateur</a>
+			<a href="{{ path('younglings_new') }}" class="btn btn-success my-5" >Créer une nouvelle fiche éclaireur</a>
 
             <table class="table">
                 <thead>
                     <tr>
                         <th>Nom</th>
                         <th>Photo</th>
-                        <th>Fonction</th>
-                        <th>Fait parti de la direction</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for person in people %}
+                {% for youngling in younglings %}
                     <tr>
-                        <td>{{ person.name }}</td>
+                        <td>{{ youngling.name }}</td>
                         <td>
-                            {% if person.picture is not empty %}
-                            <img src="{{ asset('images/people/'~ person.picture ) | imagine_filter('miniatures') }}" alt="Photo de : '{{ person.name }}'">
+                            {% if youngling.picture is not empty %}
+                            <img src="{{ asset('images/younglings/'~ youngling.picture ) | imagine_filter('miniatures') }}" alt="Photo de {{ youngling.name }}">
                             {% else %}
-                            <img src="{{ asset('images/people/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo de : '{{ person.name }}'">
+                            <img src="{{ asset('images/younglings/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo de {{ youngling.name }}">
                             {% endif %}
                         </td>
-                        <td>{{ person.function }}</td>
-                        <td>{{ person.isHead ? 'Oui' : 'Non' }}</td>
                         <td>
-                            <a href="{{ path('people_show', {'id': person.id}) }}" class="btn btn-primary" >Voir</a>
-                            <a href="{{ path('people_edit', {'id': person.id}) }}" class="btn btn-warning" >Modifier</a>
-                            {{ include('people/_delete_form.html.twig') }}
+                            <a href="{{ path('younglings_edit', {'id': youngling.id}) }}" class="btn btn-warning">Modifier</a>
+                            {{ include('younglings/_delete_form.html.twig') }}
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="5">Aucun collaborateur</td>
+                        <td colspan="5">Aucune fiche éclaireur</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
 
-	        <a href="{{ path('people_new') }}" class="btn btn-success my-5" >Créer nouveau collaborateur</a>
+	        <a href="{{ path('younglings_new') }}" class="btn btn-success my-5" >Créer une nouvelle fiche éclaireur</a>
         </div>
     </div>
 {% endblock %}

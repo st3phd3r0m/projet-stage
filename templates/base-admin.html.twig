@@ -198,7 +198,7 @@
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-people-carry"></i>
                                     <p>
-                                        Gestion des collaborateurs
+                                        Collaborateurs
                                         <i class="fas fa-angle-left right"></i>
                                     </p>
                                 </a>
@@ -206,13 +206,61 @@
                                     <li class="nav-item">
                                         <a href="{{ path('people_index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Collaborateurs</p>
+                                            <p>Liste</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="{{ path('people_new') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Nouveau collaborateur</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {# Gestion des petits éclaireurs #}
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-child"></i>
+                                    <p>
+                                        Les petits éclaireurs
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ path('younglings_index') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Liste de ***REMOVED***s</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ path('younglings_new') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Nouvel éclaireur</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {# Gestion des petits éclaireurs #}
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-question-circle"></i>
+                                    <p>
+                                        FAQs
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ path('frequently_asked_questions_index') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Liste de la FAQ</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ path('frequently_asked_questions_new') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Nouvelle question-réponse</p>
                                         </a>
                                     </li>
                                 </ul>

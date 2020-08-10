@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Messages;
+use App\Entity\Pages;
 use App\Form\MessagesType;
+use App\Repository\FrequentlyAskedQuestionsRepository;
+use App\Repository\PagesRepository;
 use App\Repository\PeopleRepository;
+use App\Repository\YounglingsRepository;
 use App\Twig\AppExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,7 +60,7 @@ class HomeController extends AbstractController
 
             $post = $request->request->All();
 
-            if( $this->isFormFilled($post) && $this->isFormValid($post)  ){
+            if( $this->isFormFilled($post) && $this->isFormValid($post) ){
 
                 //On vérifie si l'adresse mail de l'utilisateur est valide et on renvoie une chaine de caractère si ce n'est pas le cas
                 if (!filter_var(htmlspecialchars($post['email']), FILTER_VALIDATE_EMAIL)) {
@@ -80,7 +84,7 @@ class HomeController extends AbstractController
                 //
                 $email = (new Email())
                 ->from($post['email'])
-                ->to('stephane.derom@gmail.com')
+                // ->to()
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
@@ -89,7 +93,7 @@ class HomeController extends AbstractController
                 ->text($post['message']);
                 // ->html('<p>See Twig integration for better HTML integration!</p>');
     
-                $mailer->send($email);
+                // $mailer->send($email);
 
     
                 //Envoi d'un message utilisateur
@@ -107,7 +111,6 @@ class HomeController extends AbstractController
 
         $this->addFlash('fail', 'Méthode non-autorisée. Un problème est survenu.');
         return $this->redirectToRoute('home');
-
     }
 
 
@@ -120,6 +123,41 @@ class HomeController extends AbstractController
             'people' => $peopleRepository->findAll(),
         ]);
     }
+
+    /**
+     * @Route("/equipe-petits-eclaireurs", name="home_younglings", methods={"GET"})
+     */
+    public function indexYounglings(YounglingsRepository $younglingsRepository, PagesRepository $pagesRepository): Response
+    {
+
+        $page = $pagesRepository->findOneBy(['title'=>'Découvrez toute l\'équipe des petits éclaireurs']);
+
+        return $this->render('home/younglings.html.twig', [
+            'younglings' => $younglingsRepository->findAll(),
+            'page'=> $page
+        ]);
+    }
+
+    /**
+     * @Route("/faq", name="home_faq", methods={"GET"})
+     */
+    public function indexFAQ(FrequentlyAskedQuestionsRepository $faqRepository): Response
+    {
+        return $this->render('home/faq.html.twig', [
+            'faqs' => $faqRepository->findAll(),
+        ]);
+    }
+
+    // /**
+    //  * @Route("/{slug}", name="home_post", methods={"GET"})
+    //  */
+    // public function showPost(Pages $page): Response
+    // {    
+
+    //     return $this->render('home/page.html.twig', [
+    //         'page' => $page
+    //     ]);
+    // }
 
 
     /**

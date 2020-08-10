@@ -77,6 +77,9 @@
 						<th>
 							{{ knp_pagination_sortable(pages, 'Auteur', 'user.lastname') }}
 						</th>
+						<th>
+							{{ knp_pagination_sortable(pages, 'Slug', 'slug') }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -93,6 +96,7 @@
 									Pas d'auteur enregistré pour cette publication
 								{% endif %}
 							</td>
+							<td>{{ page.slug }}</td>
 							<td>
 								<a href="{{ path('pages_show', {'id': page.id}) }}" class="btn btn-primary" >Voir</a>
 								<a href="{{ path('pages_edit', {'id': page.id}) }}" class="btn btn-warning" >Modifier</a>

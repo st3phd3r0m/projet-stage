@@ -24,26 +24,12 @@ class PagesType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un titre.',
-                    ]),
-                    new Length([
-                        'min' => 4,
-                        'minMessage' => "Le titre doit comporter au minimum {{ limit }} caractères.",
                     ])
                 ]
             ])
             ->add('meta_tag_title', TextType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Titre de la publication en méta-données : ',
-
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir un titre.',
-                    ]),
-                    new Length([
-                        'min' => 4,
-                        'minMessage' => "Le titre doit comporter au minimum {{ limit }} caractères.",
-                    ])
-                ]
             ])
             ->add('content', CKEditorType::class, [  
                 'config_name'=> 'main_config',  
@@ -56,18 +42,8 @@ class PagesType extends AbstractType
                 ]
             ])
             ->add('meta_tag_description', TextareaType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Description de la sortie en méta-données: ',
-
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir la description de la sortie',
-                    ]),
-                    new Length([
-                        'min' => 20,
-                        'minMessage' => "Le texte doit comporter au minimum {{ limit }} caractères.",
-                    ])
-                ]
             ])
             ->add('keywords', TextType::class, [
                 'required' => false,
@@ -80,7 +56,19 @@ class PagesType extends AbstractType
                 'label' => 'Ajouter des mots-clés en méta-données, délimités par des hashtags ("#"), afin de référencer votre produit : ',
                 'mapped' => false,
                 'data' => implode('#', $builder->getData()->getMetaTagKeywords())
-            ]);
+            ])
+            ->add('slug', TextType::class, [
+                'required' => true,
+                'label' => 'titre ("slug") en barre d\'url : ',
+
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un slug.',
+                    ])
+                ]
+                
+            ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -70,7 +70,6 @@ class Pages
      */
     private $user;
 
-    
     /**
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(length=255, unique=true)

@@ -39,7 +39,6 @@ class PeopleController extends AbstractController
 
             $person->setUpdatedAt(new \DateTime('now'));
 
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($person);
             $entityManager->flush();
@@ -71,7 +70,6 @@ class PeopleController extends AbstractController
      */
     public function edit(Request $request, People $person, Filesystem $filesystem): Response
     {
-
         //Récupération des noms de fichiers images pour suppression ultérieure des miniatures
         $oldImage = $person->getPicture();
 
@@ -114,7 +112,7 @@ class PeopleController extends AbstractController
             $entityManager->flush();
 
             //Envoi d'un message utilisateur
-            $this->addFlash('success', 'Le collaborateur a bien été supprimée.');
+            $this->addFlash('success', 'Les infos du collaborateur ont bien été supprimées.');
         }
 
         return $this->redirectToRoute('people_index');

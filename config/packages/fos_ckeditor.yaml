@@ -8,7 +8,7 @@ fos_ck_editor:
     configs:
         main_config:
             toolbar:
-                - { name: "styles", items: ['Scayt', '-', 'Bold', 'Italic', 'Underline', 'Blockquote', '-', 'Link', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Image', 'Video', 'Table', '-', 'Styles', 'Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor'] }
+                - { name: "styles", items: ['Source','Scayt', '-', 'Bold', 'Italic', 'Underline', 'Blockquote', '-', 'Link', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Image', 'Video', 'Table', '-', 'Styles', 'Format', 'Font', 'FontSize', '-', 'TextColor', 'BGColor'] }
             filebrowserBrowseRoute: elfinder
             filebrowserBrowseRouteParameters: []
             # filebrowserImageBrowseRoute: elfinder

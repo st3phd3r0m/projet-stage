@@ -2,19 +2,31 @@ vich_uploader:
     db_driver: orm
 
     mappings:
-       products_images:
-           uri_prefix: '%app.path.images%/products'
-           namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-           upload_destination: '%kernel.project_dir%/public/images/products'
-           inject_on_load: false
-           delete_on_update: true
-           delete_on_remove: true
-       languages_images:
-           uri_prefix: '%app.path.images%/languages'
-           namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-           upload_destination: '%kernel.project_dir%/public/images/languages'     
-       people_images:
-           uri_prefix: '%app.path.images%/people'
-           namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-           upload_destination: '%kernel.project_dir%/public/images/people' 
-                 
+        products_images:
+            uri_prefix: '%app.path.images%/products'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            upload_destination: '%kernel.project_dir%/public/images/products'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        languages_images:
+            uri_prefix: '%app.path.images%/languages'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            upload_destination: '%kernel.project_dir%/public/images/languages'   
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true  
+        people_images:
+            uri_prefix: '%app.path.images%/people'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            upload_destination: '%kernel.project_dir%/public/images/people'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        younglings_images:
+            uri_prefix: '%app.path.images%/younglings'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            upload_destination: '%kernel.project_dir%/public/images/younglings'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

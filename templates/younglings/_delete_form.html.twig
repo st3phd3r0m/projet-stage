@@ -1,0 +1,30 @@
+<!-- Button trigger modal -->
+<button class="btn btn-danger" data-toggle="modal" data-target="#deleteYoungling{{ youngling.id }}ModalCenter">
+  Supprimer
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteYoungling{{ youngling.id }}ModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteYoungling{{ youngling.id }}ModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteYoungling{{ youngling.id }}ModalLongTitle">Suppression des infos sur l'***REMOVED*** <span class="font-italic">{{ youngling.name }}</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                La suppression des infos sur l'***REMOVED*** <span class="font-italic">{{ youngling.name }}</span> sera irréversible.
+                Voulez-vous vraiment supprimer ces infos ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <form method="post" action="{{ path('younglings_delete', {'id': youngling.id}) }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ youngling.id) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
