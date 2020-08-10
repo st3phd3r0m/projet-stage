@@ -250,7 +250,6 @@ class ProductsController extends AbstractController
 
             // dd($request->request->get('delete_related'));
 
-
             $entityManager = $this->getDoctrine()->getManager();
 
             //Suppression des images et des miniatures associés au produit

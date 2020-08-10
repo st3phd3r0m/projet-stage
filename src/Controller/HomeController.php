@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Messages;
 use App\Form\MessagesType;
+use App\Repository\PeopleRepository;
 use App\Twig\AppExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -109,6 +110,16 @@ class HomeController extends AbstractController
 
     }
 
+
+    /**
+     * @Route("/qui-sommes-nous", name="home_people", methods={"GET"})
+     */
+    public function indexPeople(PeopleRepository $peopleRepository): Response
+    {
+        return $this->render('home/people.html.twig', [
+            'people' => $peopleRepository->findAll(),
+        ]);
+    }
 
 
     /**

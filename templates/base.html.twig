@@ -16,6 +16,16 @@
     <body>
 
         <header>
+            {# Bouton menu mobile à retravailler #}
+            <div class="container hidden-lg">
+                <div id="button_responsive_menu">
+
+                    <button type="button" class="btn btn-navbar navbar-toggle offcanvas-toggle js-offcanvas-has-events" data-toggle="offcanvas" data-target="#js-bootstrap-offcanvas"><i class="fa fa-bars"></i></button>
+
+                    <img id="logo_mobile" src="{{ asset('images/icones/logo_mobile.png') }}" title="Ludo et Sophie" alt="Ludo et Sophie" class="img-responsive" style="display: inline;">
+                
+                </div>
+            </div>
             <div class="container">
                 <div class="row">
                     <div class="col-2">
@@ -34,18 +44,44 @@
                     </div>
                 </div>
 
-                <nav>
+                {# <nav>
                     <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" >Acceuil</a>
                     <a href="">Agenda familles</a>
                     <a href="">Groupes privées</a>
                     <a href="">Scolaires</a>
                     <a href="">Mais encore...</a>
-                </nav>
+                </nav> #}
 
+            </div>
+            <div class="container">
+                {# Menu mobile à retravailler #}
+                <nav class="navbar navbar-offcanvas offcanvas-transform js-offcanvas-done" id="js-bootstrap-offcanvas">
+                    <div class="navbar-header"></div>
+                    <div class="">
+                        <ul class="nav navbar-nav">
+                            <li><a class="mobile_fix">Accueil</a></li>
+                            <li><a class="mobile_fix">Agenda familles</a></li>
+                            <li><a class="mobile_fix">Groupes privés</a></li>
+                            <li><a class="mobile_fix">Scolaires</a></li>
+                            <li><a class="mobile_fix hidden-xs">Mais encore...</a></li>
+                            <li id="***REMOVED***" class="dropdown hidden-lg">
+                                <a id="***REMOVED***_link" href="#" title="Programmation" class="dropdown-toggle" data-toggle="dropdown"><span class="first_lvl">Mais encore...</span> <span class="caret"></span></a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a class="mobile_fix" >Club Enfants</a></li>
+                                    <li><a class="mobile_fix">Club Soda</a></li>
+                                    <li><a class="mobile_fix">City Break</a></li>
+                                    <li><a class="mobile_fix">Pour les adultes</a></li>
+                                </ul>
+                            </li>
+                            <li class="hidden-lg"><a>Notre newsletter</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
         </header>
 
-        <main>
+        <main class="container">
             {% block body %}{% endblock %}        
         </main>
 
@@ -91,7 +127,24 @@
                         </form>  
                     </div>
                 </div>
+
+                <ul>
+                    <li><a href="{{ path('home_people') }}" title="Qui sommes-nous?">Qui sommes-nous?</a></li>
+                    <li><a href="" title="">Nous rejoindre</a></li>
+                    <li><a href="" title="">*Conditions Générales de Services</a></li>
+                    <li><a href="" title="">Merci à...</a></li>
+                    <li><a href="" title="">F.A.Q.</a></li>
+                </ul>
+
+                <ul>
+                    <li><a href="">Toutes nos ***REMOVED***</a></li>
+                    <li><a href="">Pour nos ados</a></li>
+                    <li><a href="">Anniversaire</a></li>
+                    <li><a href="">Presse</a></li>
+                </ul>
+
             
+                <p>Copyright &copy; 2016-2020 Ludo&amp;Sophie. Tous droits réservés.</p>
             </div>
         
         </footer>

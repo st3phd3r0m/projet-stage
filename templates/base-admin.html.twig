@@ -42,22 +42,22 @@
 
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
-                <!-- Notifications Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fas fa-user fa-fw"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <div class="dropdown-divider"></div>
-                        <a href="{{ path('home') }}" class="dropdown-item">
-                            <i class="nav-icon fas fa-home"></i>Acceuil du site
+                    <!-- Notifications Dropdown Menu -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="fas fa-user fa-fw"></i>
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="{{ path('app_logout') }}" class="dropdown-item">
-                            <i class="nav-icon fas fa-sign-out-alt"></i>Déconnexion
-                        </a>
-                    </div>
-                </li>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ path('home') }}" class="dropdown-item">
+                                <i class="nav-icon fas fa-home"></i>Acceuil du site
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{{ path('app_logout') }}" class="dropdown-item">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>Déconnexion
+                            </a>
+                        </div>
+                    </li>
                 </ul>
             </nav>
             <!-- /.navbar -->
@@ -189,6 +189,30 @@
                                         <a href="{{ path('pages_new') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Nouvelle page</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            {# Gestion des collaborateurs #}
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-people-carry"></i>
+                                    <p>
+                                        Gestion des collaborateurs
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="{{ path('people_index') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Collaborateurs</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ path('people_new') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Nouveau collaborateur</p>
                                         </a>
                                     </li>
                                 </ul>
