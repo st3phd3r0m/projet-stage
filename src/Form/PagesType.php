@@ -60,15 +60,12 @@ class PagesType extends AbstractType
             ->add('slug', TextType::class, [
                 'required' => true,
                 'label' => 'titre ("slug") en barre d\'url : ',
-
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un slug.',
                     ])
                 ]
-                
-            ])
-            ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

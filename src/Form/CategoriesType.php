@@ -86,6 +86,15 @@ class CategoriesType extends AbstractType
                 'allow_delete' => true,
                 'prototype' => true,
                 'by_reference'=> false
+            ])
+            ->add('slug', TextType::class, [
+                'required' => true,
+                'label' => 'titre ("slug") en barre d\'url : ',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un slug.',
+                    ])
+                ]
             ]);
         // ->add('image');
     }

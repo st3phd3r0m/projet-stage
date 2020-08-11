@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Messages;
 use App\Entity\Pages;
 use App\Form\MessagesType;
+use App\Repository\CategoriesRepository;
 use App\Repository\FrequentlyAskedQuestionsRepository;
 use App\Repository\PagesRepository;
 use App\Repository\PeopleRepository;
@@ -33,7 +34,6 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
@@ -148,16 +148,30 @@ class HomeController extends AbstractController
         ]);
     }
 
-    // /**
-    //  * @Route("/{slug}", name="home_post", methods={"GET"})
-    //  */
-    // public function showPost(Pages $page): Response
-    // {    
+    /**
+     * @Route("/page/{slug}", name="home_post", methods={"GET"})
+     */
+    public function showPost(string $slug = null, PagesRepository $pagesRepository): Response
+    {    
+        $page = $pagesRepository->findOneBy(['slug'=> $slug]);
 
-    //     return $this->render('home/page.html.twig', [
-    //         'page' => $page
-    //     ]);
-    // }
+        return $this->render('home/page.html.twig', [
+            'page' => $page
+        ]);
+    }
+
+    /**
+     * @Route("/categorie/{slug}", name="home_category", methods={"GET"})
+     */
+    public function showCategory(string $slug = null, CategoriesRepository $categoriesRepository): Response
+    {    
+        $categorie = $categoriesRepository->findOneBy(['slug'=> $slug]);
+
+        return $this->render('home/categories.html.twig', [
+            'categorie' => $categorie
+        ]);
+    }
+
 
 
     /**
