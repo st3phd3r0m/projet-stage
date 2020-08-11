@@ -5,7 +5,9 @@ let counter = 0;
 
 $(document).ready(function () {
     //Ecouteur d'évémenents sur le bouton d'ajout de formulaire de collection (fonctionne pour l'ajout d'image et l'ajout d'attributs) 
-    $('.add-another-collection-widget').on('click', addAnotherCollectionWidget);
+    $('.add-another-attribute-collection-widget').on('click', addAnotherAttributeCollectionWidget);
+    $('.add-another-image-collection-widget').on('click', addAnotherCollectionWidget);
+    $('.add-another-category-collection-widget').on('click', addAnotherCollectionWidget);
 
     //Selection des éléments li>div de la collection des attributs
     attributesFormElements = $('#attribute-fields-list>li>div');
@@ -17,13 +19,20 @@ $(document).ready(function () {
         $(attributesFormElement).find('a').on('click', removeAttributeFromProduct);
     }
 
+    //Selection des éléments li de la collection des catégories
+    let categoriesFormElements = $('#categories-fields-list>li');
+    
+    for (let categoriesFormElement of categoriesFormElements) {
+        $(categoriesFormElement).find('a').on('click', removeCategoryFromProduct);
+    }
+
 });
 
 /**
  * Cette fonction ajoute un champs ou un groupe de champs, à l'image des prototypes délivrés 
  * par les collectionType du formulaire ProductsType 
  */
-function addAnotherCollectionWidget(event) {
+function addAnotherAttributeCollectionWidget(event) {
 
     event.preventDefault();
 
@@ -57,6 +66,8 @@ function addAnotherCollectionWidget(event) {
     $($(divElement).children()[1]).hide();
     $($(divElement).children()[2]).hide();
 
+    $($(divElement).children()[0]).on('change', showField);
+
     //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attribut
     if(divElement.id.includes('products_attribute')){
         let deleteLink = document.createElement('a');
@@ -67,6 +78,49 @@ function addAnotherCollectionWidget(event) {
         deleteLink.addEventListener('click', removeAttributeFromProduct);
     }
 
+}
+
+/**
+ * Cette fonction ajoute un champs ou un groupe de champs, à l'image des prototypes délivrés 
+ * par les collectionType du formulaire ProductsType 
+ */
+function addAnotherCollectionWidget(event) {
+
+    event.preventDefault();
+
+    let list = $($(this).data('list-selector'));
+    //Donne le nombre d'éléments dans la liste de collection, soit via le data dans l'élémént 'list', soit
+    //en utilisant la méthode children
+    counter = list.data('widget-counter') || list.children().length;
+
+    // Récupération en data du prototype qui se trouve dans l'élément 'list'
+    let newWidget = list.data('prototype');
+
+    // Remplacement, dans le prototype (qui est très basiquement une chaine de caractères), de 
+    //"__name__" par un identifiant numérique unique qu'on incrémente par la suite : counter
+    newWidget = newWidget.replace(/__name__/g, counter);
+    // Incrémentation de counter
+    counter++;
+    // Ecrasement de counter en data dans l'élément 'list'
+    list.data('widget-counter', counter);
+
+    // Création d'un nouvel élément encapsulé dans un élément li grace au prototype encodé dans 'newWidget'
+    let newElement = $(list.data('widget-tags')).html(newWidget);
+    //Insertion du nouvel élément dans l'élément 'list' 
+    newElement.appendTo(list);
+
+    //Ajout d'un écouteur d'évenements sur les balises option de la première balise select dans le nouvel élément
+    let selectElement = $(newElement).children()[0];
+
+    //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attribut
+    if(selectElement.id.includes('products_category')){
+        let deleteLink = document.createElement('a');
+        deleteLink.setAttribute('href','#');
+        deleteLink.classList.add("float-right");
+        deleteLink.textContent ="Enlever la catégorie du produit ?";
+        newElement.prepend(deleteLink);
+        deleteLink.addEventListener('click', removeCategoryFromProduct);
+    }
 }
 
 function getOptionElement() {
@@ -195,7 +249,16 @@ function fillAttributeContentsInput(){
 
 function removeAttributeFromProduct(event){
     event.preventDefault();
-
     this.parentElement.parentElement.remove();
+}
+
+function removeCategoryFromProduct(event){
+    event.preventDefault();
+    this.parentElement.remove();
+}
+
+function showField(){
+    $(this).next().show();
+    $(this).next().on('keyup',showField);
 }
 

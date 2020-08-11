@@ -8,8 +8,11 @@ use App\Entity\Categories;
 use App\Entity\Languages;
 use App\Repository\LanguagesRepository;
 use App\Form\ImagesType;
+use App\Repository\CategoriesRepository;
+use App\Repository\ProductsRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -122,11 +125,17 @@ class ProductsType extends AbstractType
                 'choice_label' => 'name',
                 'data' => $this->languagesRepository->findOneBy(['name' => 'FR']),
             ])
-            ->add('category', EntityType::class, [
-                'required' => true,
-                'label' => 'Choisir la catégorie',
-                'class' => Categories::class,
-                'choice_label' => 'title',
+            ->add('category', CollectionType::class, [
+                'required' => false,
+                'label' => 'Ajouter une ou des catégories',
+                'entry_type' => EntityType::class,
+                'entry_options'  => [
+                    'choice_label' => 'title',
+                    'class'=>Categories::class
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'prototype' => true,
             ])
             ->add('images', CollectionType::class, [
                 'required' => false,
@@ -157,6 +166,7 @@ class ProductsType extends AbstractType
                     $attributeFieldoptions = $form->get('attribute')->getConfig()->getOptions();
                     $attributeFieldoptions["mapped"] = false;
                     $form->add('attribute', CollectionType::class, $attributeFieldoptions);
+                    
                 }
             );
 

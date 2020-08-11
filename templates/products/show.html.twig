@@ -137,11 +137,15 @@
 					<tr>
 						<th>Catégorie</th>
 						<td>
-							{% if product.category.title is defined  %}
-								<a title="Voir la catégorie associée à ce produit" href="{{ path('categories_show', {id:product.category.id}) }}">{{ product.category.title }}</a>
-							{% else %}
-								Pas de catégorie associée à ce produit
-							{% endif %}
+							<ul>
+								{% for category in product.category %}
+								<li>
+									<a title="Voir la catégorie associée à ce produit" href="{{ path('categories_show', {id:category.id}) }}">{{ category.title }}</a>
+								</li>
+								{% else %}
+									Pas de catégorie associée à ce produit
+								{% endfor %}					
+							</ul>	
 						</td>
 					</tr>
 					<tr>

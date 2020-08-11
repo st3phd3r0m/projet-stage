@@ -12,7 +12,6 @@
 {{ form_row(form.TVA) }}
 {{ form_row(form.tax_included_price) }}
 {{ form_row(form.language) }}
-{{ form_row(form.category) }}
 
 
 <fieldset class="form-group">
@@ -31,10 +30,34 @@
 
 	</div>
 
-	<a href="#" class="add-another-collection-widget" data-list-selector="#images-fields-list">Ajouter une image
+	<a href="#" class="add-another-image-collection-widget" data-list-selector="#images-fields-list">Ajouter une image
 	</a>
 
 </fieldset>
+
+<fieldset class="form-group">
+	<legend class="col-form-label">{{ form.category.vars.label }}</legend>
+	<div id="{{ form.category.vars.id }}">
+
+		<ul id="categories-fields-list" data-prototype="{{ form_widget(form.category.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.category|length }}">
+			{% for categoryField in form.category %}
+				<li>
+					<a href="#" class="float-right">Enlever la catégorie du produit ?</a>
+					{{ form_errors(categoryField) }}
+					{{ form_widget(categoryField) }}
+
+				</li>
+			{% endfor %}
+		</ul>
+
+	</div>
+
+	<a href="#" class="add-another-category-collection-widget" data-list-selector="#categories-fields-list">Ajouter une catégorie
+	</a>
+
+</fieldset>
+
+
 
 <fieldset class="form-group">
 	<legend class="col-form-label">{{ form.attribute.vars.label }}</legend>
@@ -57,7 +80,7 @@
 
 	</div>
 
-	<a href="#" class="add-another-collection-widget" data-list-selector="#attribute-fields-list">Ajouter un attribut
+	<a href="#" class="add-another-attribute-collection-widget" data-list-selector="#attribute-fields-list">Ajouter un attribut
 	</a>
 
 </fieldset>

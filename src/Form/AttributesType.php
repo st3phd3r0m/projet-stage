@@ -31,9 +31,29 @@ class AttributesType extends AbstractType
 
         if($options['embeddedToProductForm'] == false){
             //Cas où l'utilisateur édite/crée un attribut en dehors du formulaire ProductsType
+            // $builder
+            //     ->add('name', TextType::class, [
+            //         'required' => true,
+            //         'label' => 'Nom de l\'attribut : ',
+            //         'constraints' => [
+            //             new NotBlank([
+            //                 'message' => 'Veuillez saisir un nom d\'attribut.',
+            //             ])
+            //         ]
+            //     ])
+            //     ->add('value', TextareaType::class, [
+            //         'required' => true,
+            //         'label' => 'Contenu de l\'attribut : ',
+            //         'constraints' => [
+            //             new NotBlank([
+            //                 'message' => 'Veuillez saisir le contenu de l\'attribut',
+            //             ])
+            //         ]
+            //     ]);
+            
             $builder
-                ->add('name', TextType::class, [
-                    'required' => true,
+                ->add('name', DatalistType::class,[
+                    'required' => false,
                     'label' => 'Nom de l\'attribut : ',
                     'constraints' => [
                         new NotBlank([
@@ -41,8 +61,8 @@ class AttributesType extends AbstractType
                         ])
                     ]
                 ])
-                ->add('value', TextareaType::class, [
-                    'required' => true,
+                ->add('value', DatalistType::class,[
+                    'required' => false,
                     'label' => 'Contenu de l\'attribut : ',
                     'constraints' => [
                         new NotBlank([

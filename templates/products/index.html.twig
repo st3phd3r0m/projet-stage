@@ -93,7 +93,7 @@
 						{{ knp_pagination_sortable(products, 'Prix TTC', 'taxIncludedPrice') }}
 					</th> #}
 					<th>
-						Catégorie
+						Catégories
 					</th>
 					{# <th>
 						Langue de publication
@@ -130,11 +130,15 @@
 							{% endif %}
 						</td> #}
 						<td>
-							{% if product.category.title is defined  %}
-								<a title="Voir la catégorie associée à ce produit" href="{{ path('categories_show', {id:product.category.id}) }}">{{ product.category.title }}</a>
-							{% else %}
-								Pas de catégorie associée à ce produit
-							{% endif %}
+							<ul>
+								{% for category in product.category %}
+								<li>
+									<a title="Voir la catégorie associée à ce produit" href="{{ path('categories_show', {id:category.id}) }}">{{ category.title }}</a>
+								</li>
+								{% else %}
+									Pas de catégorie associée à ce produit
+								{% endfor %}					
+							</ul>	
 						</td>
 						{# <td>
 							{{ (product.language.name is defined)? product.language.name :'Pas de langue de publication associée à ce produit' }}

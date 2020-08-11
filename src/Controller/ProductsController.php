@@ -29,7 +29,11 @@ class ProductsController extends AbstractController
     {
 
         if ($request->get('categoryId')) {
+
+            // dd($request->get('categoryId'));
             $productsBuffer = $productsRepository->findBy(['category' => $request->get('categoryId')], ['created_at' => 'DESC']);
+
+
         } else if( $request->get('search') || $request->get('categoryFilter') ){
 
             //Récupération des données de la requete GET
@@ -59,7 +63,6 @@ class ProductsController extends AbstractController
      */
     public function new(Request $request, ProductsRepository $productsRepository, AttributesRepository $attributesRepository, AttributeGroupsRepository $attributeGroupsRepository): Response
     {
-
         //On créé la référence du produit et on l'incrémente par rapport
         //au produit ayant la référence maximal (d'un point de vue numérique)
         //Pour celà, est utilisée une requete DQL créée de toutes pièces dans
@@ -143,7 +146,7 @@ class ProductsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="products_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Products $product, Filesystem $filesystem, AttributesRepository $attributesRepository, AttributeGroupsRepository $attributeGroupsRepository): Response
+    public function edit(Request $request, Products $product, Filesystem $filesystem, AttributesRepository $attributesRepository, AttributeGroupsRepository $attributeGroupsRepository, CategoriesRepository $categoriesRepository): Response
     {
         //Récupération des noms de fichiers images pour suppression ultérieure des miniatures
         $images = $product->getImages();
@@ -157,6 +160,7 @@ class ProductsController extends AbstractController
 
         //Si le formulaire est soumis et valide,
         if ($form->isSubmitted() && $form->isValid()) {
+
 
             //on appelle le manager d'entité
             $entityManager = $this->getDoctrine()->getManager();
