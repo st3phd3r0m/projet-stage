@@ -97,7 +97,7 @@ class Products
     private $language;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="products")
+     * @ORM\ManyToMany(targetEntity=Categories::class, inversedBy="products")
      */
     private $category;
 
@@ -126,6 +126,7 @@ class Products
     {
         $this->comments = new ArrayCollection();
         $this->attribute = new ArrayCollection();
+        $this->category = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->images = new ArrayCollection();
     }
@@ -334,14 +335,28 @@ class Products
         return $this;
     }
 
-    public function getCategory(): ?Categories
+    /**
+     * @return Collection|Categories[]
+     */
+    public function getCategory(): Collection
     {
         return $this->category;
     }
 
-    public function setCategory(?Categories $category): self
+    public function addCategory(Categories $category): self
     {
-        $this->category = $category;
+        if (!$this->category->contains($category)) {
+            $this->category[] = $category;
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categories $category): self
+    {
+        if ($this->category->contains($category)) {
+            $this->category->removeElement($category);
+        }
 
         return $this;
     }
