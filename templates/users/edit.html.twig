@@ -32,10 +32,9 @@
 		<div class="container-fluid">
 
 			{{ include('users/_form.html.twig', {'button_label': 'Modifier'}) }}
-			<a class="d-block" href="{{ path('users_change_password', {id: user.id}) }}">Changer de mot de passe ?</a>
-			<a class="d-block" href="{{ path('users_index') }}" class="btn btn-primary" >Retour à la liste</a>
-
+			<a href="{{ path('users_change_password', {id: user.id}) }}"class="btn btn-warning" >Changer de mot de passe ?</a>
 			{{ include('users/_delete_form.html.twig') }}
+			<a href="{{ path('users_index') }}" class="btn btn-primary" >Retour à la liste</a>
 		</div>
 	</div>
 {% endblock %}

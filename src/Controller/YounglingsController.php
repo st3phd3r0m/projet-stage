@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Younglings;
 use App\Form\YounglingsType;
 use App\Repository\YounglingsRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,19 @@ class YounglingsController extends AbstractController
     /**
      * @Route("/", name="younglings_index", methods={"GET"})
      */
-    public function index(YounglingsRepository $younglingsRepository): Response
+    public function index(YounglingsRepository $younglingsRepository, PaginatorInterface $paginator, Request $request): Response
     {
+
+        $younglings = $paginator->paginate(
+            $younglingsRepository->findAll(),
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
+
         return $this->render('younglings/index.html.twig', [
-            'younglings' => $younglingsRepository->findAll(),
+            'younglings' => $younglings,
         ]);
     }
 
@@ -43,6 +53,8 @@ class YounglingsController extends AbstractController
             $entityManager->persist($youngling);
             $entityManager->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Les infos de l\'***REMOVED*** ont bien été enregistrées.');
             return $this->redirectToRoute('younglings_index');
         }
 
@@ -91,10 +103,19 @@ class YounglingsController extends AbstractController
     /**
      * @Route("/{id}", name="younglings_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Younglings $youngling): Response
+    public function delete(Request $request, Younglings $youngling, Filesystem $filesystem ): Response
     {
         if ($this->isCsrfTokenValid('delete'.$youngling->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            //Suppression du fichier miniature associé à l'***REMOVED***
+            $miniature = '../public/media/cache/miniatures/images/younglings/' . $youngling->getPicture();
+            //Si le fichier existe
+            if ($filesystem->exists($miniature)) {
+                //Alors on supprime la miniature correspondante
+                $filesystem->remove($miniature);
+            }
+
             $entityManager->remove($youngling);
             $entityManager->flush();
 

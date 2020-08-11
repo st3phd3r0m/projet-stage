@@ -43,8 +43,12 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Question</th>
-						<th>Réponse</th>
+						<th>
+							{{ knp_pagination_sortable(frequently_asked_questions, 'Question', 'question') }}
+						</th>
+						<th>
+							{{ knp_pagination_sortable(frequently_asked_questions, 'Réponse', 'answer') }}
+						</th>
 						<th>actions</th>
 					</tr>
 				</thead>
@@ -64,9 +68,15 @@
 						</tr>
 					{% endfor %}
 				</tbody>
+				<div>
+					{{ knp_pagination_render(frequently_asked_questions) }}
+				</div>
 			</table>
+			<div>
+				{{ knp_pagination_render(frequently_asked_questions) }}
+			</div>
 
-			<a href="{{ path('frequently_asked_questions_new') }}">Create new</a>
+			<a href="{{ path('frequently_asked_questions_new') }}" class="btn btn-success">Créer nouvelle question-réponse</a>
 
 		</div>
 	</div>

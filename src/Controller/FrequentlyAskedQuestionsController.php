@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\FrequentlyAskedQuestions;
 use App\Form\FrequentlyAskedQuestionsType;
 use App\Repository\FrequentlyAskedQuestionsRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,19 @@ class FrequentlyAskedQuestionsController extends AbstractController
     /**
      * @Route("/", name="frequently_asked_questions_index", methods={"GET"})
      */
-    public function index(FrequentlyAskedQuestionsRepository $frequentlyAskedQuestionsRepository): Response
+    public function index(FrequentlyAskedQuestionsRepository $frequentlyAskedQuestionsRepository, PaginatorInterface $paginator, Request $request): Response
     {
+
+        $faq = $paginator->paginate(
+            $frequentlyAskedQuestionsRepository->findAll(),
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
+ 
         return $this->render('frequently_asked_questions/index.html.twig', [
-            'frequently_asked_questions' => $frequentlyAskedQuestionsRepository->findAll(),
+            'frequently_asked_questions' => $faq,
         ]);
     }
 
@@ -39,6 +49,8 @@ class FrequentlyAskedQuestionsController extends AbstractController
             $entityManager->persist($frequentlyAskedQuestion);
             $entityManager->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Item FAQ créé.');
             return $this->redirectToRoute('frequently_asked_questions_index');
         }
 
@@ -59,6 +71,8 @@ class FrequentlyAskedQuestionsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'Item FAQ modifié.');
             return $this->redirectToRoute('frequently_asked_questions_index');
         }
 
@@ -77,6 +91,9 @@ class FrequentlyAskedQuestionsController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($frequentlyAskedQuestion);
             $entityManager->flush();
+
+            //Envoi d'un message utilisateur
+            $this->addFlash('success', 'L\'item FAQ a bien été supprimé.');
         }
 
         return $this->redirectToRoute('frequently_asked_questions_index');

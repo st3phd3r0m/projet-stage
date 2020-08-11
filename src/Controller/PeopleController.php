@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\People;
 use App\Form\PeopleType;
 use App\Repository\PeopleRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,19 @@ class PeopleController extends AbstractController
     /**
      * @Route("/", name="people_index", methods={"GET"})
      */
-    public function index(PeopleRepository $peopleRepository): Response
+    public function index(PeopleRepository $peopleRepository, PaginatorInterface $paginator, Request $request): Response
     {
+
+        $people = $paginator->paginate(
+            $peopleRepository->findAll(),
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
+
         return $this->render('people/index.html.twig', [
-            'people' => $peopleRepository->findAll(),
+            'people' => $people,
         ]);
     }
 
@@ -104,10 +114,19 @@ class PeopleController extends AbstractController
     /**
      * @Route("/{id}", name="people_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, People $person): Response
+    public function delete(Request $request, People $person, Filesystem $filesystem): Response
     {
         if ($this->isCsrfTokenValid('delete' . $person->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            //Suppression du fichier miniature associé à l'***REMOVED***
+            $miniature = '../public/media/cache/miniatures/images/people/' . $person->getPicture();
+            //Si le fichier existe
+            if ($filesystem->exists($miniature)) {
+                //Alors on supprime la miniature correspondante
+                $filesystem->remove($miniature);
+            }
+
             $entityManager->remove($person);
             $entityManager->flush();
 
