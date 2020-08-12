@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Categories;
 use App\Entity\Messages;
 use App\Entity\Pages;
+use App\Entity\Products;
 use App\Form\MessagesType;
 use App\Repository\CategoriesRepository;
 use App\Repository\FrequentlyAskedQuestionsRepository;
 use App\Repository\PagesRepository;
 use App\Repository\PeopleRepository;
+use App\Repository\ProductsRepository;
 use App\Repository\YounglingsRepository;
 use App\Twig\AppExtension;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -148,13 +151,12 @@ class HomeController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/page/{slug}", name="home_post", methods={"GET"})
      */
-    public function showPost(string $slug = null, PagesRepository $pagesRepository): Response
+    public function showPost(Pages $page = null): Response
     {    
-        $page = $pagesRepository->findOneBy(['slug'=> $slug]);
-
         return $this->render('home/page.html.twig', [
             'page' => $page
         ]);
@@ -163,13 +165,30 @@ class HomeController extends AbstractController
     /**
      * @Route("/categorie/{slug}", name="home_category", methods={"GET"})
      */
-    public function showCategory(string $slug = null, CategoriesRepository $categoriesRepository): Response
+    public function showCategory(Categories $category): Response
     {    
-        $categorie = $categoriesRepository->findOneBy(['slug'=> $slug]);
-
         return $this->render('home/categories.html.twig', [
-            'categorie' => $categorie
+            'category' => $category
         ]);
+    }
+
+    /**
+     * @Route("/sortie/{slugCategory}/{slugProduct}", name="home_product", methods={"GET"})
+     */
+    public function showProduct(string $slugCategory = null ,string $slugProduct = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository): Response
+    {    
+        if (isset($slugCategory) && !empty($slugCategory) && isset($slugProduct) && !empty($slugProduct)) {
+            $product = $productsRepository->findOneBy(['slug'=>$slugProduct]);
+            $category = $categoriesRepository->findOneBy(['slug'=>$slugCategory]);
+
+            return $this->render('home/products.html.twig', [
+                'product' => $product,
+                'category' => $category
+            ]);
+        }
+
+        return $this->redirectToRoute('home');
+
     }
 
 

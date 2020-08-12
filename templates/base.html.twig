@@ -22,7 +22,7 @@
 
                     <button type="button" class="btn btn-navbar navbar-toggle offcanvas-toggle js-offcanvas-has-events" data-toggle="offcanvas" data-target="#js-bootstrap-offcanvas"><i class="fa fa-bars"></i></button>
 
-                    <img id="logo_mobile" src="{{ asset('images/icones/logo_mobile.png') }}" title="Ludo et Sophie" alt="Ludo et Sophie" class="img-responsive" style="display: inline;">
+                    <img id="logo_mobile" src="{{ asset('images/icones/logo_mobile.png') }}" title="Ludo et Sophie" alt="Ludo et Sophie" class="img-responsive">
                 
                 </div>
             </div>
@@ -34,6 +34,7 @@
                     </div>
                     <div class="col-8">
                         <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" ><img src="{{ asset('images/icones/logo_neutrenew.jpg') }}" alt="Image d'acceuil du site Ludo et Sophie"></a>
+                        <h1 class="font-italic"><span class="red">et la culture devient</span> <span class="blue">un jeu d'***REMOVED***</span><span class="orange">(s)</span><span class="blue">!</span></h1>
                     </div>
                     <div class="col-2">
                         {% for foreignLanguage in foreignLanguages() %} 
@@ -43,15 +44,6 @@
                         <p>English and Spanish family tours</p>
                     </div>
                 </div>
-
-                {# <nav>
-                    <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" >Acceuil</a>
-                    <a href="">Agenda familles</a>
-                    <a href="">Groupes privées</a>
-                    <a href="">Scolaires</a>
-                    <a href="">Mais encore...</a>
-                </nav> #}
-
             </div>
             <div class="container">
                 {# Menu mobile à retravailler #}
@@ -59,18 +51,38 @@
                     <div class="navbar-header"></div>
                     <div class="">
                         <ul class="nav navbar-nav">
-                            <li><a href="" class="mobile_fix">Accueil</a></li>
-                            <li><a class="mobile_fix">Agenda familles</a></li>
-                            <li><a class="mobile_fix">Groupes privés</a></li>
-                            <li><a class="mobile_fix">Scolaires</a></li>
-                            <li><a class="mobile_fix hidden-xs">Mais encore...</a></li>
+                            <li>
+                                <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" class="mobile_fix">Accueil</a>
+                            </li>
+                            <li>
+                                <a class="mobile_fix">Agenda familles</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('home_category', {slug:'groupes-prives'}) }}" class="mobile_fix">Groupes privés</a>
+                            </li>
+                            <li>
+                                <a class="mobile_fix">Scolaires</a>
+                            </li>
+                            <li>
+                                <a class="mobile_fix hidden-xs">Mais encore...</a>
+                            </li>
                             <li id="***REMOVED***" class="dropdown hidden-lg">
-                                <a id="***REMOVED***_link" href="#" title="Programmation" class="dropdown-toggle" data-toggle="dropdown"><span class="first_lvl">Mais encore...</span> <span class="caret"></span></a>
+                                <a id="***REMOVED***_link" href="#" title="Programmation" class="dropdown-toggle" data-toggle="dropdown">
+                                    <span class="first_lvl">Mais encore...</span> <span class="caret"></span>
+                                </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li><a class="mobile_fix">Club Enfants</a></li>
-                                    <li><a class="mobile_fix">Club Soda</a></li>
-                                    <li><a class="mobile_fix">City Break</a></li>
-                                    <li><a class="mobile_fix">Pour les adultes</a></li>
+                                    <li>
+                                        <a class="mobile_fix">Club Enfants</a>
+                                    </li>
+                                    <li>
+                                        <a class="mobile_fix">Club Soda</a>
+                                    </li>
+                                    <li>
+                                        <a class="mobile_fix">City Break</a>
+                                    </li>
+                                    <li>
+                                        <a class="mobile_fix">Pour les adultes</a>
+                                    </li>
                                 </ul>
                             </li>
                             <li class="hidden-lg"><a>Notre newsletter</a>

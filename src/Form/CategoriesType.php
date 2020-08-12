@@ -8,6 +8,7 @@ use App\Form\ImagesType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -33,38 +34,22 @@ class CategoriesType extends AbstractType
                 ]
             ])
             ->add('meta_tag_title', TextType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Titre de la sortie en méta-données : ',
-
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir un titre.',
-                    ]),
-                    new Length([
-                        'min' => 4,
-                        'minMessage' => "Le titre doit comporter au minimum {{ limit }} caractères.",
-                    ])
-                ]
             ])
-            ->add('description', TextareaType::class, [
+            ->add('description', CKEditorType::class, [  
+                'config_name'=> 'main_config',  
                 'required' => true,
-                'label' => 'Description de la catégorie : ',
-
+                'label'=>'Description de la catégorie : ',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir la description de la catégorie',
-                    ])
+                    ]),
                 ]
             ])
             ->add('meta_tag_description', TextareaType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Description de la sortie en méta-données: ',
-
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir la description de la sortie',
-                    ])
-                ]
             ])
             ->add('keywords', TextType::class, [
                 'required' => false,

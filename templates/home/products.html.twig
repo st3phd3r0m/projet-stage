@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ludo et Sophie -
+	{{ product.title ?? '' }}
+{% endblock %}
+
+{% block body %}
+
+	<ul>
+		<li>
+			<a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil">
+				<i class="fa fa-home"></i>
+			</a>
+		</li>
+		<li>
+			<a href="{{ path('home_category', {slug:category.slug}) }}" title="{ category.title ?? '' }}">
+				<h2>{{ category.title ?? '' }}</h2>
+			</a>
+		</li>
+	</ul>
+
+	<article>
+		<h2>{{ product.title ?? '' }}</h2>
+		<div class="d-flex">
+			<div class="w-50">
+                {% for image in product.images %}
+                    {% set id = loop.index - 1 %}
+                    <!-- Button trigger modal -->
+                    <a data-toggle="modal" data-target="#carouselModal{{ id }}">
+                        <div class="{{ (id != 0)?'d-inline-block':'' }} border rounded-lg p-2 mr-1 my-3">
+                            <img class="{{ (id == 0)?'w-100':'' }}" src="{{ asset('images/products/' ~ image.name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ product.title ?? '' }}">
+                        </div>
+                    </a>
+                    {{ include('home/_modalCarousel.html.twig') }}
+                {% endfor %}
+                <div class="my-3">
+                    <p>Référence sortie:
+                        {{ product.reference }}</p>
+                </div>
+			</div>
+
+			<div class="w-50 p-3 m-3">
+
+				<p>
+					<a data-toggle="collapse" href="#collapseDescription" role="button" aria-expanded="false" aria-controls="collapseDescription">
+						Description
+					</a>
+					<a data-toggle="collapse" href="#collapseAttributes" role="button" aria-expanded="false" aria-controls="collapseAttributes">
+						Informations pratiques
+					</a>
+				</p>
+				<div class="collapse" id="collapseDescription">
+					<div class="card card-body">
+						<p>{{ ( product.description ?? '') }}</p>
+					</div>
+				</div>
+				<div class="collapse" id="collapseAttributes">
+					<div class="card card-body">
+						{{ dump( product.attribute) }}
+					</div>
+				</div>
+
+
+				<p>
+					<a data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Toggle first element</a>
+					<button type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Toggle second element</button>
+					<button type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Toggle both elements</button>
+				</p>
+				<div class="row">
+					<div class="col">
+						<div class="collapse multi-collapse" id="multiCollapseExample1">
+							<div class="card card-body">
+								Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="collapse multi-collapse" id="multiCollapseExample2">
+							<div class="card card-body">
+								Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+	</article>
+
+{% endblock %}
