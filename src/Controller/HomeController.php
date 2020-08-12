@@ -7,6 +7,7 @@ use App\Entity\Messages;
 use App\Entity\Pages;
 use App\Entity\Products;
 use App\Form\MessagesType;
+use App\Repository\AttributesRepository;
 use App\Repository\CategoriesRepository;
 use App\Repository\FrequentlyAskedQuestionsRepository;
 use App\Repository\PagesRepository;
@@ -175,15 +176,21 @@ class HomeController extends AbstractController
     /**
      * @Route("/sortie/{slugCategory}/{slugProduct}", name="home_product", methods={"GET"})
      */
-    public function showProduct(string $slugCategory = null ,string $slugProduct = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository): Response
+    public function showProduct(string $slugCategory = null ,string $slugProduct = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository, AttributesRepository $attributesRepository): Response
     {    
         if (isset($slugCategory) && !empty($slugCategory) && isset($slugProduct) && !empty($slugProduct)) {
             $product = $productsRepository->findOneBy(['slug'=>$slugProduct]);
             $category = $categoriesRepository->findOneBy(['slug'=>$slugCategory]);
 
+            $attributes=[];
+            foreach ($product->getAttribute() as $value) {
+                $attributes[]= $attributesRepository->find($value);
+            }
+
             return $this->render('home/products.html.twig', [
                 'product' => $product,
-                'category' => $category
+                'category' => $category,
+                'attributes' => $attributes
             ]);
         }
 
