@@ -57,12 +57,6 @@
 						</td>
 					</tr>
 					<tr>
-						<th>Lieu de sortie</th>
-						<td>
-							{{ (product.hangoutLocation is defined)? product.hangoutLocation :'Pas de lieu de sortie pour ce produit' }}
-						</td>
-					</tr>
-					<tr>
 						<th>Mots-clés</th>
 						<td>
 							{% for keyWords in product.keywords %}
@@ -214,9 +208,10 @@
 							{{ include('comments/_delete_form.html.twig') }}
 						</div>
 						<!-- /.card -->
-					</article>
-				{% endfor %}
-			</section>
-		</div>
+					</div>
+				</article>
+			{% endfor %}
+		</section>
+	</div>
 
-	{% endblock %}
+{% endblock %}

@@ -32,11 +32,6 @@ class Products
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $hangout_location;
-
-    /**
      * @ORM\Column(type="json", nullable=true)
      */
     private $keywords = [];
@@ -156,18 +151,6 @@ class Products
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getHangoutLocation(): ?string
-    {
-        return $this->hangout_location;
-    }
-
-    public function setHangoutLocation(string $hangout_location): self
-    {
-        $this->hangout_location = $hangout_location;
 
         return $this;
     }

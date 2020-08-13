@@ -1,0 +1,17 @@
+{{ form_start(form2) }}
+
+<div class="row">
+    <div class="col-6">
+        {{ form_row(form2.name) }}
+        {{ form_row(form2.email) }}
+        {{ form_row(form2.subject, { 'attr': {'value': product.title } }) }}
+        {{ form_row(form2.wished_date) }}
+        {{ form_row(form2.phone) }}
+    </div>
+    <div class="col-6">
+        {{ form_row(form2.message) }}
+        <button>{{ button_label|default('Valider') }}</button>
+    </div>
+</div>
+
+{{ form_end(form2) }}

@@ -76,6 +76,9 @@
 							{{ knp_pagination_sortable(messages, 'Concernant la sortie', 'product') }}
 						</th>
 						<th>
+							{{ knp_pagination_sortable(messages, 'Date de réservation désirée', 'wished_date') }}
+						</th>
+						<th>
 							{{ knp_pagination_sortable(messages, 'Envoyé le', 'sentAt') }}
 						</th>
 						<th></th>
@@ -92,6 +95,13 @@
 									<a title="Voir la sortie associée" href="{{ path('products_show', {id:message.product.id}) }}">{{ message.product.title }}</a>
 								{% else %}
 									associé à aucune sortie
+								{% endif %}
+							</td>
+							<td>
+								{% if message.wishedDate != null %}
+									{{ message.wishedDate|date('d-m-Y') }}
+								{% else %}
+									Aucune date de réservation spécifiée
 								{% endif %}
 							</td>
 							<td>{{ message.sentAt | date('d.m.Y H:i:s') }}</td>

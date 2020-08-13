@@ -53,6 +53,11 @@ class Messages
      */
     private $product;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $wished_date;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +143,18 @@ class Messages
     public function setProduct(?Products $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getWishedDate(): ?\DateTimeInterface
+    {
+        return $this->wished_date;
+    }
+
+    public function setWishedDate(?\DateTimeInterface $wished_date): self
+    {
+        $this->wished_date = $wished_date;
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Messages;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,7 +22,10 @@ class MessagesType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'label' => 'Saisissez vos nom et prénom',
+                'label' => false,
+                'attr'=>[
+                    'placeholder' => 'Nom'
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir vos nom et prénom'
@@ -30,7 +34,10 @@ class MessagesType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label' => 'E-mail',
+                'label' => false,
+                'attr'=>[
+                    'placeholder' => 'E-mail'
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir une adresse e-mail valide'
@@ -42,7 +49,10 @@ class MessagesType extends AbstractType
             ])
             ->add('phone', TelType::class, [
                 'required' => true,
-                'label' => 'Télephone',
+                'label' => false,
+                'attr'=>[
+                    'placeholder' => 'Télephone où vous joindre'
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un numéro de télephone'
@@ -51,7 +61,19 @@ class MessagesType extends AbstractType
             ])
             ->add('subject', TextType::class, [
                 'required' => true,
-                'label' => 'Saisissez l\'objet de votre demande',
+                'disabled'=>true,
+                
+                'label' => 'Objet de votre demande',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Champs recquis'
+                    ])
+                ]
+            ])
+            ->add('wished_date', DateType::class, [
+                'required' => true,
+                'widget' => 'single_text',
+                'label' => 'Date de réservation souhaitée',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Champs recquis'
@@ -60,7 +82,10 @@ class MessagesType extends AbstractType
             ])
             ->add('message', TextareaType::class, [
                 'required' => true,
-                'label' => 'Saisissez votre message',
+                'label' => false,
+                'attr'=>[
+                    'placeholder' => 'Saisissez votre message'
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir votre message',

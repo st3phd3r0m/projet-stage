@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Categories;
+use App\Entity\Comments;
 use App\Entity\Messages;
 use App\Entity\Pages;
 use App\Entity\Products;
+use App\Form\CommentsType;
 use App\Form\MessagesType;
 use App\Repository\AttributesRepository;
 use App\Repository\CategoriesRepository;
@@ -64,7 +66,7 @@ class HomeController extends AbstractController
 
             $post = $request->request->All();
 
-            if( $this->isFormFilled($post) && $this->isFormValid($post) ){
+            if ($this->isFormFilled($post) && $this->isFormValid($post)) {
 
                 //On vérifie si l'adresse mail de l'utilisateur est valide et on renvoie une chaine de caractère si ce n'est pas le cas
                 if (!filter_var(htmlspecialchars($post['email']), FILTER_VALIDATE_EMAIL)) {
@@ -87,30 +89,28 @@ class HomeController extends AbstractController
 
                 //
                 $email = (new Email())
-                ->from($post['email'])
-                // ->to()
-                //->cc('cc@example.com')
-                //->bcc('bcc@example.com')
-                //->replyTo('fabien@example.com')
-                //->priority(Email::PRIORITY_HIGH)
-                ->subject($post['subject'])
-                ->text($post['message']);
+                    ->from($post['email'])
+                    // ->to()
+                    //->cc('cc@example.com')
+                    //->bcc('bcc@example.com')
+                    //->replyTo('fabien@example.com')
+                    //->priority(Email::PRIORITY_HIGH)
+                    ->subject($post['subject'])
+                    ->text($post['message']);
                 // ->html('<p>See Twig integration for better HTML integration!</p>');
-    
+
                 // $mailer->send($email);
 
-    
+
                 //Envoi d'un message utilisateur
                 $this->addFlash('success', 'Votre nous avons bien reçu votre message. Nous vous répondrons dans les plus brefs délais.');
-    
-                return $this->redirectToRoute('home');
 
+                return $this->redirectToRoute('home');
             }
 
             //Envoi d'un message utilisateur
             $this->addFlash('fail', 'Formulaire incomplet ou invalide');
             return $this->redirectToRoute('home');
-
         }
 
         $this->addFlash('fail', 'Méthode non-autorisée. Un problème est survenu.');
@@ -134,11 +134,11 @@ class HomeController extends AbstractController
     public function indexYounglings(YounglingsRepository $younglingsRepository, PagesRepository $pagesRepository): Response
     {
 
-        $page = $pagesRepository->findOneBy(['title'=>'Découvrez toute l\'équipe des petits éclaireurs']);
+        $page = $pagesRepository->findOneBy(['title' => 'Découvrez toute l\'équipe des petits éclaireurs']);
 
         return $this->render('home/younglings.html.twig', [
             'younglings' => $younglingsRepository->findAll(),
-            'page'=> $page
+            'page' => $page
         ]);
     }
 
@@ -157,7 +157,7 @@ class HomeController extends AbstractController
      * @Route("/page/{slug}", name="home_post", methods={"GET"})
      */
     public function showPost(Pages $page = null): Response
-    {    
+    {
         return $this->render('home/page.html.twig', [
             'page' => $page
         ]);
@@ -167,35 +167,85 @@ class HomeController extends AbstractController
      * @Route("/categorie/{slug}", name="home_category", methods={"GET"})
      */
     public function showCategory(Categories $category): Response
-    {    
+    {
         return $this->render('home/categories.html.twig', [
             'category' => $category
         ]);
     }
 
     /**
-     * @Route("/sortie/{slugCategory}/{slugProduct}", name="home_product", methods={"GET"})
+     * @Route("/sortie/{slugCategory}/{slugProduct}", name="home_product", methods={"GET","POST"})
      */
-    public function showProduct(string $slugCategory = null ,string $slugProduct = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository, AttributesRepository $attributesRepository): Response
-    {    
+    public function showProduct(string $slugCategory = null, string $slugProduct = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository, AttributesRepository $attributesRepository, Request $request): Response
+    {
         if (isset($slugCategory) && !empty($slugCategory) && isset($slugProduct) && !empty($slugProduct)) {
-            $product = $productsRepository->findOneBy(['slug'=>$slugProduct]);
-            $category = $categoriesRepository->findOneBy(['slug'=>$slugCategory]);
+            
+            $product = $productsRepository->findOneBy(['slug' => $slugProduct]);
+            $category = $categoriesRepository->findOneBy(['slug' => $slugCategory]);
 
-            $attributes=[];
+            $attributes = [];
             foreach ($product->getAttribute() as $value) {
-                $attributes[]= $attributesRepository->find($value);
+                $attributes[] = $attributesRepository->find($value);
+            }
+
+            $moderatedComments = [];
+            foreach ($product->getComments() as $comment) {
+                if($comment->getIsModerated() === true){
+                    $moderatedComments[]=$comment;
+                }
+            }
+
+            $comment = new Comments();
+            $form1 = $this->createForm(CommentsType::class, $comment);
+            $form1->handleRequest($request);
+
+            $message = new Messages();
+            $form2 = $this->createForm(MessagesType::class, $message);
+            $form2->handleRequest($request);
+
+            if ($form1->isSubmitted() && $form1->isValid()) {
+
+                $comment->setProduct($product);
+                $comment->setCreatedAt(new \DateTime('now'));
+                $comment->setIsModerated(0);
+                
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($comment);
+                $entityManager->flush();
+
+                //Envoi d'un message utilisateur
+                $this->addFlash('success', 'Votre commentaire pour la sortie "'.$product->getTitle() .'" a été enregistré et est en attente de modération.');
+
+                return $this->redirectToRoute('home');
+            }
+
+            if ($form2->isSubmitted() && $form2->isValid()) {
+
+                $message->setSubject($product->getTitle());
+                $message->setProduct($product);
+                $message->setSentAt(new \DateTime('now'));
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($message);
+                $entityManager->flush();
+
+                //Envoi d'un message utilisateur
+                $this->addFlash('success', 'Votre nous avons bien reçu votre message pour la sortie "'.$product->getTitle() .'". Nous vous répondrons dans les plus brefs délais.');
+
+                return $this->redirectToRoute('home');
             }
 
             return $this->render('home/products.html.twig', [
                 'product' => $product,
                 'category' => $category,
-                'attributes' => $attributes
+                'attributes' => $attributes,
+                'moderatedComments' =>$moderatedComments,
+                'form' => $form1->createView(),
+                'form2' => $form2->createView(),
             ]);
         }
 
         return $this->redirectToRoute('home');
-
     }
 
 
@@ -209,7 +259,7 @@ class HomeController extends AbstractController
     private function isFormValid($post)
     {
         //On vérifie si les données à stocker comportent tous au moins 5 caractères. Si ce n'est pas le cas, on renvoie une chaine de carctères.
-        $fields = ['name', 'email', 'phone' ,'subject', 'message'];
+        $fields = ['name', 'email', 'phone', 'subject', 'message'];
         foreach ($fields as $field) {
             if (iconv_strlen(htmlspecialchars($post[$field])) < 5) {
                 return false;

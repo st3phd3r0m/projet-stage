@@ -64,7 +64,16 @@
 							{% else %}
 								Message associé à aucune sortie
 							{% endif %}
-						
+						</td>
+					</tr>
+					<tr>
+						<th>Date de réservation désirée</th>
+						<td>
+							{% if message.wishedDate != null %}
+								{{ message.wishedDate|date('d-m-Y') }}
+							{% else %}
+								Aucune date de réservation spécifiée
+							{% endif %}
 						</td>
 					</tr>
 					<tr>

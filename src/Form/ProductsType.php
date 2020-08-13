@@ -2,17 +2,14 @@
 
 namespace App\Form;
 
-
 use App\Entity\Products;
 use App\Entity\Categories;
 use App\Entity\Languages;
 use App\Repository\LanguagesRepository;
 use App\Form\ImagesType;
-use App\Repository\CategoriesRepository;
-use App\Repository\ProductsRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -58,7 +55,8 @@ class ProductsType extends AbstractType
                     ]),
                 ]
             ])
-            ->add('description', TextareaType::class, [
+            ->add('description', CKEditorType::class, [
+                'config_name'=> 'main_config', 
                 'required' => true,
                 'label' => 'Description de la sortie : ',
 
@@ -75,16 +73,6 @@ class ProductsType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir la description de la sortie',
-                    ]),
-                ]
-            ])
-            ->add('hangout_location', TextType::class, [
-                'required' => true,
-                'label' => 'Lieu de la sortie : ',
-
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir un lieu pour la sortie.',
                     ]),
                 ]
             ])

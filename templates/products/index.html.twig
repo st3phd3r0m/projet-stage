@@ -75,9 +75,6 @@
 						{{ knp_pagination_sortable(products, 'Titre', 'title') }}
 					</th>
 					<th>
-						{{ knp_pagination_sortable(products, 'Lieu de sortie', 'hangoutLocation' ) }}
-					</th>
-					<th>
 						{{ knp_pagination_sortable(products, 'Reference', 'reference') }}
 					</th>
 					<th>
@@ -111,7 +108,6 @@
 				{% for product in products %}
 					<tr>
 						<td>{{ (product.title is defined)? product.title :'Pas de titre pour ce produit' }}</td>
-						<td>{{ (product.hangoutLocation is defined)? product.hangoutLocation :'Pas de lieu de sortie pour ce produit' }}</td>
 						<td>{{ (product.reference is defined)? product.reference :'Pas de référence pour ce produit' }}</td>
 						<td>{{ product.createdAt ? product.createdAt|date('d-m-Y H:i:s') : '' }}</td>
 						<td>{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
