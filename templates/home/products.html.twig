@@ -62,20 +62,29 @@
 						<a href="#tab-review" data-toggle="tab" class="text-decoration-none">Avis (0)</a>
 					</li>
 				</ul>
-				<div class="tab-content">
+				<div class="tab-content mt-3">
 					<div class="tab-pane active" id="tab-description">
 						<p>{{ ( product.description ?? '') }}</p>
 					</div>
 					<div class="tab-pane" id="tab-specification">
-						<table>
-							{% for attribute in attributes|sort((b, a) => a.attributeGroup.name <=> b.attributeGroup.name) %}
-							<tr>
-								<td>{{ attribute.attributeGroup.name }}</td>
-								<td>{{ attribute.name }}</td>
-								<td>{{ attribute.value }}</td>
-							</tr>
-							{% endfor %}
+						<table class="table table-bordered">
+							<tbody>
+								{% set attributeGroup = null %}
+								{% for attribute in attributes|sort((b, a) => a.attributeGroup.name <=> b.attributeGroup.name) %}
+									{% if attribute.attributeGroup.name != attributeGroup %}
+										<tr>
+											<th colspan="2">{{ attribute.attributeGroup.name }}</th>
+										</tr>							
+									{% endif %}
+								<tr>
+									<td>{{ attribute.name }}</td>
+									<td>{{ attribute.value }}</td>
+								</tr>
+								{% set attributeGroup = attribute.attributeGroup.name %}
+								{% endfor %}
+							</tbody>
 						</table>
+						
 					</div>
 					<div class="tab-pane" id="tab-review">
 						hello3
@@ -92,6 +101,8 @@
 
 
 	</article>
+
+	
 
 
 {% endblock %}
