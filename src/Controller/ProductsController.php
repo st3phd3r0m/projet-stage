@@ -29,10 +29,8 @@ class ProductsController extends AbstractController
     {
 
         if ($request->get('categoryId')) {
-
-            // dd($request->get('categoryId'));
-            $productsBuffer = $productsRepository->findBy(['category' => $request->get('categoryId')], ['created_at' => 'DESC']);
-
+            
+            $productsBuffer = $categoriesRepository->find($request->get('categoryId'))->getProducts();
 
         } else if( $request->get('search') || $request->get('categoryFilter') ){
 
