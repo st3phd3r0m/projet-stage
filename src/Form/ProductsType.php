@@ -46,20 +46,13 @@ class ProductsType extends AbstractType
                 ]
             ])
             ->add('meta_tag_title', TextType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Titre de la sortie en méta-données : ',
-
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir un titre.',
-                    ]),
-                ]
             ])
             ->add('description', CKEditorType::class, [
                 'config_name'=> 'main_config', 
                 'required' => true,
                 'label' => 'Description de la sortie : ',
-
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir la description de la sortie',
@@ -67,14 +60,8 @@ class ProductsType extends AbstractType
                 ]
             ])
             ->add('meta_tag_description', TextareaType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Description de la sortie en méta-données: ',
-
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir la description de la sortie',
-                    ]),
-                ]
             ])
             ->add('keywords', TextType::class, [
                 'required' => false,

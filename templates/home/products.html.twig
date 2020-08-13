@@ -21,7 +21,7 @@
 	</ul>
 
 	<article>
-		<h2>{{ product.title ?? '' }}</h2>
+		<h3>{{ product.title ?? '' }}</h3>
 		<div class="d-flex">
 			<div class="w-50">
 				{% for image in product.images %}
@@ -63,10 +63,10 @@
 					</li>
 				</ul>
 				<div class="tab-content mt-3">
-					<div class="tab-pane active" id="tab-description">
-						<p>{{ ( product.description ?? '') }}</p>
-					</div>
-					<div class="tab-pane" id="tab-specification">
+					<section class="tab-pane active" id="tab-description">
+						<p>{{ ( product.description ?? '')|raw }}</p>
+					</section>
+					<section class="tab-pane" id="tab-specification">
 						<table class="table table-bordered">
 							<tbody>
 								{% set attributeGroup = null %}
@@ -85,11 +85,15 @@
 							</tbody>
 						</table>
 						
-					</div>
-					<div class="tab-pane" id="tab-reserver">
-                        {{ include('home/_formMessages.html.twig') }}
-					</div>
-					<div class="tab-pane" id="tab-review">
+					</section>
+					<section class="tab-pane" id="tab-reserver">
+						{% if product.weezeevent is not empty %}
+							<a class="btn" title="Réserver sur weezevent.com" href="{{ product.weezeevent }}" target="_blank" rel="noopener noreferrer">Réserver</a>
+						{% else %}
+                        	{{ include('home/_formMessages.html.twig') }}							
+						{% endif %}
+					</section>
+					<section class="tab-pane" id="tab-review">
                         {# {{ include('home/_formMessages.html.twig') }} #}
 
 						{% for comment in moderatedComments %}
@@ -103,15 +107,21 @@
 								<p class="card-text m-0">
 									{{ comment.content }}
 								</p>
+								<p class="card-text m-2">
+									Note : <span class="font-italic">{{ (comment.mark != null)?(comment.mark ~'/5'):'Aucune note pour ce produit.' }}</span> 
+								</p>
 							</div>
 							<!-- /.card -->
 						</div>
 						{% else %}
 							<p>Il n'y a pas d'avis pour cet évènement.</p>
 						{% endfor %}
+						<div class="my-3">
+							<h4>Écrire un Avis</h4>
+							{{ include('comments/_form.html.twig') }}						
+						</div>
 
-						{{ include('comments/_form.html.twig') }}
-					</div>
+					</section>
 				</div>
 
 
@@ -121,6 +131,30 @@
 
 
 	</article>
+
+{% if category.products|length > 1 %}
+	<section class="row">
+	{% for suggestedProduct in category.products %}
+		{% if suggestedProduct != product %}
+			<article class="border p-0 m-3 col-3">
+				<div class="p-3">
+				{% if suggestedProduct.images is not empty %}
+					<img class="w-100" src="{{ asset('images/products/' ~ suggestedProduct.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ suggestedProduct.title ?? '' }}">      
+				{% endif %}                 
+				</div>
+				<div class="p-3">
+					<h3 class="font-italic">{{ suggestedProduct.title }}</h3>
+					<p>{{ suggestedProduct.description[:200] }}{{ (suggestedProduct.description|length > 200)?'...':'' }}</p>
+					<p>{{ suggestedProduct.taxIncludedPrice }}&euro;</p>
+				</div>            
+				<p class="border-top p-3 my-0 text-center">
+					<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">En savoir plus...</a>              
+				</p>
+			</article>
+		{% endif %}
+	{% endfor %}
+	</section>
+{% endif %}
 
 	
 

@@ -43,6 +43,11 @@ class Comments
      */
     private $isModerated;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $mark;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +109,18 @@ class Comments
     public function setIsModerated(bool $isModerated): self
     {
         $this->isModerated = $isModerated;
+
+        return $this;
+    }
+
+    public function getMark(): ?int
+    {
+        return $this->mark;
+    }
+
+    public function setMark(?int $mark): self
+    {
+        $this->mark = $mark;
 
         return $this;
     }

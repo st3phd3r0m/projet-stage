@@ -43,7 +43,7 @@
 					<tr>
 						<th>Description</th>
 						<td>
-							{{ (product.description is defined)? product.description :'Pas de description pour ce produit' }}
+							{{ (product.description is defined)? product.description|raw :'Pas de description pour ce produit' }}
 						</td>
 					</tr>
 					<tr>

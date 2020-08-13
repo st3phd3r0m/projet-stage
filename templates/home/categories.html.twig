@@ -49,10 +49,15 @@
                         </div>
                         <div class="p-3">
                             <h3>{{ product.title }}</h3>
-                            <p>{{ product.description[:400] }}{{ (product.description|length > 400)?'...':'' }}</p>
+                            <p>{{ product.description[:400]|raw }}{{ (product.description|length > 400)?'...':'' }}</p>
                             <p>{{ product.taxIncludedPrice }}&euro;</p>
                         </div>            
                     </div>
+					{% if product.weezeevent is not empty %}
+					<p class="border p-3 m-0">
+						<a class="btn" href="{{ product.weezeevent }}" title="Réserver sur weezevent.com" target="_blank" rel="noopener noreferrer">Réserver sur weezevent.com</a>
+					</p>
+					{% endif %}
                     <p class="border-top border-left p-3 m-0">
                         <a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: product.slug}) }}">En savoir plus...</a>              
                     </p>

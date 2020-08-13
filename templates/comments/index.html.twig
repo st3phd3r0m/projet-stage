@@ -72,6 +72,9 @@
 							{{ knp_pagination_sortable(comments, 'Concernant la sortie', 'product.title') }}
 						</th>
 						<th>
+							{{ knp_pagination_sortable(comments, 'Note', 'mark') }}
+						</th>
+						<th>
 							{{ knp_pagination_sortable(comments, 'Date', 'created_at') }}
 						</th>
 						<th>
@@ -91,6 +94,9 @@
 								{% else %}
 									Commentaire associé à aucune sortie
 								{% endif %}
+							</td>
+							<td>
+								{{ (comment.mark != null)?(comment.mark ~'/5'):'Pas de note donnée pour ce produit.' }}
 							</td>
 							<td>{{ comment.createdAt|date('d-m-Y H:i:s') }}</td>
 							<td>

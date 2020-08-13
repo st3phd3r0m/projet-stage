@@ -1,4 +1,11 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {% if form.pseudo is defined %}
+        {{ form_row(form.pseudo) }}
+    {% endif %}
+    {{ form_row(form.content) }}
+    {{ form_label(form.mark) }}
+    <p>Mauvais</p>
+    {{ form_widget(form.mark) }}
+    <p>Bon</p>
     <button class="btn btn-success my-5">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}

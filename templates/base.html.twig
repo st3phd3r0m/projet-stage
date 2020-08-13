@@ -3,10 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="{{ asset('images/icones/logo_footer.jpg') }}" type="image/x-icon">
         <title>{% block title %}Ludo et Sophie Accueil{% endblock %}</title>
 
         {# Chargement CDNs #}
-        <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
+        {# <link rel="stylesheet" href="{{ asset('css/normalize.css') }}"> #}
         <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -61,7 +62,7 @@
                                 <a href="{{ path('home_category', {slug:'groupes-prives'}) }}" class="mobile_fix">Groupes privés</a>
                             </li>
                             <li>
-                                <a class="mobile_fix">Scolaires</a>
+                                <a href="{{ path('home_category', {slug:'scolaires'}) }}" class="mobile_fix">Scolaires</a>
                             </li>
                             <li>
                                 <a class="mobile_fix hidden-xs">Mais encore...</a>
