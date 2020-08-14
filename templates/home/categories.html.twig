@@ -12,11 +12,18 @@
 				<i class="fa fa-home"></i>
 			</a>
 		</li>
+		{% for topCategoryTitlesAndSlug in topCategoryTitlesAndSlugs %}
 		<li>
+			<a href="{{ path('home_category', {slug:topCategoryTitlesAndSlug["categorySlug"]}) }}" title="{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}">
+				<h2>{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}</h2>
+			</a>
+		</li>
+		{% endfor %}
+		{# <li>
 			<a href="{{ path('home_category', {slug:category.slug}) }}" title="{ category.title ?? '' }}">
 				<h2>{{ category.title ?? '' }}</h2>
 			</a>
-		</li>
+		</li> #}
 	</ul>
 
 	<article>
@@ -35,11 +42,20 @@
 		</div>
 	</article>
 
-	{% if category.products|length > 0 %}
+	{% if products|length > 0 %}
 		<section class="border-top">
-			<h2>Affiner votre recherche</h2>
+			{% if subCategoryTitlesAndSlugs|length > 1 %}
+				<h2>Affiner votre recherche</h2>
+				<ul>
+					{% for subCategoryTitleAndSlug in subCategoryTitlesAndSlugs|sort((a, b) => a.categoryTitle <=> b.categoryTitle) %}
+					<li>
+						<a href="{{ path('home_category', {slug: subCategoryTitleAndSlug.categorySlug }) }}">{{ subCategoryTitleAndSlug.categoryTitle }} ({{ subCategoryTitleAndSlug.nbrOfOccurences }})</a>
+					</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
 
-			{% for product in category.products %}
+			{% for product in products %}
                 <article class="border my-3">
                     <div class="d-flex">
                         <div class="p-3">
@@ -59,7 +75,7 @@
 					</p>
 					{% endif %}
                     <p class="border-top border-left p-3 m-0">
-                        <a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: product.slug}) }}">En savoir plus...</a>              
+                        <a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: topCategoryTitlesAndSlugs|last.categorySlug, slugProduct: product.slug}) }}">En savoir plus...</a>    
                     </p>
                 </article>
 

@@ -13,11 +13,13 @@
 				<i class="fa fa-home"></i>
 			</a>
 		</li>
+		{% for topCategoryTitlesAndSlug in topCategoryTitlesAndSlugs %}
 		<li>
-			<a href="{{ path('home_category', {slug:category.slug}) }}" title="{ category.title ?? '' }}">
-				<h2>{{ category.title ?? '' }}</h2>
+			<a href="{{ path('home_category', {slug:topCategoryTitlesAndSlug["categorySlug"]}) }}" title="{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}">
+				<h2>{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}</h2>
 			</a>
 		</li>
+		{% endfor %}
 	</ul>
 
 	<article>
@@ -69,9 +71,9 @@
 					<section class="tab-pane" id="tab-specification">
 						<table class="table table-bordered">
 							<tbody>
-								{% set attributeGroup = null %}
+								{% set previousAttributeGroupName = null %}
 								{% for attribute in attributes|sort((b, a) => a.attributeGroup.name <=> b.attributeGroup.name) %}
-									{% if attribute.attributeGroup.name != attributeGroup %}
+									{% if attribute.attributeGroup.name != previousAttributeGroupName %}
 										<tr>
 											<th colspan="2">{{ attribute.attributeGroup.name }}</th>
 										</tr>							
@@ -80,7 +82,7 @@
 									<td>{{ attribute.name }}</td>
 									<td>{{ attribute.value }}</td>
 								</tr>
-								{% set attributeGroup = attribute.attributeGroup.name %}
+								{% set previousAttributeGroupName = attribute.attributeGroup.name %}
 								{% endfor %}
 							</tbody>
 						</table>

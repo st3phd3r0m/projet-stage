@@ -12,6 +12,7 @@ use App\Form\MessagesType;
 use App\Repository\AttributesRepository;
 use App\Repository\CategoriesRepository;
 use App\Repository\FrequentlyAskedQuestionsRepository;
+use App\Repository\LanguagesRepository;
 use App\Repository\PagesRepository;
 use App\Repository\PeopleRepository;
 use App\Repository\ProductsRepository;
@@ -152,7 +153,6 @@ class HomeController extends AbstractController
         ]);
     }
 
-
     /**
      * @Route("/page/{slug}", name="home_post", methods={"GET"})
      */
@@ -164,24 +164,129 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/categorie/{slug}", name="home_category", methods={"GET"})
+     * @Route("/categorie/{slug}", name="home_category", requirements={"slug"=".+"}, methods={"GET"})
      */
-    public function showCategory(Categories $category): Response
+    public function showCategory(string $slug = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository): Response
     {
-        return $this->render('home/categories.html.twig', [
-            'category' => $category
-        ]);
+
+        if (isset($slug) && !empty($slug)) {
+
+            //Récupération des slugs de chacune des catégories sélectionnées par l'utilisateur
+            $slugs = explode('/', $slug);
+
+            $topCategoryTitlesAndSlugs = [];
+
+
+            foreach ($slugs as $categorySlug) {
+                $category = $categoriesRepository->findOneBy(['slug' => $categorySlug]);
+
+                //Si la catégorie n'existe pas, on redirige l'utilisateur vers l'acceuill avec un message
+                if (!$category) {
+                    //Envoi d'un message utilisateur
+                    $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
+                    return $this->redirectToRoute('home');
+                }
+
+                $topCategoryTitlesAndSlugs[] = [
+                    "categoryId" => $category->getId(),
+                    "categoryTitle" => $category->getTitle(),
+                    "categorySlug" => explode($categorySlug, $slug)[0].$categorySlug,
+                ];
+
+                //Autrement, on récolte les identifiants de tous les produits qui partagent l'ensemble des catégories sélectionnées par l'utilisateur
+                if (empty($productIdsToVerifiy) || !isset($productIdsToVerifiy)) {
+                    $productIdsToVerifiy = [];
+                    foreach ($category->getProducts() as $product) {
+                        $productIdsToVerifiy[] = $product->getId();
+                    }
+                } elseif (!empty($productIdsToVerifiy) && isset($productIdsToVerifiy)) {
+                    $productIdsToCompare = [];
+                    foreach ($category->getProducts() as $product) {
+                        $productIdsToCompare[] = $product->getId();
+                    }
+                    $productIdsToVerifiy = array_intersect($productIdsToVerifiy, $productIdsToCompare);
+                }
+            }
+
+            $products = $productsRepository->findBy(['id' => $productIdsToVerifiy]);
+
+
+            $subCategorieIds = [];
+            foreach ($products as $product) {
+                foreach ($product->getCategory() as $subCategory) {
+                    if ($subCategory != $category) {
+                        $subCategorieIds[] = $subCategory->getId();
+                    }
+                }
+            }
+
+
+
+            $subCategoryTitlesAndSlugs = [];
+            foreach (array_count_values($subCategorieIds) as $id => $nbrOccurences) {
+
+                $subCategoryTitleAndSlug = [
+                    "categoryId" => $id,
+                    "categoryTitle" => $categoriesRepository->find($id)->getTitle(),
+                    "categorySlug" => $categoriesRepository->find($id)->getSlug()
+                ];
+
+                if (!in_array($subCategoryTitleAndSlug, $topCategoryTitlesAndSlugs)) {
+                    $subCategoryTitleAndSlug["categorySlug"] = $slug . '/' . $categoriesRepository->find($id)->getSlug();
+                    $subCategoryTitleAndSlug["nbrOfOccurences"] = $nbrOccurences;
+                    $subCategoryTitlesAndSlugs[] = $subCategoryTitleAndSlug;
+                }
+                unset( $subCategoryTitleAndSlug);
+            }
+
+
+            return $this->render('home/categories.html.twig', [
+                'category' => $category,
+                'products' => $products,
+                'topCategoryTitlesAndSlugs' => $topCategoryTitlesAndSlugs,
+                'subCategoryTitlesAndSlugs' => $subCategoryTitlesAndSlugs
+            ]);
+        }
+
+        //Envoi d'un message utilisateur
+        $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
+        return $this->redirectToRoute('home');
     }
 
     /**
-     * @Route("/sortie/{slugCategory}/{slugProduct}", name="home_product", methods={"GET","POST"})
+     * @Route("/sortie/{slugCategory}/{slugProduct}", name="home_product", requirements={"slugCategory"=".+"}, methods={"GET","POST"})
      */
-    public function showProduct(string $slugCategory = null, string $slugProduct = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository, AttributesRepository $attributesRepository, Request $request): Response
+    public function showProduct(string $slugCategory, string $slugProduct, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository, AttributesRepository $attributesRepository, Request $request): Response
     {
-        if (isset($slugCategory) && !empty($slugCategory) && isset($slugProduct) && !empty($slugProduct)) {
-            
+
+        if (isset($slugCategory) && !empty($slugCategory) && 
+            isset($slugProduct) && !empty($slugProduct)
+        ) {
             $product = $productsRepository->findOneBy(['slug' => $slugProduct]);
-            $category = $categoriesRepository->findOneBy(['slug' => $slugCategory]);
+
+            $categorySlugs = explode('/',$slugCategory);
+            $category = $categoriesRepository->findOneBy(['slug' => end($categorySlugs)]);
+
+            $topCategoryTitlesAndSlugs = [];
+
+            foreach ($categorySlugs as $categorySlug) {
+                $category = $categoriesRepository->findOneBy(['slug' => $categorySlug]);
+
+                //Si la catégorie n'existe pas, on redirige l'utilisateur vers l'acceuill avec un message
+                if (!$category) {
+                    //Envoi d'un message utilisateur
+                    $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
+                    return $this->redirectToRoute('home');
+                }
+
+                $topCategoryTitlesAndSlugs[] = [
+                    "categoryId" => $category->getId(),
+                    "categoryTitle" => $category->getTitle(),
+                    "categorySlug" => explode($categorySlug, $slugCategory)[0].$categorySlug,
+                ];
+            }
+
+
 
             $attributes = [];
             foreach ($product->getAttribute() as $value) {
@@ -190,8 +295,8 @@ class HomeController extends AbstractController
 
             $moderatedComments = [];
             foreach ($product->getComments() as $comment) {
-                if($comment->getIsModerated() === true){
-                    $moderatedComments[]=$comment;
+                if ($comment->getIsModerated() === true) {
+                    $moderatedComments[] = $comment;
                 }
             }
 
@@ -208,13 +313,13 @@ class HomeController extends AbstractController
                 $comment->setProduct($product);
                 $comment->setCreatedAt(new \DateTime('now'));
                 $comment->setIsModerated(0);
-                
+
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($comment);
                 $entityManager->flush();
 
                 //Envoi d'un message utilisateur
-                $this->addFlash('success', 'Votre commentaire pour la sortie "'.$product->getTitle() .'" a été enregistré et est en attente de modération.');
+                $this->addFlash('success', 'Votre commentaire pour la sortie "' . $product->getTitle() . '" a été enregistré et est en attente de modération.');
 
                 return $this->redirectToRoute('home');
             }
@@ -230,7 +335,7 @@ class HomeController extends AbstractController
                 $entityManager->flush();
 
                 //Envoi d'un message utilisateur
-                $this->addFlash('success', 'Votre nous avons bien reçu votre message pour la sortie "'.$product->getTitle() .'". Nous vous répondrons dans les plus brefs délais.');
+                $this->addFlash('success', 'Votre nous avons bien reçu votre message pour la sortie "' . $product->getTitle() . '". Nous vous répondrons dans les plus brefs délais.');
 
                 return $this->redirectToRoute('home');
             }
@@ -238,8 +343,9 @@ class HomeController extends AbstractController
             return $this->render('home/products.html.twig', [
                 'product' => $product,
                 'category' => $category,
+                'topCategoryTitlesAndSlugs'=>$topCategoryTitlesAndSlugs,
                 'attributes' => $attributes,
-                'moderatedComments' =>$moderatedComments,
+                'moderatedComments' => $moderatedComments,
                 'form' => $form1->createView(),
                 'form2' => $form2->createView(),
             ]);
