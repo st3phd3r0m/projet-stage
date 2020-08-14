@@ -69,7 +69,7 @@ class HomeController extends AbstractController
 
             if ($this->isFormFilled($post) && $this->isFormValid($post)) {
 
-                //On vérifie si l'adresse mail de l'utilisateur est valide et on renvoie une chaine de caractère si ce n'est pas le cas
+                //On vérifie si l'adresse mail de l'utilisateur est valide 
                 if (!filter_var(htmlspecialchars($post['email']), FILTER_VALIDATE_EMAIL)) {
                     //Envoi d'un message utilisateur
                     $this->addFlash('fail', 'Formulaire incomplet ou invalide');
@@ -168,49 +168,62 @@ class HomeController extends AbstractController
      */
     public function showCategory(string $slug = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository): Response
     {
-
+        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur ver l'acceuil
         if (isset($slug) && !empty($slug)) {
 
-            //Récupération des slugs de chacune des catégories sélectionnées par l'utilisateur
+            //---------------Traitement des catégories ascendantes sélectionnées par l'utilisateur pour filtrage des produits par catégories--------------------
+
+            //Récupération des slugs de chacune des catégories sélectionnées
             $slugs = explode('/', $slug);
 
+            //Dans ce tableau, on stocke les titres, slug et identifiants des catégories sélectionnées
             $topCategoryTitlesAndSlugs = [];
-
-
             foreach ($slugs as $categorySlug) {
+                //Pour chacun des slugs sélectionnés, on va chercher la catégorie correspondante 
                 $category = $categoriesRepository->findOneBy(['slug' => $categorySlug]);
 
-                //Si la catégorie n'existe pas, on redirige l'utilisateur vers l'acceuill avec un message
+                //Si la catégorie n'est pas en bdd, on redirige l'utilisateur vers l'acceuil avec un message
                 if (!$category) {
                     //Envoi d'un message utilisateur
                     $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
                     return $this->redirectToRoute('home');
                 }
 
+                //on stocke le titre, le slug et l'identifiant de la catégorie
+                //Ce tableau servira à affiché les catégories précédemment sélectionnées en haut de la page.
+                //Par exemple :  "Acceuil>Visites guidées en France>Bourgogne>..." 
                 $topCategoryTitlesAndSlugs[] = [
                     "categoryId" => $category->getId(),
                     "categoryTitle" => $category->getTitle(),
+                    //Dans ce paramêtre, on insère les slugs des catégories précédemment séléctionnées tout au long de la navigation via la zone de filtre par catégorie dans le template : les catégories précédemment sélectionnées sont mémorisés dans categorySlug.
                     "categorySlug" => explode($categorySlug, $slug)[0].$categorySlug,
                 ];
 
-                //Autrement, on récolte les identifiants de tous les produits qui partagent l'ensemble des catégories sélectionnées par l'utilisateur
+                //on récolte les identifiants de tous les produits qui partagent l'ensemble des catégories sélectionnées par l'utilisateur.
+                //On procède en cascade : d'abord stockage dans un tableau (productIdsToVerifiy) des identifiants produit, utilisable après itération de la boucle
                 if (empty($productIdsToVerifiy) || !isset($productIdsToVerifiy)) {
                     $productIdsToVerifiy = [];
                     foreach ($category->getProducts() as $product) {
                         $productIdsToVerifiy[] = $product->getId();
                     }
                 } elseif (!empty($productIdsToVerifiy) && isset($productIdsToVerifiy)) {
+                    //On utilise le tableau productIdsToVerifiy ici. On le compare avec un 2eme tableau(productIdsToCompare) qui contient les identifiants produit de la catégorie suivante dans l'arborescence des catégories
                     $productIdsToCompare = [];
                     foreach ($category->getProducts() as $product) {
                         $productIdsToCompare[] = $product->getId();
                     }
+                    //On ne récupère que l'intersection de ces 2 tableaux, que l'on charge dans productIdsToVerifiy
                     $productIdsToVerifiy = array_intersect($productIdsToVerifiy, $productIdsToCompare);
+                    //On procède de la sorte jusqu'à ce que toutes les catégories sélectionnées par l'utilisateur soient traitées
                 }
             }
-
+            //Il en résulte un filtrage des produits qui appartiennent tous aux catégories sélectionnées par l'utilisateur. Ce sont les produits qui seront affichés dans le template
             $products = $productsRepository->findBy(['id' => $productIdsToVerifiy]);
 
 
+            //-------------Traitement des catégories descendantes pour sélection ultérieure par l'utilisateur--------------------
+
+            //Pour chacun des produits filtrés précédemment, on récupère les identifiants des catégories qui leur sont associées et les stocke dans un tableau (subCategorieIds)
             $subCategorieIds = [];
             foreach ($products as $product) {
                 foreach ($product->getCategory() as $subCategory) {
@@ -220,19 +233,23 @@ class HomeController extends AbstractController
                 }
             }
 
-
-
+            //Ce tableau servira à donner la possibilité à l'utilisateur de sélectionner d'autres catégories pour un filtrage plus fin des produits 
             $subCategoryTitlesAndSlugs = [];
+            //On parcourt le tableau subCategorieIds sans les doublons
             foreach (array_count_values($subCategorieIds) as $id => $nbrOccurences) {
 
+                //Ces informations seront stockées dans le tableau subCategoryTitlesAndSlugs si...
                 $subCategoryTitleAndSlug = [
                     "categoryId" => $id,
                     "categoryTitle" => $categoriesRepository->find($id)->getTitle(),
                     "categorySlug" => $categoriesRepository->find($id)->getSlug()
                 ];
 
+                //... elles ne sont pas présentes dans le tableau (topCategoryTitlesAndSlugs) des catégories déjà sélectionnées par l'utilisateur
                 if (!in_array($subCategoryTitleAndSlug, $topCategoryTitlesAndSlugs)) {
+                    //Dans ce paramêtre, on insère les slugs des catégories précédemment séléctionnées tout au long de la navigation via la zone de filtre par catégorie dans le template : les catégories précédemment sélectionnées sont mémorisés dans categorySlug.
                     $subCategoryTitleAndSlug["categorySlug"] = $slug . '/' . $categoriesRepository->find($id)->getSlug();
+                    //On stocke le nombre de produits qui seront affichés après filtrage
                     $subCategoryTitleAndSlug["nbrOfOccurences"] = $nbrOccurences;
                     $subCategoryTitlesAndSlugs[] = $subCategoryTitleAndSlug;
                 }
@@ -248,6 +265,7 @@ class HomeController extends AbstractController
             ]);
         }
 
+        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur ver l'acceuil
         //Envoi d'un message utilisateur
         $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
         return $this->redirectToRoute('home');
