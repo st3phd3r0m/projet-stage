@@ -191,7 +191,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/toutes-les-***REMOVED***-ludo-sophie", name="home_all_products", methods={"GET"})
+     * @Route("/toutes-les-***REMOVED***", name="home_all_products", methods={"GET"})
      */
     public function showAllProducts(ProductsRepository $productsRepository): Response
     {

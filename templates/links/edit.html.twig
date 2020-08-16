@@ -1,0 +1,47 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Ludo et Sophie - Editer un lien
+{% endblock %}
+
+{% block body %}
+	<!-- Content Header (Page header) -->
+	<div class="content-header">
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1 class="m-0 text-dark">Ludo et Sophie - Editer un lien</h1>
+				</div>
+				<!-- /.col -->
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item">
+							<a href="{{ path('admin') }}">Dashboard</a>
+						</li>
+						<li class="breadcrumb-item active">Liens</li>
+					</ol>
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</div>
+		<!-- /.container-fluid -->
+	</div>
+	<!-- /.content-header -->
+
+	<!-- Main content -->
+	<div class="content">
+		<div class="container-fluid">
+
+        {{ include('links/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+        <a href="{{ path('links_index') }}" class="btn btn-primary">Retour à la liste</a>
+
+        {{ include('links/_delete_form.html.twig') }}
+
+	</div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('js/whichLink.js') }}"></script>
+{% endblock %}
+

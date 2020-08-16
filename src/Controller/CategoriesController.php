@@ -8,6 +8,7 @@ use App\Repository\CategoriesRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -223,5 +224,26 @@ class CategoriesController extends AbstractController
         }
 
         return $this->redirectToRoute('categories_index');
+    }
+
+    /**
+     * @Route("/give/categories", name="give_categories", methods={"GET"})
+     * @param Request $request
+     */
+    public function giveAttributes(Request $request, CategoriesRepository $categoriesRepository)
+    {
+        if($request->isXmlHttpRequest()){
+            $categoriesCollection = $categoriesRepository->findAll();
+            $categories = [];
+            foreach ($categoriesCollection as $key => $value) {
+                $categories[] = [
+                    'id'=> $value->getId(),
+                    'title'=> $value->getTitle(),
+                    'slug'=> $value->getSlug()
+                    ];
+            }
+            return new JsonResponse(json_encode($categories), 200);
+        }
+        return new JsonResponse('Méthode non-autorisée', 405);
     }
 }

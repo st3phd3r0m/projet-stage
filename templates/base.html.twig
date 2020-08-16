@@ -30,8 +30,17 @@
             <div class="container">
                 <div class="row">
                     <div class="col-2">
-                        <a href="{{ path('home_post', {slug: 'newsletter-ludo-et-sophie'}) }}" title="Inscrivez-vous à la Newsletter de Ludo et Sophie"><img src="{{ asset('images/icones/picto_newsletter.jpg') | imagine_filter('miniatures') }}" alt="Logo d'inscription à la Newsletter de Ludo et Sophie"></a>
-                        <p>Newsletter</p>
+                        {% for link in links()|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
+                            {% if link.position == 'header' %}
+                                <a href="{{ link.url }}" title="{{ link.title }}">
+                                    {% if link.image is not null %}
+					                    <img src="{{ asset('images/icones/'~ link.image ) | imagine_filter('miniatures') }}" alt="Icone du lien {{ link.title }}">
+						            {% endif %}
+                                    <p class="m-0 p-0">{{ link.content }}</p>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+
                     </div>
                     <div class="col-8">
                         <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" ><img src="{{ asset('images/icones/logo_neutrenew.jpg') }}" alt="Image d'acceuil du site Ludo et Sophie"></a>
@@ -52,18 +61,17 @@
                     <div class="navbar-header"></div>
                     <div class="">
                         <ul class="nav navbar-nav">
-                            <li>
-                                <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" class="mobile_fix">Accueil</a>
-                            </li>
-                            <li>
-                                <a class="mobile_fix">Agenda familles</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('home_category', {slug:'groupes-prives'}) }}" class="mobile_fix">Groupes privés</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('home_category', {slug:'scolaires'}) }}" class="mobile_fix">Scolaires</a>
-                            </li>
+
+                            {% for link in links()|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
+                                {% if link.position == 'nav' %}
+                                    {% if link.type == "external" %}
+                                        <a href="{{ link.url }}" title="{{ link.title }}" target="_blank" rel="noopener noreferrer">{{ link.content }} </a> 
+                                    {% else %}
+                                        <a href="{{ link.url }}" title="{{ link.title }}">{{ link.content }}</a>                               
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+
                             <li>
                                 <a class="mobile_fix hidden-xs">Mais encore...</a>
                             </li>
@@ -72,22 +80,30 @@
                                     <span class="first_lvl">Mais encore...</span> <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right">
-                                    <li>
-                                        <a class="mobile_fix">Club Enfants</a>
-                                    </li>
-                                    <li>
-                                        <a class="mobile_fix">Club Soda</a>
-                                    </li>
-                                    <li>
-                                        <a class="mobile_fix">City Break</a>
-                                    </li>
-                                    <li>
-                                        <a class="mobile_fix">Pour les adultes</a>
-                                    </li>
+
+                                    {% for link in links()|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
+                                        {% if link.position == 'dropdown' %}
+                                        <li>
+                                            {% if link.type == "external" %}
+                                                <a href="{{ link.url }}" title="{{ link.title }}" target="_blank" rel="noopener noreferrer">{{ link.content }} </a> 
+                                            {% else %}
+                                                <a href="{{ link.url }}" title="{{ link.title }}">{{ link.content }}</a>                               
+                                            {% endif %}
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
                                 </ul>
                             </li>
                             <li class="hidden-lg">
-                                <a href="{{ path('home_post', {slug: 'newsletter-ludo-et-sophie'}) }}" title="Inscrivez-vous à la Newsletter de Ludo et Sophie">Notre newsletter</a>
+                                {% for link in links()|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
+                                    {% if link.position == 'header' %}
+                                        {% if link.type == "external" %}
+                                            <a href="{{ link.url }}" title="{{ link.title }}" target="_blank" rel="noopener noreferrer">{{ link.content }} </a> 
+                                        {% else %}
+                                            <a href="{{ link.url }}" title="{{ link.title }}">{{ link.content }}</a>                               
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
                             </li>
                         </ul>
                     </div>
@@ -130,18 +146,18 @@
                 </div>
 
                 <ul>
-                    <li><a href="{{ path('home_people') }}" title="Qui sommes-nous?">Qui sommes-nous?</a></li>
-                    <li><a href="{{ path('home_post', {slug:'nous-rejoindre'}) }}" title="Nous rejoindre">Nous rejoindre</a></li>
-                    <li><a href="{{ path('home_post', {slug:'conditions-generales'}) }}" title="Conditions Générales de Services">Conditions Générales de Services</a></li>
-                    <li><a href="{{ path('home_post', {slug:'nos-partenaires'}) }}" title="Nos partenaires">Merci à...</a></li>
-                    <li><a href="{{ path('home_faq') }}" title="Foire aux Questions">F.A.Q.</a></li>
-                </ul>
+                    {% for link in links()|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
+                        {% if link.position == 'footer' %}
+                            <li>
+                                {% if link.type == "external" %}
+                                    <a href="{{ link.url }}" title="{{ link.title }}" target="_blank" rel="noopener noreferrer">{{ link.content }} </a> 
+                                {% else %}
+                                    <a href="{{ link.url }}" title="{{ link.title }}">{{ link.content }}</a>                               
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
 
-                <ul>
-                    <li><a href="{{ path('home_theme') }}" title="Nos ***REMOVED*** thématiques">Toutes nos ***REMOVED***</a></li>
-                    <li><a href="">Pour nos ados</a></li>
-                    <li><a href="">Anniversaire</a></li>
-                    <li><a href="https://app.algolinked.com/room/Ludo%20et%20Sophie" target="_blank" rel="noopener noreferrer">Presse</a></li>
                 </ul>
 
             

@@ -1,0 +1,33 @@
+{{ form_start(form) }}
+
+{{ form_row(form.position) }}
+{{ form_row(form.position_order) }}
+{{ form_row(form.type) }}
+
+<div class="form-group" id="external-link-field">
+	<label for="externalLink">Saisir un lien sortant</label>
+	<input class="form-group w-100" name="externalLink" id="externalLink">
+</div>
+
+<div class="form-group" id="categories-fields-list" data-url-path="{{ absolute_url(path('give_categories')) }}">
+	<label for="select_category">Sélectionnez une catégorie</label>
+	<select class="form-group w-100" name="category" id="select_category">
+		<option value=""></option>
+	</select>
+</div>
+
+<div class="form-group" id="pages-fields-list" data-url-path="{{ absolute_url(path('give_pages')) }}">
+	<label for="select_page">Sélectionnez une publication</label>
+	<select class="form-group w-100" name="page" id="select_page">
+		<option value=""></option>
+	</select>
+</div>
+
+{{ form_row(form.title) }}
+
+{{ form_row(form.content) }}
+
+{{ form_row(form.imageFile) }}
+
+<button class="btn btn-success my-5">{{ button_label|default('Valider') }}</button>
+{{ form_end(form) }}

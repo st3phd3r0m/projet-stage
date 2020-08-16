@@ -77,8 +77,8 @@ class UsersType extends AbstractType
                          'class' => 'form-control form-control-lg form-control-a mb-3'
                     ],
                     'label_attr' => [
-                    'class' => 'policeForm'
-                ],
+                        'class' => 'policeForm'
+                    ],
                 ],
                 
                 'constraints' => [

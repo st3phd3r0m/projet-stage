@@ -8,6 +8,7 @@ use App\Repository\PagesRepository;
 use App\Repository\UsersRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -165,5 +166,26 @@ class PagesController extends AbstractController
         }
 
         return $this->redirectToRoute('pages_index');
+    }
+
+    /**
+     * @Route("/give/pages", name="give_pages", methods={"GET"})
+     * @param Request $request
+     */
+    public function giveAttributes(Request $request, PagesRepository $pagesRepository)
+    {
+        if($request->isXmlHttpRequest()){
+            $pagesCollection = $pagesRepository->findAll();
+            $pages = [];
+            foreach ($pagesCollection as $key => $value) {
+                $pages[] = [
+                    'id'=> $value->getId(),
+                    'title'=> $value->getTitle(),
+                    'slug'=> $value->getSlug()
+                    ];
+            }
+            return new JsonResponse(json_encode($pages), 200);
+        }
+        return new JsonResponse('Méthode non-autorisée', 405);
     }
 }
