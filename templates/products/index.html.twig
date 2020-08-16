@@ -83,18 +83,9 @@
 					<th>
 						{{ knp_pagination_sortable(products, 'Modifié le', 'updatedAt') }}
 					</th>
-					{# <th>
-						{{ knp_pagination_sortable(products, 'Prix HT', 'preTaxPrice') }}
-					</th>
-					<th>
-						{{ knp_pagination_sortable(products, 'Prix TTC', 'taxIncludedPrice') }}
-					</th> #}
 					<th>
 						Catégories
 					</th>
-					{# <th>
-						Langue de publication
-					</th> #}
 					<th>
 						{{ knp_pagination_sortable(products, 'Nombre d\'avis clients', 'comments.count' ) }}
 					</th>
@@ -111,20 +102,6 @@
 						<td>{{ (product.reference is defined)? product.reference :'Pas de référence pour ce produit' }}</td>
 						<td>{{ product.createdAt ? product.createdAt|date('d-m-Y H:i:s') : '' }}</td>
 						<td>{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
-						{# <td>
-							{% if product.preTaxPrice is defined %}
-								{{ product.preTaxPrice }} &euro;
-							{% else %}
-								Pas de prix HT pour ce produit
-							{% endif %}
-						</td>
-						<td>
-							{% if product.taxIncludedPrice is defined %}
-								{{ product.taxIncludedPrice }} &euro;
-							{% else %}
-								Pas de prix TTC pour ce produit
-							{% endif %}
-						</td> #}
 						<td>
 							<ul>
 								{% for category in product.category %}
@@ -136,9 +113,6 @@
 								{% endfor %}					
 							</ul>	
 						</td>
-						{# <td>
-							{{ (product.language.name is defined)? product.language.name :'Pas de langue de publication associée à ce produit' }}
-						</td> #}
 						<td>{{ product.comments | length }}
 							{% if product.comments | length > 0 %}
 								<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>

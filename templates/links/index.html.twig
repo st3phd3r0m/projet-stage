@@ -46,13 +46,18 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Url</th>
-                    <th>Position</th>
-                    <th>Ordre d'apparition</th>
-                    <th>Type</th>
-                    <th>Titre</th>
-                    <th>Contenu</th>
-                    <th>Icone</th>
+                    <th>
+                        {{ knp_pagination_sortable(links, 'Url', 'url') }}
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(links, 'Position', 'position') }}
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(links, 'Titre', 'title') }}                   
+                    </th>
+                    <th>
+                        {{ knp_pagination_sortable(links, 'Contenu', 'content') }}       
+                    </th>
                     <th>actions</th>
                 </tr>
             </thead>
@@ -61,18 +66,10 @@
                 <tr>
                     <td>{{ link.url }}</td>
                     <td>{{ link.position }}</td>
-                    <td>{{ link.positionOrder }}</td>
-                    <td>{{ link.type }}</td>
                     <td>{{ link.title }}</td>
                     <td>{{ link.content|raw }}</td>
                     <td>
-                    	{% if link.image is not null %}
-						    <img src="{{ asset('images/icones/'~ link.image ) | imagine_filter('miniatures') }}" alt="Icone associée au lien {{ link.url }}">
-					    {% else %}
-							Pas d'icône associée à ce lien
-						{% endif %}
-					</td>
-                    <td>
+                    	<a href="{{ path('links_show', {'id': link.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 						<a href="{{ path('links_edit', {'id': link.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>
                         {{ include('links/_delete_form.html.twig') }}
                     </td>
@@ -83,7 +80,14 @@
                 </tr>
             {% endfor %}
             </tbody>
-        </table>
+
+			<div>
+				{{ knp_pagination_render(links) }}
+			</div>
+		</table>
+		<div>
+			{{ knp_pagination_render(links) }}
+		</div>
 
 		<a href="{{ path('links_new') }}" class="btn btn-success my-5" >Créer nouveau lien</a>
     </div>

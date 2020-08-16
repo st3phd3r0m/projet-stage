@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Links;
 use App\Form\LinksType;
 use App\Repository\LinksRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,18 @@ class LinksController extends AbstractController
     /**
      * @Route("/", name="links_index", methods={"GET"})
      */
-    public function index(LinksRepository $linksRepository): Response
+    public function index(LinksRepository $linksRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $links = $paginator->paginate(
+            $linksRepository->findAll(),
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
+
         return $this->render('links/index.html.twig', [
-            'links' => $linksRepository->findAll(),
+            'links' => $links
         ]);
     }
 
@@ -117,6 +126,17 @@ class LinksController extends AbstractController
         return $this->render('links/edit.html.twig', [
             'link' => $link,
             'form' => $form->createView(),
+        ]);
+    }
+
+    
+    /**
+     * @Route("/{id}", name="links_show", methods={"GET"})
+     */
+    public function show(Request $request, Links $link): Response
+    {
+        return $this->render('links/show.html.twig', [
+            'link' => $link
         ]);
     }
 

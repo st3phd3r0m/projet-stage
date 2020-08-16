@@ -1,0 +1,83 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Ludo et Sophie - Index des liens
+{% endblock %}
+
+{% block body %}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+	<div class="container-fluid">
+		<div class="row mb-2">
+			<div class="col-sm-6">
+				<h1 class="m-0 text-dark">Ludo et Sophie - Index des liens</h1>
+			</div>
+			<!-- /.col -->
+			<div class="col-sm-6">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item">
+						<a href="{{ path('admin') }}">Dashboard</a>
+					</li>
+					<li class="breadcrumb-item active">Liens</li>
+				</ol>
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+	<div class="container-fluid">
+
+        <table class="table">
+            <tbody>
+
+                <tr>
+                    <th>Url</th>
+                    <td>{{ link.url }}</td>
+                </tr>
+                <tr>
+                    <th>Position</th>
+                    <td>{{ link.position }}</td>
+                </tr>
+                <tr>
+                    <th>Ordre d'apparition</th>
+                    <td>{{ link.positionOrder }}</td>
+                </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{ link.type }}</td>
+                </tr>
+                <tr>
+                    <th>Titre</th>
+                    <td>{{ link.title }}</td>
+                </tr>
+                <tr>
+                    <th>Contenu</th>
+                    <td>{{ link.content }}</td>
+                </tr>
+                <tr>
+                    <th>Icone</th>
+                    <td>
+                    	{% if link.image is not null %}
+						    <img src="{{ asset('images/icones/'~ link.image ) | imagine_filter('miniatures') }}" alt="Icone associée au lien {{ link.url }}">
+					    {% else %}
+							Pas d'icône associée à ce lien
+						{% endif %}
+					</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <a href="{{ path('links_index') }}" class="btn btn-primary">Retour à la liste</a>
+
+        <a href="{{ path('links_edit', {'id': link.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
+
+        {{ include('links/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}
