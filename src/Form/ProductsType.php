@@ -98,11 +98,11 @@ class ProductsType extends AbstractType
                 'label' => 'Choisir la langue de publication',
                 'class' => Languages::class,
                 'choice_label' => 'name',
-                'data' => $this->languagesRepository->findOneBy(['name' => 'FR']),
+                'data' => $this->languagesRepository->findOneBy(['name' => 'fr']),
             ])
             ->add('category', CollectionType::class, [
                 'required' => false,
-                'label' => 'Ajouter une ou des catégories',
+                'label' => 'Catégories du produit',
                 'entry_type' => EntityType::class,
                 'entry_options'  => [
                     'choice_label' => 'title',
@@ -114,7 +114,7 @@ class ProductsType extends AbstractType
             ])
             ->add('images', CollectionType::class, [
                 'required' => false,
-                'label' => 'Ajoutez une ou des images d\'illustration',
+                'label' => 'Images d\'illustration',
                 'entry_type' => ImagesType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -123,7 +123,7 @@ class ProductsType extends AbstractType
             ])
             ->add('attribute', CollectionType::class, [
                 'required' => false,
-                'label' => 'Ajoutez un ou des attributs au produit',
+                'label' => 'Attributs du produit',
                 'entry_type' => AttributesType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

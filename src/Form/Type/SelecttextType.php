@@ -12,7 +12,8 @@ use Symfony\Component\Form\FormView;
 
 
 
-class DatalistType extends AbstractType {
+
+class SelecttextType extends AbstractType {
 
     public function getParent()
     {
@@ -21,6 +22,6 @@ class DatalistType extends AbstractType {
     
     public function getName()
     {
-        return 'datalist';
+        return 'selecttext';
     }
 }

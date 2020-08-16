@@ -72,11 +72,11 @@
 							<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
 							<td>
 								{{ user.pages|length }}
-								<a title="Voir les {{ user.pages|length }} publications de {{ user.firstname }}" href="{{ path('pages_index', {userId: user.id }) }}" class="btn btn-primary" >Voir</a>
+								<a title="Voir les {{ user.pages|length }} publications de {{ user.firstname }}" href="{{ path('pages_index', {userId: user.id }) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 							</td>
 							<td>
-								<a href="{{ path('users_show', {'id': user.id}) }}" class="btn btn-primary" >Voir</a>
-								<a href="{{ path('users_edit', {'id': user.id}) }}" class="btn btn-warning" >Modifier</a>
+								<a href="{{ path('users_show', {'id': user.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
+								<a href="{{ path('users_edit', {'id': user.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>
 								{{ include('users/_delete_form.html.twig') }}
 							</td>
 						</tr>

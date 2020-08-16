@@ -98,8 +98,8 @@
 							</td>
 							<td>{{ page.slug }}</td>
 							<td>
-								<a href="{{ path('pages_show', {'id': page.id}) }}" class="btn btn-primary" >Voir</a>
-								<a href="{{ path('pages_edit', {'id': page.id}) }}" class="btn btn-warning" >Modifier</a>
+								<a href="{{ path('pages_show', {'id': page.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
+								<a href="{{ path('pages_edit', {'id': page.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>
 								{{ include('pages/_delete_form.html.twig') }}
 							</td>
 						</tr>

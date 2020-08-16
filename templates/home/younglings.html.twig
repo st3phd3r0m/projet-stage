@@ -7,7 +7,7 @@
 
     <h1>Découvrez toute l'équipe des petits éclaireurs</h1>
 
-    <p>{{ page.content|raw }}</p>
+    <p>{{ ( page.content ?? '')|raw }}</p>
 
     <div class="row">
         {% for youngling in younglings %}

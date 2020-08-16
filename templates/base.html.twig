@@ -30,7 +30,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-2">
-                        <a href="" title="Inscrivez-vous à la Newsletter de Ludo et Sophie"><img src="{{ asset('images/icones/picto_newsletter.jpg') | imagine_filter('miniatures') }}" alt="Logo d'inscription à la Newsletter de Ludo et Sophie"></a>
+                        <a href="{{ path('home_post', {slug: 'newsletter-ludo-et-sophie'}) }}" title="Inscrivez-vous à la Newsletter de Ludo et Sophie"><img src="{{ asset('images/icones/picto_newsletter.jpg') | imagine_filter('miniatures') }}" alt="Logo d'inscription à la Newsletter de Ludo et Sophie"></a>
                         <p>Newsletter</p>
                     </div>
                     <div class="col-8">
@@ -86,7 +86,8 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="hidden-lg"><a>Notre newsletter</a>
+                            <li class="hidden-lg">
+                                <a href="{{ path('home_post', {slug: 'newsletter-ludo-et-sophie'}) }}" title="Inscrivez-vous à la Newsletter de Ludo et Sophie">Notre newsletter</a>
                             </li>
                         </ul>
                     </div>
@@ -137,7 +138,7 @@
                 </ul>
 
                 <ul>
-                    <li><a href="">Toutes nos ***REMOVED***</a></li>
+                    <li><a href="{{ path('home_theme') }}" title="Nos ***REMOVED*** thématiques">Toutes nos ***REMOVED***</a></li>
                     <li><a href="">Pour nos ados</a></li>
                     <li><a href="">Anniversaire</a></li>
                     <li><a href="https://app.algolinked.com/room/Ludo%20et%20Sophie" target="_blank" rel="noopener noreferrer">Presse</a></li>

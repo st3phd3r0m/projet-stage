@@ -65,7 +65,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="{{ path('younglings_edit', {'id': youngling.id}) }}" class="btn btn-warning">Modifier</a>
+                            <a href="{{ path('younglings_edit', {'id': youngling.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
                             {{ include('younglings/_delete_form.html.twig') }}
                         </td>
                     </tr>

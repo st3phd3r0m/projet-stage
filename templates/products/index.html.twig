@@ -141,17 +141,17 @@
 						</td> #}
 						<td>{{ product.comments | length }}
 							{% if product.comments | length > 0 %}
-								<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}" class="btn btn-primary" >Voir</a>
+								<a title="Voir les avis clients pour cette sortie" href="{{ path('comments_index', {productId:product.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 							{% endif %}
 						</td>
 						<td>{{ product.messages | length }}
 							{% if product.messages | length > 0 %}
-								<a title="Voir les messages clients pour cette sortie" href="{{ path('messages_index', {productId:product.id}) }}" class="btn btn-primary" >Voir</a>
+								<a title="Voir les messages clients pour cette sortie" href="{{ path('messages_index', {productId:product.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 							{% endif %}
 						</td>
 						<td>
-							<a href="{{ path('products_show', {'id': product.id}) }}" class="btn btn-primary" >Voir</a>
-							<a href="{{ path('products_edit', {'id': product.id}) }}" class="btn btn-warning" >Modifier</a>
+							<a href="{{ path('products_show', {'id': product.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
+							<a href="{{ path('products_edit', {'id': product.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>
 							{{ include('products/_delete_form.html.twig') }}
 						</td>
 					</tr>

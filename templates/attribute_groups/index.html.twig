@@ -56,11 +56,11 @@
 							<td>{{ attribute_group.name }}</td>
 							<td>{{ attribute_group.attributes | length }}
 								{% if attribute_group.attributes | length > 0 %}
-									<a title="Voir les attributs appartenants à ce groupe" href="{{ path('attributes_index', {attributeGroupId:attribute_group.id}) }}" class="btn btn-primary" >Voir</a>
+									<a title="Voir les attributs appartenants à ce groupe" href="{{ path('attributes_index', {attributeGroupId:attribute_group.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 								{% endif %}
 							</td>
 							<td>
-								<a href="{{ path('attribute_groups_edit', {'id': attribute_group.id}) }}" class="btn btn-warning" >Modifier</a>
+								<a href="{{ path('attribute_groups_edit', {'id': attribute_group.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>
 								{{ include('attribute_groups/_delete_form.html.twig') }}
 							</td>
 						</tr>

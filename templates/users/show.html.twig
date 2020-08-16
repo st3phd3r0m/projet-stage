@@ -58,7 +58,7 @@
 						<th>Publications</th>
 						<td>
 							{{ user.pages|length }}
-							<a title="Voir les {{ user.pages|length }} publications de {{ user.firstname }}" href="{{ path('pages_index', {userId: user.id }) }}" class="btn btn-primary" >Voir</a>
+							<a title="Voir les {{ user.pages|length }} publications de {{ user.firstname }}" href="{{ path('pages_index', {userId: user.id }) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 						</td>
 					</tr>
 				</tbody>
@@ -66,7 +66,7 @@
 
 			<a href="{{ path('users_index') }}" class="btn btn-primary" >Retour à la liste</a>
 
-			<a href="{{ path('users_edit', {'id': user.id}) }}" class="btn btn-warning">Editer</a>
+			<a href="{{ path('users_edit', {'id': user.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
 
 			{{ include('users/_delete_form.html.twig') }}
 
@@ -110,8 +110,8 @@
 									<span class="font-weight-bold">Date de modification :</span>
 									{{ page.updatedAt | date('d-m-Y H:i:s') }}
 								</p>
-								<a href="{{ path('pages_show', {id: page.id}) }}" class="card-link" class="btn btn-primary" >Voir</a>
-								<a href="{{ path('pages_edit', {id: page.id}) }}" class="card-link" class="btn btn-warning" >Modifier</a>
+								<a href="{{ path('pages_show', {id: page.id}) }}" class="card-link" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
+								<a href="{{ path('pages_edit', {id: page.id}) }}" class="card-link" class="btn btn-warning" ><i class="fas fa-edit"></i></a>
 								{{ include('pages/_delete_form.html.twig') }}
 							</div>
 							<!-- /.card -->

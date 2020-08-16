@@ -60,7 +60,7 @@
 							<td>{{ frequently_asked_question.question }}</td>
 							<td>{{ frequently_asked_question.answer }}</td>
 							<td>
-								<a href="{{ path('frequently_asked_questions_edit', {'id': frequently_asked_question.id}) }}" class="btn btn-warning" >Modifier</a>
+								<a href="{{ path('frequently_asked_questions_edit', {'id': frequently_asked_question.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>
                                 {{ include('frequently_asked_questions/_delete_form.html.twig') }}
 							</td>
 						</tr>

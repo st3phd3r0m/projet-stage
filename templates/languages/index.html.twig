@@ -40,7 +40,7 @@
 				<div class="alert alert-warning" role="alert">{{ message }}</div>
 			{% endfor %}
 
-			<a href="{{ path('languages_new') }}" class="btn btn-success my-5">Ajouter langue de publication des ***REMOVED***</a>
+			<a href="{{ path('languages_new') }}" class="btn btn-success my-5"><i class="fas fa-plus"></i> Ajouter langue de publication des ***REMOVED***</a>
 
 			<table class="table">
 				<thead>
@@ -60,7 +60,7 @@
 							</td>
 							<td>{{ (language.slug)?? language.slug }}</td>
 							<td>
-								<a href="{{ path('languages_edit', {'id': language.id}) }}" class="btn btn-warning">Editer</a>
+								<a href="{{ path('languages_edit', {'id': language.id}) }}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
 								{{ include('languages/_delete_form.html.twig') }}
 							</td>
 						</tr>
@@ -72,7 +72,7 @@
 				</tbody>
 			</table>
 
-			<a href="{{ path('languages_new') }}" class="btn btn-success my-5">Ajouter langue de publication des ***REMOVED***</a>
+			<a href="{{ path('languages_new') }}" class="btn btn-success my-5"><i class="fas fa-plus"></i> Ajouter langue de publication des ***REMOVED***</a>
 		</div>
 	</div>
 {% endblock %}

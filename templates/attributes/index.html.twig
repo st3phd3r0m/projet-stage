@@ -87,11 +87,11 @@
 
 							<td>{{ attribute.products | length }}
 								{# {% if attribute.products | length > 0 %}
-									<a title="Voir les produits associés à cet attribut" href="{{ path('products_index', {attributeId:attribute.id}) }}" class="btn btn-primary" >Voir</a>
+									<a title="Voir les produits associés à cet attribut" href="{{ path('products_index', {attributeId:attribute.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 								{% endif %} #}
 							</td>
 							<td>
-								<a href="{{ path('attributes_edit', {'id': attribute.id}) }}" class="btn btn-warning" >Modifier</a>
+								<a href="{{ path('attributes_edit', {'id': attribute.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>
 								{{ include('attributes/_delete_form.html.twig') }}
 							</td>
 						</tr>

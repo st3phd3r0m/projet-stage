@@ -32,7 +32,7 @@ class PagesType extends AbstractType
                 'label' => 'Titre de la publication en méta-données : ',
             ])
             ->add('content', CKEditorType::class, [  
-                'config_name'=> 'main_config',  
+                // 'config_name'=> 'main_config',  
                 'required' => true,
                 'label'=>'Contenu de la publication : ',
                 'constraints' => [

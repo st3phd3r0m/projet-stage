@@ -106,7 +106,7 @@
 							</td>
 							<td>{{ message.sentAt | date('d.m.Y H:i:s') }}</td>
 							<td>
-								<a href="{{ path('messages_show', {'id': message.id}) }}" class="btn btn-primary">Lire</a>
+								<a href="{{ path('messages_show', {'id': message.id}) }}" class="btn btn-primary"><i class="fas fa-glasses"></i></a>
 								{{ include('messages/_delete_form.html.twig') }}
 							</td>
 						</tr>

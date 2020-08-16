@@ -164,11 +164,48 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @Route("/***REMOVED***-thematiques", name="home_theme", methods={"GET"})
+     */
+    public function showThemes(CategoriesRepository $categoriesRepository): Response
+    {
+        $themeSlugs = [
+            "art",
+            "comment-ca-marche",
+            "raconte-moi-histoire",
+            "derriere-le-rideau",
+            "quand-je-serai-grand",
+            "moi-qui-fait",
+            "city-break",
+            "initiation-a-l-art-pour-adultes",
+            "les-grandes-expositions-en-famille"
+        ];
+
+        $categories=[];
+        foreach ($themeSlugs as $themeSlug) {
+            $categories[] = $categoriesRepository->findOneBy(['slug'=>$themeSlug]);
+        }
+
+        return $this->render('home/themes.html.twig', [
+            'categories' => $categories
+        ]);
+    }
+
+    /**
+     * @Route("/toutes-les-***REMOVED***-ludo-sophie", name="home_all_products", methods={"GET"})
+     */
+    public function showAllProducts(ProductsRepository $productsRepository): Response
+    {
+        return $this->render('home/allProducts.html.twig', [
+            'products' => $productsRepository->findAll()
+        ]);
+    }
+
+    /**
      * @Route("/categorie/{slug}", name="home_category", requirements={"slug"=".+"}, methods={"GET"})
      */
     public function showCategory(string $slug = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository): Response
     {
-        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur ver l'acceuil
+        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur vers l'acceuil
         if (isset($slug) && !empty($slug)) {
 
             //---------------Traitement des catégories ascendantes sélectionnées par l'utilisateur pour filtrage des produits par catégories--------------------
@@ -257,7 +294,7 @@ class HomeController extends AbstractController
             }
 
 
-            return $this->render('home/categories.html.twig', [
+            return $this->render('home/category.html.twig', [
                 'category' => $category,
                 'products' => $products,
                 'topCategoryTitlesAndSlugs' => $topCategoryTitlesAndSlugs,
@@ -265,7 +302,7 @@ class HomeController extends AbstractController
             ]);
         }
 
-        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur ver l'acceuil
+        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur vers l'acceuil
         //Envoi d'un message utilisateur
         $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
         return $this->redirectToRoute('home');
@@ -290,7 +327,7 @@ class HomeController extends AbstractController
             foreach ($categorySlugs as $categorySlug) {
                 $category = $categoriesRepository->findOneBy(['slug' => $categorySlug]);
 
-                //Si la catégorie n'existe pas, on redirige l'utilisateur vers l'acceuill avec un message
+                //Si la catégorie n'existe pas, on redirige l'utilisateur vers l'acceuil avec un message
                 if (!$category) {
                     //Envoi d'un message utilisateur
                     $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
@@ -358,7 +395,7 @@ class HomeController extends AbstractController
                 return $this->redirectToRoute('home');
             }
 
-            return $this->render('home/products.html.twig', [
+            return $this->render('home/product.html.twig', [
                 'product' => $product,
                 'category' => $category,
                 'topCategoryTitlesAndSlugs'=>$topCategoryTitlesAndSlugs,

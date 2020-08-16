@@ -26,7 +26,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    form.type.datalist_type:
-        class: App\Form\Type\DatalistType
+    form.type.selecttext_type:
+        class: App\Form\Type\SelecttextType
         tags:
-            -  { name: form.type, alias: datalist }
+            -  { name: form.type, alias: selecttext }
+    form.type.selectlongtext_type:
+        class: App\Form\Type\SelectlongtextType
+        tags:
+            -  { name: form.type, alias: selectlongtext }
