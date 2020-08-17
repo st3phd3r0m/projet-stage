@@ -12,12 +12,11 @@ use App\Form\MessagesType;
 use App\Repository\AttributesRepository;
 use App\Repository\CategoriesRepository;
 use App\Repository\FrequentlyAskedQuestionsRepository;
-use App\Repository\LanguagesRepository;
 use App\Repository\PagesRepository;
 use App\Repository\PeopleRepository;
 use App\Repository\ProductsRepository;
 use App\Repository\YounglingsRepository;
-use App\Twig\AppExtension;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -193,17 +192,26 @@ class HomeController extends AbstractController
     /**
      * @Route("/toutes-les-***REMOVED***", name="home_all_products", methods={"GET"})
      */
-    public function showAllProducts(ProductsRepository $productsRepository): Response
+    public function showAllProducts(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request): Response
     {
+
+        $products = $paginator->paginate(
+            $productsRepository->findAll(),
+            //Le numero de la page, si aucun numero, on force la page 1
+            $request->query->getInt('page', 1),
+            //Nombre d'élément par page
+            10
+        );
+
         return $this->render('home/allProducts.html.twig', [
-            'products' => $productsRepository->findAll()
+            'products' => $products
         ]);
     }
 
     /**
      * @Route("/categorie/{slug}", name="home_category", requirements={"slug"=".+"}, methods={"GET"})
      */
-    public function showCategory(string $slug = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository): Response
+    public function showCategory(string $slug = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request): Response
     {
         //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur vers l'acceuil
         if (isset($slug) && !empty($slug)) {
@@ -292,6 +300,16 @@ class HomeController extends AbstractController
                 }
                 unset( $subCategoryTitleAndSlug);
             }
+
+
+            // Pagination
+            $products = $paginator->paginate(
+                $products,
+                //Le numero de la page, si aucun numero, on force la page 1
+                $request->query->getInt('page', 1),
+                //Nombre d'élément par page
+                10
+            );
 
 
             return $this->render('home/category.html.twig', [

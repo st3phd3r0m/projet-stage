@@ -6,6 +6,7 @@
 
 {% block body %}
 
+	{# Arborescence des filtres catégories #}
 	<ul>
 		<li>
 			<a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil">
@@ -21,10 +22,13 @@
 		{% endfor %}
 
 	</ul>
+	{# Fin Arborescence des filtres catégories #}
 
+	{# Présentation catégorie #}
 	<article>
 		{# <h2>{{ category.title ?? '' }}</h2> #}
 
+		{# Illustration de la catégorie #}
 		{% if category.images|length > 0 %}
 			<div>
 				{% for image in category.images %}
@@ -32,14 +36,30 @@
 				{% endfor %}
 			</div>
 		{% endif %}
+		{# Fin Illustration de la catégorie #}
 
+		{# Description catégorie #}
 		<div>
 			{{ ( category.description ?? '')|raw }}
 		</div>
-	</article>
+		{# Fin Description catégorie #}
 
+		{# Mots-clés catégorie #}
+		<p>
+			{% for keyWords in category.keywords %}
+			# <strong>{{ keyWords }}</strong>
+			{% endfor %}						
+		</p>
+		{# Fin Mots-clés catégorie #}
+	</article>
+	{# Fin Présentation catégorie #}
+
+
+	{# Produits associés à la catégorie #}
 	{% if products|length > 0 %}
 		<section class="border-top">
+
+			{# Filtre recherche par catégories #}
 			{% if subCategoryTitlesAndSlugs|length > 1 %}
 				<h2>Affiner votre recherche</h2>
 				<ul>
@@ -50,21 +70,41 @@
 					{% endfor %}
 				</ul>
 			{% endif %}
+			{# Fin Filtre recherche par catégories #}
 
+			<div>
+				{{ knp_pagination_render(products) }}
+			</div>
+
+			{# Boucle sur produits #}
 			{% for product in products %}
                 <article class="border my-3">
+
                     <div class="d-flex">
+						{# Illustration produit #}
                         <div class="p-3">
                         {% if product.images is not empty %}
                             <img src="{{ asset('images/products/' ~ product.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ product.title ?? '' }}">      
                         {% endif %}                 
                         </div>
+						{# Fin Illustration produit #}
+
+						{# Description produit #}
                         <div class="p-3">
                             <h3>{{ product.title }}</h3>
-                            <p>{{ product.description[:400]|raw }}{{ (product.description|length > 400)?'...':'' }}</p>
+                            <p>{{ product.description[:400]|striptags|raw }}{{ (product.description|length > 400)?'...':'' }}</p>
+							<p>
+								{% for keyWords in product.keywords %}
+								# <strong>{{ keyWords }}</strong>
+								{% endfor %}						
+							</p>
                             <p>{{ product.taxIncludedPrice }}&euro;</p>
-                        </div>            
+                        </div>
+						{# Fin Description produit #}  
+
                     </div>
+
+					{# Liens vers produit #}
 					{% if product.weezeevent is not empty %}
 					<p class="border p-3 m-0">
 						<a class="btn" href="{{ product.weezeevent }}" title="Réserver sur weezevent.com" target="_blank" rel="noopener noreferrer">Réserver sur weezevent.com</a>
@@ -73,11 +113,21 @@
                     <p class="border-top border-left p-3 m-0">
                         <a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: topCategoryTitlesAndSlugs|last.categorySlug, slugProduct: product.slug}) }}">En savoir plus...</a>    
                     </p>
+					{# Fin Liens vers produit #}
+
+					
                 </article>
 
 			{% endfor %}
+			{# Fin Boucle sur produits #}
+
+			<div>
+				{{ knp_pagination_render(products) }}
+			</div>
+
 		</section>
 	{% endif %}
+	{# Fin Produits associés à la catégorie #}
 
 
 {% endblock %}
