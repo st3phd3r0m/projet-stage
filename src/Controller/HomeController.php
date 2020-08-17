@@ -360,12 +360,13 @@ class HomeController extends AbstractController
             }
 
 
-
+            //Récupération des attributs
             $attributes = [];
             foreach ($product->getAttribute() as $value) {
                 $attributes[] = $attributesRepository->find($value);
             }
 
+            //Récupération des commentaires modérés
             $moderatedComments = [];
             foreach ($product->getComments() as $comment) {
                 if ($comment->getIsModerated() === true) {
@@ -373,15 +374,18 @@ class HomeController extends AbstractController
                 }
             }
 
+            //Instanciation de Comments, création formulaire commentaire 
             $comment = new Comments();
-            $form1 = $this->createForm(CommentsType::class, $comment);
-            $form1->handleRequest($request);
-
+            $formComment = $this->createForm(CommentsType::class, $comment);
+            $formComment->handleRequest($request);
+            
+            //Instanciation de Messages, création formulaire de contact 
             $message = new Messages();
-            $form2 = $this->createForm(MessagesType::class, $message);
-            $form2->handleRequest($request);
+            $formContact = $this->createForm(MessagesType::class, $message);
+            $formContact->handleRequest($request);
 
-            if ($form1->isSubmitted() && $form1->isValid()) {
+            //Soumission formulaire commentaire
+            if ($formComment->isSubmitted() && $formComment->isValid()) {
 
                 $comment->setProduct($product);
                 $comment->setCreatedAt(new \DateTime('now'));
@@ -394,10 +398,14 @@ class HomeController extends AbstractController
                 //Envoi d'un message utilisateur
                 $this->addFlash('success', 'Votre commentaire pour la sortie "' . $product->getTitle() . '" a été enregistré et est en attente de modération.');
 
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('home_product',[
+                    'slugCategory'=>$slugCategory,
+                    'slugProduct'=>$slugProduct
+                ]);
             }
 
-            if ($form2->isSubmitted() && $form2->isValid()) {
+            //Soumission formulaire réservation/contact
+            if ($formContact->isSubmitted() && $formContact->isValid()) {
 
                 $message->setSubject($product->getTitle());
                 $message->setProduct($product);
@@ -410,7 +418,10 @@ class HomeController extends AbstractController
                 //Envoi d'un message utilisateur
                 $this->addFlash('success', 'Votre nous avons bien reçu votre message pour la sortie "' . $product->getTitle() . '". Nous vous répondrons dans les plus brefs délais.');
 
-                return $this->redirectToRoute('home');
+                return $this->redirectToRoute('home_product',[
+                    'slugCategory'=>$slugCategory,
+                    'slugProduct'=>$slugProduct
+                ]);
             }
 
             return $this->render('home/product.html.twig', [
@@ -419,8 +430,8 @@ class HomeController extends AbstractController
                 'topCategoryTitlesAndSlugs'=>$topCategoryTitlesAndSlugs,
                 'attributes' => $attributes,
                 'moderatedComments' => $moderatedComments,
-                'form' => $form1->createView(),
-                'form2' => $form2->createView(),
+                'form' => $formComment->createView(),
+                'formContact' => $formContact->createView(),
             ]);
         }
 

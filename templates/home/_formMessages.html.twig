@@ -1,17 +1,17 @@
-{{ form_start(form2) }}
+{{ form_start(formContact) }}
 
 <div class="row">
     <div class="col-6">
-        {{ form_row(form2.name) }}
-        {{ form_row(form2.email) }}
-        {{ form_row(form2.subject, { 'attr': {'value': product.title } }) }}
-        {{ form_row(form2.wished_date) }}
-        {{ form_row(form2.phone) }}
+        {{ form_row(formContact.name) }}
+        {{ form_row(formContact.email) }}
+        {{ form_row(formContact.subject, { 'attr': {'value': product.title } }) }}
+        {{ form_row(formContact.wished_date) }}
+        {{ form_row(formContact.phone) }}
     </div>
     <div class="col-6">
-        {{ form_row(form2.message) }}
+        {{ form_row(formContact.message) }}
         <button>{{ button_label|default('Valider') }}</button>
     </div>
 </div>
 
-{{ form_end(form2) }}
+{{ form_end(formContact) }}

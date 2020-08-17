@@ -6,7 +6,7 @@
 
 {% block body %}
 
-
+	{# Arborescence de filtrage par cétagories #}
 	<ul>
 		<li>
 			<a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil">
@@ -21,11 +21,17 @@
 		</li>
 		{% endfor %}
 	</ul>
+	{# Fin Arborescence de filtrage par cétagories #}
 
+
+	{# Section dédiée au produit #}
 	<article>
+
 		<h3>{{ product.title ?? '' }}</h3>
 		<div class="d-flex">
 			<div class="w-50">
+
+				{# Images d'illustration et carousel #}
 				{% for image in product.images %}
 					{% set id = loop.index - 1 %}
 					<!-- Button trigger modal -->
@@ -42,14 +48,19 @@
 					</a>
 					{{ include('home/_modalCarousel.html.twig') }}
 				{% endfor %}
+				{# Fin Images d'illustration et carousel #}
+
 				<div class="my-3">
 					<p>Référence sortie:
 						{{ product.reference }}</p>
 				</div>
+
 			</div>
 
+			{# Bloc decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
 			<div class="w-50 p-3 m-3">
 
+				{# Onglets decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
 				<ul class="nav nav-tabs nav-colors">
 					<li class="active p-3">
 						<a href="#tab-description" data-toggle="tab" class="text-decoration-none">Description</a>
@@ -64,7 +75,13 @@
 						<a href="#tab-review" data-toggle="tab" class="text-decoration-none">Avis ({{ moderatedComments|length }})</a>
 					</li>
 				</ul>
+				{# Fin Onglets decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
+
+
+				{# Contenus decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
 				<div class="tab-content mt-3">
+
+					{# Description #}
 					<section class="tab-pane active" id="tab-description">
 						<p>{{ ( product.description ?? '')|raw }}</p>
 						<p>
@@ -74,6 +91,9 @@
 						</p>
 						<p>{{ product.taxIncludedPrice }}&euro;</p>
 					</section>
+					{# Fin description #}
+
+					{# Infos pratiques (attributs) #}
 					<section class="tab-pane" id="tab-specification">
 						<table class="table table-bordered">
 							<tbody>
@@ -92,8 +112,10 @@
 								{% endfor %}
 							</tbody>
 						</table>
-						
 					</section>
+					{# Fin Infos pratiques (attributs) #}
+
+					{# Formulaire réservation/contact #}
 					<section class="tab-pane" id="tab-reserver">
 						{% if product.weezeevent is not empty %}
 							<a class="btn" title="Réserver sur weezevent.com" href="{{ product.weezeevent }}" target="_blank" rel="noopener noreferrer">Réserver</a>
@@ -101,9 +123,12 @@
                         	{{ include('home/_formMessages.html.twig') }}							
 						{% endif %}
 					</section>
-					<section class="tab-pane" id="tab-review">
-                        {# {{ include('home/_formMessages.html.twig') }} #}
+					{# Fin Formulaire réservation/contact #}
 
+					{# Commentaire/Avis #}
+					<section class="tab-pane" id="tab-review">
+
+						{# Liste des commentaires modérés #}
 						{% for comment in moderatedComments %}
 						<div class="card card-primary card-outline mt-2">
 							<div class="card-body">
@@ -124,22 +149,31 @@
 						{% else %}
 							<p>Il n'y a pas d'avis pour cet évènement.</p>
 						{% endfor %}
+						{# Fin Liste des commentaires modérés #}
+
+						{# Formulaire commentaire #}
 						<div class="my-3">
 							<h4>Écrire un Avis</h4>
 							{{ include('comments/_form.html.twig') }}						
 						</div>
+						{# Fin Formulaire commentaire #}
 
 					</section>
-				</div>
+					{# Fin Commentaire/Avis #}
 
+				</div>
+				{# Fin Contenus decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
 
 			</div>
+			{# Fin Bloc decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
 
 		</div>
 
 
 	</article>
+	{# Fin Section dédiée au produit #}
 
+	{# Sorties similaires (produits de même catégorie) #}
 	{% if category.products|length > 1 %}
 	<section>
 		<h3>Sortie(s) similaire(s)</h3>
@@ -170,8 +204,8 @@
 			{% endfor %}
 		</div>	
 	</section>
-
 	{% endif %}
+	{# Fin Sorties similaires (produits de même catégorie) #}
 
 {% endblock %}
 {% block javascripts %}
