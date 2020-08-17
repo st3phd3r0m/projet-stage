@@ -33,7 +33,7 @@
 
 				{# Images d'illustration et carousel #}
 				{% for image in product.images %}
-					{% set id = loop.index - 1 %}
+					{% set id = loop.index0 %}
 					<!-- Button trigger modal -->
 					<a data-toggle="modal" data-target="#carouselModal{{ id }}">
 						{% if id == 0 %}
@@ -188,7 +188,7 @@
 						</div>
 						<div class="p-3">
 							<h4 class="font-italic">{{ suggestedProduct.title }}</h4>
-							<p>{{ suggestedProduct.description[:200] }}{{ (suggestedProduct.description|length > 200)?'...':'' }}</p>
+							<p>{{ suggestedProduct.description[:200]|striptags|raw }}{{ (suggestedProduct.description|length > 200)?'...':'' }}</p>
 							<p>
 								{% for keyWords in product.keywords %}
 								# <strong>{{ keyWords }}</strong>

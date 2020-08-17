@@ -13,7 +13,7 @@
 
 					<div class="carousel-inner">
 						{% for image in product.images %}
-                            <div class="carousel-item {{ (loop.index == id + 1)?'active':'' }}">
+                            <div class="carousel-item {{ (loop.index0 == id)?'active':'' }}">
                                 <img class="d-block w-100" src="{{ asset('images/products/' ~ image.name ) }}" alt="Immage d'illustration {{ product.title ?? '' }}">
                                 <div class="row">
                                     <p class="col-8 text-left">"{{ product.title ?? '' }}"</p>
