@@ -1,55 +1,132 @@
-.view-group {
-    display: flex;
-    flex-direction: row;
-    padding-left: 0;
-    margin-bottom: 0;
-}
-.thumbnail
-{
-    margin-bottom: 30px;
-    padding: 0px;
-    border-radius: 0px;
+body header nav ul {
+  background-color: #ff671f !important;
 }
 
-.item.list-group-item
-{
-    float: none;
+body header nav ul > li > a {
+  color: white !important;
+}
+
+body header nav ul > li > a:hover {
+  background-color: #9c122e !important;
+}
+
+body header nav ul > li > .dropdown-menu {
+  background-color: #ff671f !important;
+}
+
+body header nav ul > li > .dropdown-menu > .dropdown-item {
+  color: white !important;
+}
+
+body header nav ul > li > .dropdown-menu > .dropdown-item:hover {
+  background-color: #9c122e !important;
+}
+
+@media (max-width: 991.98px) {
+  body header #logoMobile {
+    display: none;
+  }
+  body header #burgerAndBannerWrapper {
+    left: 0;
     width: 100%;
-    background-color: #fff;
-    margin-bottom: 30px;
-    flex: 0 0 100%;
-    max-width: 100%;
-    padding: 0 1rem;
-    border: 0;
-}
-.item.list-group-item .img-event {
-    float: left;
-    width: 30%;
+    background-color: white;
+    -webkit-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+    -webkit-transition-property: left, width;
+    transition-property: left, width;
+  }
+  body header #burgerAndBannerWrapper > img {
+    height: 50px;
+  }
+  body header .pushButton {
+    left: 25% !important;
+    width: 75% !important;
+  }
+  body header .offcanvas-collapse {
+    z-index: 2040;
+    position: fixed;
+    top: 0;
+    right: 100%;
+    width: 25%;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    overflow-y: auto;
+    visibility: hidden;
+    background-color: #ff671f;
+    -webkit-transition-timing-function: ease-in-out;
+            transition-timing-function: ease-in-out;
+    -webkit-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+    -webkit-transition-property: right, visibility;
+    transition-property: right, visibility;
+  }
+  body header .offcanvas-collapse.open {
+    right: 75%;
+    visibility: visible;
+  }
 }
 
-.item.list-group-item .list-group-image
-{
-    margin-right: 10px;
-}
-.item.list-group-item .thumbnail
-{
-    margin-bottom: 0px;
-    display: inline-block;
-}
-.item.list-group-item .caption
-{
-    float: left;
-    width: 70%;
-    margin: 0;
+body header #logoMobile {
+  display: none;
 }
 
-.item.list-group-item:before, .item.list-group-item:after
-{
-    display: table;
-    content: " ";
+body main section div#products .view-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  padding-left: 0;
+  margin-bottom: 0;
 }
 
-.item.list-group-item:after
-{
-    clear: both;
+body main section div#products .thumbnail {
+  margin-bottom: 30px;
+  padding: 0px;
+  border-radius: 0px;
 }
+
+body main section div#products .item.list-group-item {
+  float: none;
+  width: 100%;
+  background-color: #fff;
+  margin-bottom: 30px;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100%;
+          flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0 1rem;
+  border: 0;
+}
+
+body main section div#products .item.list-group-item .img-event {
+  float: left;
+  width: 30%;
+}
+
+body main section div#products .item.list-group-item .list-group-image {
+  margin-right: 10px;
+}
+
+body main section div#products .item.list-group-item .thumbnail {
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+body main section div#products .item.list-group-item .caption {
+  float: left;
+  width: 70%;
+  margin: 0;
+}
+
+body main section div#products .item.list-group-item:before, body main section div#products .item.list-group-item:after {
+  display: table;
+  content: " ";
+}
+
+body main section div#products .item.list-group-item:after {
+  clear: both;
+}
+/*# sourceMappingURL=styles.css.map */

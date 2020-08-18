@@ -1,0 +1,200 @@
+$red :#9c122e;
+$blue:#19578b;
+$orange:#e3710d;
+$orange2:#ff671f;
+
+body{
+
+
+    header{
+
+        // >.container{
+        //     >div{
+        //         >div{
+        //             >h1{
+        //                 text-align: center;
+        //                 position: relative;
+        //                 >.red{
+        //                     color: $red;
+        //                 }
+
+        //                 >.blue{
+        //                     color: $blue;
+        //                 }
+
+        //                 >.orange{
+        //                     color: $orange;
+        //                 }
+
+        //                 &::after {
+        //                     content: '';
+        //                     width: 15%;
+        //                     height: 2px;
+        //                     position: absolute;
+        //                     background-color: $orange; 
+        //                     bottom: 10px;
+        //                     left: -30px;
+        //                 }
+
+        //                 &::before {
+        //                     content: '';
+        //                     width: 15%;
+        //                     height: 2px;
+        //                     position: absolute;
+        //                     background-color: $orange; 
+        //                     bottom: 10px;
+        //                     right: -30px;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+
+        nav ul{
+            background-color: $orange2 !important;
+            >li{
+                >a{
+                    color: white !important;
+                    &:hover{
+                        background-color: $red !important;
+                    }
+                }
+
+                >.dropdown-menu{
+                    background-color: $orange2 !important;
+                    >.dropdown-item{
+                        color: white !important;
+                        &:hover{
+                            background-color: $red !important;
+                        }
+        
+                    }
+                }
+            }
+            
+        }
+
+        @media(max-width: 991.98px) {
+
+            #logoMobile{
+                display: none;
+            }
+
+            #burgerAndBannerWrapper{
+                left:0;
+                width: 100%;
+                background-color: white;
+                // transition-timing-function: ease-in-out;
+                transition-duration: 0.3s;
+                transition-property: left, width;
+                >img{
+                    height: 50px;
+                }
+            }
+
+            .pushButton {
+                left: 25% !important;
+                width: 75% !important;
+            }
+
+            .offcanvas-collapse {
+                z-index:2040;
+                position: fixed;
+                top:0;
+                right: 100%;
+                width: 25%;
+                padding-right: 1rem;
+                padding-left: 1rem;
+                overflow-y: auto;
+                visibility: hidden;
+                background-color: $orange2;
+                transition-timing-function: ease-in-out;
+                transition-duration: 0.3s;
+                transition-property: right, visibility;
+            }
+            .offcanvas-collapse.open {
+                right: 75%;
+                visibility: visible;
+            }
+        }
+
+
+
+        #logoMobile{
+            display: none;
+        }
+
+
+
+
+    }
+
+    main{
+        section{
+
+            div#products{
+
+                .view-group {
+                    display: flex;
+                    flex-direction: row;
+                    padding-left: 0;
+                    margin-bottom: 0;
+                }
+
+                .thumbnail
+                {
+                    margin-bottom: 30px;
+                    padding: 0px;
+                    border-radius: 0px;
+                }
+
+                .item.list-group-item
+                {
+                    float: none;
+                    width: 100%;
+                    background-color: #fff;
+                    margin-bottom: 30px;
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                    padding: 0 1rem;
+                    border: 0;
+                }
+
+                .item.list-group-item .img-event {
+                    float: left;
+                    width: 30%;
+                }
+
+                .item.list-group-item .list-group-image
+                {
+                    margin-right: 10px;
+                }
+                .item.list-group-item .thumbnail
+                {
+                    margin-bottom: 0px;
+                    display: inline-block;
+                }
+                .item.list-group-item .caption
+                {
+                    float: left;
+                    width: 70%;
+                    margin: 0;
+                }
+                
+                .item.list-group-item:before, .item.list-group-item:after
+                {
+                    display: table;
+                    content: " ";
+                }
+                
+                .item.list-group-item:after
+                {
+                    clear: both;
+                }
+
+            }
+        }
+    }
+
+}

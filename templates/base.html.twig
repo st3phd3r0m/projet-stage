@@ -6,49 +6,42 @@
         <link rel="shortcut icon" href="{{ asset('images/icones/logo_footer.jpg') }}" type="image/x-icon">
         <title>{% block title %}Ludo et Sophie Accueil{% endblock %}</title>
 
-        {# Chargement CDNs #}
-        {# <link rel="stylesheet" href="{{ asset('css/normalize.css') }}"> #}
+        {# Chargement CDNs #}        
         <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
 
         <header>
-            {# Bouton menu mobile à retravailler #}
-            <div class="container hidden-lg">
-                <div id="button_responsive_menu">
 
-                    <button type="button" class="btn btn-navbar navbar-toggle offcanvas-toggle js-offcanvas-has-events" data-toggle="offcanvas" data-target="#js-bootstrap-offcanvas"><i class="fa fa-bars"></i></button>
-
-                    <img id="logo_mobile" src="{{ asset('images/icones/logo_mobile.png') }}" title="Ludo et Sophie" alt="Ludo et Sophie" class="img-responsive">
-                
-                </div>
-            </div>
             <div class="container">
                 <div class="row">
-                    <div class="col-2">
+                    <div class="d-none col-2">
                         {# Boucle sur liens header #}
                         {% for link in links()|filter( link => link.position == 'header' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
                                 <a href="{{ link.url }}" 
                                 title="{{ link.title }}"
                                 target="{{ (link.type == "external") ? '_blank' : '_self' }}">
                                     {% if link.image is not null %}
-					                    <img src="{{ asset('images/icones/'~ link.image ) | imagine_filter('miniatures') }}" alt="Icone du lien {{ link.title }}">
-						            {% endif %}
+                                        <img src="{{ asset('images/icones/'~ link.image ) | imagine_filter('miniatures') }}" alt="Icone du lien {{ link.title }}">
+                                    {% endif %}
                                     <p class="m-0 p-0">{{ link.content }}</p>
                                 </a>
                         {% endfor %}
                         {# Fin Boucle sur liens header #}
 
                     </div>
-                    <div class="col-8">
-                        <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" ><img src="{{ asset('images/icones/logo_neutrenew.jpg') }}" alt="Image d'acceuil du site Ludo et Sophie"></a>
+                    <div class="mt-5">
+                        <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" >
+                            <img class="w-100 mt-5" src="{{ asset('images/icones/logo_neutrenew.jpg') }}" alt="Image d'acceuil du site Ludo et Sophie">
+                        </a>
                         <h1 class="font-italic"><span class="red">et la culture devient</span> <span class="blue">un jeu d'***REMOVED***</span><span class="orange">(s)</span><span class="blue">!</span></h1>
                     </div>
-                    <div class="col-2">
+                    <div class="d-none col-2 ">
                         {% for foreignLanguage in foreignLanguages() %} 
                             <a href="{{ path('foreign', { slug: foreignLanguage.slug}) }}"><img src="{{ asset('images/languages/' ~ foreignLanguage.flag ) | imagine_filter('miniatures') }}" alt="Icone de la langue {{ foreignLanguage.name }}"></a>
 
@@ -57,89 +50,116 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
-                {# Menu mobile à retravailler #}
-                <nav class="navbar navbar-offcanvas offcanvas-transform js-offcanvas-done" id="js-bootstrap-offcanvas">
-                    <div class="navbar-header"></div>
-                    <div class="">
-                        <ul class="nav navbar-nav">
 
-                            {% set dropDownButtonText = ''  %}
+            <div class="container">
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-white" id="navbar">
+
+                    <div class="fixed-top" id="burgerAndBannerWrapper">
+                    
+                        <button class="navbar-toggler p-3 border mt-3 mx-5" type="button" data-toggle="offcanvas">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>   
+                        <img id="logoMobile" src="{{ asset('images/icones/logo_mobile.png' ) }}" alt="">
+                    
+                    </div>
+
+
+                    <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+
+
+                        <ul class="navbar-nav mr-auto">
+
+                            {% set dropDownButtonText = '' %}
 
                             {# Boucle sur liens nav #}
                             {% for link in links()|filter( link => link.position == 'nav' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
-                                    <a class="mobile_fix {{ loop.last ? 'hidden-xs' : '' }}" 
+                                {% if loop.last %}
+                                    {% set dropDownButtonText = link.content  %}
+
+                                <li id="lastDesktop" class="nav-item d-none">
+                                    <a class="nav-link" 
                                     href="{{ link.url }}" 
                                     title="{{ link.title }}" 
                                     target="{{ (link.type == "external") ? '_blank' : '_self' }}" >
                                         {{ link.content }}
                                     </a> 
-                                    
-                                    {% if loop.last %}
-                                        {% set dropDownButtonText = link.content  %}
-                                    {% endif %}
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ link.content }}</a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                        {% for link in links()|filter( link => link.position == 'dropdown' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
+                                            <a class="dropdown-item" 
+                                                href="{{ link.url }}" 
+                                                title="{{ link.title }}" 
+                                                target="{{ (link.type == "external") ? '_blank' : '_self' }}" >
+                                                {{ link.content }}
+                                            </a> 
+                                        {% endfor %}
+                                    </div>
+                                </li>
+                                {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" 
+                                    href="{{ link.url }}" 
+                                    title="{{ link.title }}" 
+                                    target="{{ (link.type == "external") ? '_blank' : '_self' }}" >
+                                        {{ link.content }}
+                                    </a> 
+                                </li>
+                                {% endif %}
 
                             {% endfor %}
                             {# Fin Boucle sur liens nav #}
- 
-                            <li id="***REMOVED***" class="dropdown hidden-lg">
-                                <a id="***REMOVED***_link" href="#" title="Programmation" class="dropdown-toggle" data-toggle="dropdown">
-                                    <span class="first_lvl">{{ dropDownButtonText }}</span> 
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-right">
 
-                                    {% for link in links()|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
-                                        {% if link.position == 'dropdown' %}
-                                        <li>
-                                            <a class="mobile_fix" 
-                                            href="{{ link.url }}" 
-                                            title="{{ link.title }}" 
-                                            target="{{ (link.type == "external") ? '_blank' : '_self' }}" >
-                                                {{ link.content }}
-                                            </a> 
-                                        </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            </li>
-                            <li class="hidden-lg">
-                                {% for link in links()|filter( link => link.position == 'header' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
-                                        <a class="mobile_fix" 
-                                        href="{{ link.url }}" 
-                                        title="{{ link.title }}" 
-                                        target="{{ (link.type == "external") ? '_blank' : '_self' }}" >
-                                            {{ link.content }}
-                                        </a> 
-                                {% endfor %}
-                            </li>
+                            {# Boucle sur liens header #}
+                            {% for link in links()|filter( link => link.position == 'header' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ link.url }}" 
+                                    title="{{ link.title }}"
+                                    target="{{ (link.type == "external") ? '_blank' : '_self' }}">
+                                        {{ link.content }}
+                                    </a>
+                                </li>        
+                            {% endfor %}
+                            {# Fin Boucle sur liens header #}
+
                         </ul>
                     </div>
-                </nav>
+                </nav>        
+            
+            
             </div>
+
         </header>
+    
 
-        <main class="container">
 
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success" role="alert">{{ message }}</div>
-            {% endfor %}
+        <main>
 
-            {% for message in app.flashes('fail') %}
-                <div class="alert alert-warning" role="alert">{{ message }}</div>
-            {% endfor %}
+            <div class="container">
 
-            {% block body %}{% endblock %}        
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">{{ message }}</div>
+                {% endfor %}
+
+                {% for message in app.flashes('fail') %}
+                    <div class="alert alert-warning" role="alert">{{ message }}</div>
+                {% endfor %}
+
+                {% block body %}{% endblock %}    
+            </div>
+    
         </main>
 
-        <footer class="border-top">
+        <footer class="border-top"> 
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
-                        <h4 class="contact_us">Une question ? Une idée ?</h4>
+                        <h4>Une question ? Une idée ?</h4>
                         <div class="row">
                             <div class="col-4 m-0">
-                                <img class="w-100 m-0" src="{{ asset('images/icones/logo_footer.jpg') }}" alt="Logo footer Ludo et Sophie">                            
+                                <img class="w-100" src="{{ asset('images/icones/logo_footer.jpg') }}" alt="Logo footer Ludo et Sophie">                            
                             </div>
                             <address class="col-8 text-left m-0">
                                 Ludo &amp; Sophie SAS
@@ -157,7 +177,7 @@
                     {# Boucle sur liens footer #}
                     {% for link in links()|filter( link => link.position == 'footer' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
                             <li>
-                                <a class="mobile_fix" 
+                                <a
                                 href="{{ link.url }}" 
                                 title="{{ link.title }}" 
                                 target="{{ (link.type == "external") ? '_blank' : '_self' }}" >
@@ -175,10 +195,11 @@
         </footer>
 
 
+
         <!-- JS, Popper.js-->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
         <script src="{{ asset('js/gridList.js') }}"></script>
 
         {% block javascripts %}{% endblock %}

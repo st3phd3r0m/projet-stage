@@ -1,10 +1,3 @@
-{# <form method="post" action="{{ path('links_delete', {'id': link.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ link.id) }}">
-    <button class="btn">Delete</button>
-</form>
- #}
-
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLink{{ link.id }}ModalCenter">
    <i class="fas fa-trash"></i>
