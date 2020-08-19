@@ -1,3 +1,145 @@
+body .red {
+  color: #9c122e !important;
+}
+
+body .blue {
+  color: #19578b !important;
+}
+
+body .orange {
+  color: #e3710d !important;
+}
+
+body #scrollChrevron {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 80%;
+  left: 100%;
+  z-index: 3;
+  font-size: 2rem;
+  color: #9c122e;
+  background-color: #f5f5f5;
+}
+
+body #scrollChrevron:hover {
+  -webkit-box-shadow: 0 0 5px gray;
+          box-shadow: 0 0 5px gray;
+}
+
+body header h1 {
+  font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 1.3rem;
+  text-align: center;
+  position: relative;
+}
+
+body header h1::after {
+  content: '';
+  height: 2px;
+  position: absolute;
+  background-color: #e3710d;
+  bottom: 10px;
+  left: 0px;
+}
+
+@media screen and (min-width: 576px) {
+  body header h1::after {
+    width: 10%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  body header h1::after {
+    width: 20%;
+  }
+}
+
+body header h1::before {
+  content: '';
+  height: 2px;
+  position: absolute;
+  background-color: #e3710d;
+  bottom: 10px;
+  right: 0px;
+}
+
+@media screen and (min-width: 576px) {
+  body header h1::before {
+    width: 10%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  body header h1::before {
+    width: 20%;
+  }
+}
+
+body header nav > #burgerAndBannerWrapper {
+  left: 0;
+  width: 100%;
+  background-color: white;
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+  -webkit-transition-property: left, width;
+  transition-property: left, width;
+}
+
+body header nav > #burgerAndBannerWrapper > button:hover {
+  -webkit-box-shadow: 0px 0px 5px gray;
+          box-shadow: 0px 0px 5px gray;
+}
+
+body header nav > #burgerAndBannerWrapper > img {
+  display: none;
+  height: 50px;
+}
+
+body header nav > .pushButton {
+  left: 50% !important;
+  width: 70% !important;
+}
+
+@media screen and (max-width: 576px) {
+  body header nav > .pushButton > img {
+    display: none !important;
+  }
+}
+
+@media screen and (min-width: 577px) {
+  body header nav > .pushButton > img {
+    display: unset !important;
+  }
+}
+
+body header nav .offcanvas-collapse {
+  z-index: 2040;
+  position: fixed;
+  top: 0;
+  right: 100%;
+  width: 50%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  overflow-y: auto;
+  visibility: hidden;
+  background-color: #ff671f;
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+  -webkit-transition-property: right, visibility;
+  transition-property: right, visibility;
+  -webkit-box-shadow: 0px 3px 10px gray;
+          box-shadow: 0px 3px 10px gray;
+}
+
+body header nav .offcanvas-collapse.open {
+  right: 50%;
+  visibility: visible;
+}
+
 body header nav ul {
   background-color: #ff671f !important;
 }
@@ -22,111 +164,146 @@ body header nav ul > li > .dropdown-menu > .dropdown-item:hover {
   background-color: #9c122e !important;
 }
 
-@media (max-width: 991.98px) {
-  body header #logoMobile {
-    display: none;
-  }
-  body header #burgerAndBannerWrapper {
-    left: 0;
-    width: 100%;
-    background-color: white;
-    -webkit-transition-duration: 0.3s;
-            transition-duration: 0.3s;
-    -webkit-transition-property: left, width;
-    transition-property: left, width;
-  }
-  body header #burgerAndBannerWrapper > img {
-    height: 50px;
-  }
-  body header .pushButton {
-    left: 25% !important;
-    width: 75% !important;
-  }
-  body header .offcanvas-collapse {
-    z-index: 2040;
-    position: fixed;
-    top: 0;
-    right: 100%;
-    width: 25%;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    overflow-y: auto;
-    visibility: hidden;
-    background-color: #ff671f;
-    -webkit-transition-timing-function: ease-in-out;
-            transition-timing-function: ease-in-out;
-    -webkit-transition-duration: 0.3s;
-            transition-duration: 0.3s;
-    -webkit-transition-property: right, visibility;
-    transition-property: right, visibility;
-  }
-  body header .offcanvas-collapse.open {
-    right: 75%;
-    visibility: visible;
-  }
+body main > div h2 {
+  color: #19578b !important;
+  font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-body header #logoMobile {
-  display: none;
+body main > div > article div > ul > .nav-item > a {
+  color: #19578b;
 }
 
-body main section div#products .view-group {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  padding-left: 0;
-  margin-bottom: 0;
+body main > div > article div > ul > .nav-item > .active {
+  color: #9c122e !important;
 }
 
-body main section div#products .thumbnail {
-  margin-bottom: 30px;
-  padding: 0px;
-  border-radius: 0px;
+body main > div > article div #review form, body main > div > article div #reserver form {
+  margin-bottom: 100px;
 }
 
-body main section div#products .item.list-group-item {
-  float: none;
-  width: 100%;
-  background-color: #fff;
-  margin-bottom: 30px;
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 100%;
-          flex: 0 0 100%;
-  max-width: 100%;
-  padding: 0 1rem;
-  border: 0;
+body main > div > article div #review form input, body main > div > article div #review form textarea, body main > div > article div #reserver form input, body main > div > article div #reserver form textarea {
+  -webkit-box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+          box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
 }
 
-body main section div#products .item.list-group-item .img-event {
-  float: left;
-  width: 30%;
+body main > div > article div #review form button, body main > div > article div #reserver form button {
+  display: block;
+  background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#eeeeee)) !important;
+  background: linear-gradient(top, #eeeeee, #eeeeee) !important;
+  -webkit-box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+          box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+  color: #6d6d6d !important;
 }
 
-body main section div#products .item.list-group-item .list-group-image {
-  margin-right: 10px;
+body main > div > article div #review form button:hover, body main > div > article div #reserver form button:hover {
+  -webkit-box-shadow: 0px 3px 5px gray;
+          box-shadow: 0px 3px 5px gray;
+  color: #535353 !important;
 }
 
-body main section div#products .item.list-group-item .thumbnail {
-  margin-bottom: 0px;
-  display: inline-block;
+body main section > a {
+  background-color: #19578b;
 }
 
-body main section div#products .item.list-group-item .caption {
-  float: left;
-  width: 70%;
-  margin: 0;
+body main section > a:hover {
+  background-color: #9c122e !important;
 }
 
-body main section div#products .item.list-group-item:before, body main section div#products .item.list-group-item:after {
-  display: table;
-  content: " ";
+body main section > div > a {
+  color: #19578b !important;
 }
 
-body main section div#products .item.list-group-item:after {
-  clear: both;
+body main section > div > a > img {
+  display: block;
+  margin: auto;
+}
+
+body main section > div > a > h3 {
+  font-size: 1.5rem;
+}
+
+body main section > div > a:hover {
+  color: #9c122e !important;
+}
+
+body main section > h3 {
+  color: #9c122e;
+}
+
+body main section ul a {
+  color: #9c122e;
+}
+
+body main section article a > img:hover {
+  opacity: 0.7;
+}
+
+body main section article a > h4 {
+  color: #19578b;
+  font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+body main section article a > h4:hover {
+  color: #9c122e;
+}
+
+body main section article a > h3 {
+  font-size: 1.3rem;
+  color: #19578b;
+}
+
+body main section article a > h3:hover {
+  color: #9c122e;
+}
+
+body main section article p {
+  line-height: 2rem;
+}
+
+body main section article .wantToKnowMore {
+  color: #19578b;
+}
+
+body main section article .wantToKnowMore:hover {
+  color: #9c122e;
+}
+
+body footer address {
+  font-family: Times, 'Times New Roman', serif;
+}
+
+body footer address ul {
+  list-style: none;
+}
+
+body footer form input, body footer form textarea {
+  -webkit-box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+          box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+}
+
+body footer form button {
+  background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#eeeeee)) !important;
+  background: linear-gradient(top, #eeeeee, #eeeeee) !important;
+  -webkit-box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+          box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+  color: #6d6d6d !important;
+}
+
+body footer form button:hover {
+  -webkit-box-shadow: 0px 3px 5px gray;
+          box-shadow: 0px 3px 5px gray;
+  color: #535353 !important;
+}
+
+body footer ul {
+  list-style-type: none;
+}
+
+body footer ul a {
+  color: #003163;
+}
+
+body footer ul a:hover {
+  color: #9c122e !important;
 }
 /*# sourceMappingURL=styles.css.map */

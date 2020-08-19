@@ -7,29 +7,29 @@
 {% block body %}
 
 	{# Arborescence de filtrage par cétagories #}
-	<ul>
-		<li>
-			<a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil">
+	<ol class="breadcrumb bg-white">
+		<li class="breadcrumb-item">
+			<a class="text-muted" href="{{ path('home') }}" title="Ludo et Sophie : Acceuil">
 				<i class="fa fa-home"></i>
 			</a>
 		</li>
 		{% for topCategoryTitlesAndSlug in topCategoryTitlesAndSlugs %}
-		<li>
-			<a href="{{ path('home_category', {slug:topCategoryTitlesAndSlug["categorySlug"]}) }}" title="{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}">
-				<h2>{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}</h2>
+		<li class="breadcrumb-item" {{ loop.last ? 'aria-current="page"' :'' }}>
+			<a class="text-muted" href="{{ path('home_category', {slug:topCategoryTitlesAndSlug["categorySlug"]}) }}" title="{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}">
+				<p>{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}</p>
 			</a>
 		</li>
 		{% endfor %}
-	</ul>
+	</ol>
 	{# Fin Arborescence de filtrage par cétagories #}
 
 
 	{# Section dédiée au produit #}
 	<article>
 
-		<h3>{{ product.title ?? '' }}</h3>
-		<div class="d-flex">
-			<div class="w-50">
+		<h2 class="font-italic">{{ product.title ?? '' }}</h2>
+		<div class="d-block d-lg-flex">
+			<div>
 
 				{# Images d'illustration et carousel #}
 				{% for image in product.images %}
@@ -58,21 +58,21 @@
 			</div>
 
 			{# Bloc decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
-			<div class="w-50 p-3 m-3">
+			<div>
 
 				{# Onglets decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
-				<ul class="nav nav-tabs nav-colors">
-					<li class="active p-3">
-						<a href="#tab-description" data-toggle="tab" class="text-decoration-none">Description</a>
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item" role="presentation">
+						<a href="#description" id="description-tab" data-toggle="tab" class="nav-link active" role="tab" aria-controls="description" aria-selected="true">Description</a>
 					</li>
-					<li class="p-3">
-						<a href="#tab-specification" data-toggle="tab" class="text-decoration-none">Informations pratiques</a>
+					<li class="nav-item">
+						<a href="#specification" id="specification-tab" data-toggle="tab" class="nav-link" role="tab" aria-controls="specification" aria-selected="false">Informations pratiques</a>
 					</li>
-					<li class="p-3">
-						<a href="#tab-reserver" data-toggle="tab" class="text-decoration-none">Réserver</a>
+					<li class="nav-item">
+						<a href="#reserver" id="reserver-tab" data-toggle="tab" class="nav-link" role="tab" aria-controls="reserver" aria-selected="false">Réserver</a>
 					</li>
-					<li class="p-3">
-						<a href="#tab-review" data-toggle="tab" class="text-decoration-none">Avis ({{ moderatedComments|length }})</a>
+					<li class="nav-item">
+						<a href="#review" id="review-tab" data-toggle="tab" class="nav-link" role="tab" aria-controls="review" aria-selected="false">Avis ({{ moderatedComments|length }})</a>
 					</li>
 				</ul>
 				{# Fin Onglets decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
@@ -82,8 +82,8 @@
 				<div class="tab-content mt-3">
 
 					{# Description #}
-					<section class="tab-pane active" id="tab-description">
-						<p>{{ ( product.description ?? '')|raw }}</p>
+					<section class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+						<div class="text-secondary">{{ ( product.description ?? '')|raw }}</div>
 						<p>
 							{% for keyWords in product.keywords %}
 							# <strong>{{ keyWords }}</strong>
@@ -94,7 +94,7 @@
 					{# Fin description #}
 
 					{# Infos pratiques (attributs) #}
-					<section class="tab-pane" id="tab-specification">
+					<section class="tab-pane" id="specification" role="tabpanel" aria-labelledby="specification-tab">
 						<table class="table table-bordered">
 							<tbody>
 								{% set previousAttributeGroupName = null %}
@@ -116,7 +116,7 @@
 					{# Fin Infos pratiques (attributs) #}
 
 					{# Formulaire réservation/contact #}
-					<section class="tab-pane" id="tab-reserver">
+					<section class="tab-pane" id="reserver" role="tabpanel" aria-labelledby="reserver-tab">
 						{% if product.weezeevent is not empty %}
 							<a class="btn" title="Réserver sur weezevent.com" href="{{ product.weezeevent }}" target="_blank" rel="noopener noreferrer">Réserver</a>
 						{% else %}
@@ -126,7 +126,7 @@
 					{# Fin Formulaire réservation/contact #}
 
 					{# Commentaire/Avis #}
-					<section class="tab-pane" id="tab-review">
+					<section class="tab-pane" id="review" role="tabpanel" aria-labelledby="review-tab">
 
 						{# Liste des commentaires modérés #}
 						{% for comment in moderatedComments %}
@@ -154,7 +154,7 @@
 						{# Formulaire commentaire #}
 						<div class="my-3">
 							<h4>Écrire un Avis</h4>
-							{{ include('comments/_form.html.twig') }}						
+							{{ include('comments/_form.html.twig', {'button_label': 'Envoyer'}) }}						
 						</div>
 						{# Fin Formulaire commentaire #}
 
@@ -175,28 +175,32 @@
 
 	{# Sorties similaires (produits de même catégorie) #}
 	{% if category.products|length > 1 %}
-	<section>
+	<section class="mb-5">
 		<h3>Sortie(s) similaire(s)</h3>
 		<div class="row">
 			{% for suggestedProduct in category.products %}
 				{% if suggestedProduct != product %}
-					<article class="border p-0 m-3 col-3">
-						<div class="p-3">
+					<article class="border p-0 m-2 col-md-3">
+						<div class="p-md-3">
 						{% if suggestedProduct.images is not empty %}
-							<img class="w-100" src="{{ asset('images/products/' ~ suggestedProduct.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ suggestedProduct.title ?? '' }}">      
+							<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
+								<img class="w-100 d-none d-md-block" src="{{ asset('images/products/' ~ suggestedProduct.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ suggestedProduct.title ?? '' }}"> 			
+							</a>            
 						{% endif %}                 
 						</div>
-						<div class="p-3">
-							<h4 class="font-italic">{{ suggestedProduct.title }}</h4>
-							<p>{{ suggestedProduct.description[:200]|striptags|raw }}{{ (suggestedProduct.description|length > 200)?'...':'' }}</p>
-							<p>
+						<div class="p-1 p-md-3">
+							<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
+								<h4 class="font-italic ">{{ suggestedProduct.title }}</h4>
+							</a>
+							<p class="d-none d-md-block">{{ suggestedProduct.description[:200]|striptags|raw }}{{ (suggestedProduct.description|length > 200)?'...':'' }}</p>
+							<p class="d-none d-md-block">
 								{% for keyWords in product.keywords %}
 								# <strong>{{ keyWords }}</strong>
 								{% endfor %}						
 							</p>
-							<p>{{ suggestedProduct.taxIncludedPrice }}&euro;</p>
+							<p class="d-none d-md-block">{{ suggestedProduct.taxIncludedPrice }}&euro;</p>
 						</div>            
-						<p class="border-top p-3 my-0 text-center">
+						<p class="border-top p-3 my-0 text-center d-none d-md-block">
 							<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">En savoir plus...</a>              
 						</p>
 					</article>

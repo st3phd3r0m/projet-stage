@@ -4,8 +4,8 @@
     {% endif %}
     {{ form_row(form.content) }}
     {{ form_label(form.mark) }}
-    <p>Mauvais</p>
+    <p class="d-inline">Mauvais</p>
     {{ form_widget(form.mark) }}
-    <p>Bon</p>
-    <button class="btn btn-success my-5">{{ button_label|default('Valider') }}</button>
+    <p class="d-inline">Bon</p>
+    <button class="btn my-5 float-right">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}

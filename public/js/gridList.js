@@ -1,4 +1,5 @@
-let pointTablette = 991.98;
+let pointTablette = 992;
+let pointMobile = 576;
 
 $(document).ready(function() {
 
@@ -12,11 +13,10 @@ $(document).ready(function() {
 
     $(window).on('resize', switchBanner);
 
-    $('[data-toggle="offcanvas"]').on('click', function() {
-        $('.offcanvas-collapse').toggleClass('open');
-        $('#burgerAndBannerWrapper').toggleClass('pushButton');
-    });
+    $('[data-toggle="offcanvas"]').one('click', slideMenuToRight);
 
+    // double Flèche en bas à droite de la fenetre en position:sticky pour retour à l'acceuil du site
+    $("#scrollChrevron").on("click", goToHomeSite);
 
 });
 
@@ -40,6 +40,32 @@ function switchBanner(){
     } else {
         $("#logoMobile").hide();
     }
-
 };
 
+function slideMenuToRight(){
+    $('.offcanvas-collapse').toggleClass('open');
+    $('#burgerAndBannerWrapper').toggleClass('pushButton');
+    $(clickCloseMenu);
+}
+
+function clickCloseMenu(){
+    $(document).one("click", slideMenuToLeft);
+}
+
+function slideMenuToLeft(){
+    $('.offcanvas-collapse').removeClass('open');
+    $('#burgerAndBannerWrapper').removeClass('pushButton');
+    $('[data-toggle="offcanvas"]').one('click', slideMenuToRight);
+}
+
+/**
+ * Fonction qui va vers l'acceuil en scrolling
+ * @param {*} event 
+ */
+function goToHomeSite() {
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
+}

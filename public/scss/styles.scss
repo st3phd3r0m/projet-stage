@@ -5,97 +5,115 @@ $orange2:#ff671f;
 
 body{
 
+    .red{
+        color: $red !important;
+    }
+
+    .blue{
+        color: $blue !important;
+    }
+
+    .orange{
+        color: $orange !important;
+    }
+
+
+    #scrollChrevron {
+        position: sticky;
+        top: 80%;
+        left: 100%;
+        z-index: 3;
+        font-size: 2rem;
+        color: $red;
+        background-color: #f5f5f5;
+
+        &:hover {
+            box-shadow: 0 0 5px rgb(128, 128, 128);
+        }
+
+    }
 
     header{
 
-        // >.container{
-        //     >div{
-        //         >div{
-        //             >h1{
-        //                 text-align: center;
-        //                 position: relative;
-        //                 >.red{
-        //                     color: $red;
-        //                 }
 
-        //                 >.blue{
-        //                     color: $blue;
-        //                 }
+        h1{
+            font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size : 1.3rem;
+            text-align: center;
+            position: relative;
 
-        //                 >.orange{
-        //                     color: $orange;
-        //                 }
-
-        //                 &::after {
-        //                     content: '';
-        //                     width: 15%;
-        //                     height: 2px;
-        //                     position: absolute;
-        //                     background-color: $orange; 
-        //                     bottom: 10px;
-        //                     left: -30px;
-        //                 }
-
-        //                 &::before {
-        //                     content: '';
-        //                     width: 15%;
-        //                     height: 2px;
-        //                     position: absolute;
-        //                     background-color: $orange; 
-        //                     bottom: 10px;
-        //                     right: -30px;
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-
-        nav ul{
-            background-color: $orange2 !important;
-            >li{
-                >a{
-                    color: white !important;
-                    &:hover{
-                        background-color: $red !important;
-                    }
+            &::after {
+                content: '';
+                height: 2px;
+                position: absolute;
+                background-color: $orange; 
+                bottom: 10px;
+                left: 0px;
+                @media screen and (min-width: 576px) {
+                    width: 10%;
                 }
-
-                >.dropdown-menu{
-                    background-color: $orange2 !important;
-                    >.dropdown-item{
-                        color: white !important;
-                        &:hover{
-                            background-color: $red !important;
-                        }
-        
-                    }
+                @media screen and (min-width: 768px) {
+                    width: 20%;
                 }
             }
+
+            &::before {
+                content: '';
+                height: 2px;
+                position: absolute;
+                background-color: $orange; 
+                bottom: 10px;
+                right: 0px;
+                @media screen and (min-width: 576px) {
+                    width: 10%;
+                }
+                @media screen and (min-width: 768px) {
+                    width: 20%;
+                }
+            }
+
             
+
+
+
         }
 
-        @media(max-width: 991.98px) {
+        //Barre navigation et dropdown
+        nav{
 
-            #logoMobile{
-                display: none;
-            }
-
-            #burgerAndBannerWrapper{
+            >#burgerAndBannerWrapper{
                 left:0;
                 width: 100%;
                 background-color: white;
-                // transition-timing-function: ease-in-out;
+                transition-timing-function: ease-in-out;
                 transition-duration: 0.3s;
                 transition-property: left, width;
+                >button{
+
+                    &:hover{
+                        box-shadow: 0px 0px 5px rgb(128, 128, 128);
+                    }
+                }
                 >img{
+                    display: none;
                     height: 50px;
                 }
             }
 
-            .pushButton {
-                left: 25% !important;
-                width: 75% !important;
+            >.pushButton {
+                left: 50% !important;
+                width: 70% !important;
+                >img{
+
+                    @media screen and (max-width: 576px) {
+                        display: none !important;
+                    }
+
+                    @media screen and (min-width: 577px) {
+                        display: unset !important;
+                    }
+
+                }
             }
 
             .offcanvas-collapse {
@@ -103,7 +121,7 @@ body{
                 position: fixed;
                 top:0;
                 right: 100%;
-                width: 25%;
+                width: 50%;
                 padding-right: 1rem;
                 padding-left: 1rem;
                 overflow-y: auto;
@@ -112,88 +130,293 @@ body{
                 transition-timing-function: ease-in-out;
                 transition-duration: 0.3s;
                 transition-property: right, visibility;
+                box-shadow: 0px 3px 10px rgb(128, 128, 128);
             }
+
             .offcanvas-collapse.open {
-                right: 75%;
+                right: 50%;
                 visibility: visible;
             }
+
+            ul{
+                background-color: $orange2 !important;
+                >li{
+
+                    >a{
+                        color: white !important;
+                        &:hover{
+                            background-color: $red !important;
+                        }
+                    }
+    
+                    >.dropdown-menu{
+                        background-color: $orange2 !important;
+                        >.dropdown-item{
+                            color: white !important;
+                            &:hover{
+                                background-color: $red !important;
+                            }
+            
+                        }
+                    }
+                }
+                
+            }
+
+
         }
-
-
-
-        #logoMobile{
-            display: none;
-        }
-
-
 
 
     }
 
+
     main{
+        >div{
+
+            h2{
+                color:$blue!important;
+                font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
+            }
+
+            >article{
+                div{
+
+                    >ul{
+
+                        >.nav-item{
+                            >a{
+                                color: $blue;
+
+                            }
+                            >.active{
+                                color: $red!important;
+                            }
+                        }
+                    }
+
+                    #review, #reserver{
+
+                        form{
+                            margin-bottom: 100px;
+
+                            input, textarea{
+                                box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+                            }
+                
+                            button{
+                                display: block;
+                                background: linear-gradient(top, #eeeeee, #eeeeee) !important;
+                                box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+                                color: #6d6d6d !important;
+                                    
+                            }
+                
+                            button:hover {
+                                box-shadow: 0px 3px 5px rgba(128, 128, 128, 1);
+                                color: rgb(83, 83, 83)!important;
+                            }
+                
+                
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+
+
         section{
 
-            div#products{
+            >a{
+                background-color: $blue;
 
-                .view-group {
-                    display: flex;
-                    flex-direction: row;
-                    padding-left: 0;
-                    margin-bottom: 0;
+                &:hover{
+                    background-color: $red!important;
                 }
-
-                .thumbnail
-                {
-                    margin-bottom: 30px;
-                    padding: 0px;
-                    border-radius: 0px;
-                }
-
-                .item.list-group-item
-                {
-                    float: none;
-                    width: 100%;
-                    background-color: #fff;
-                    margin-bottom: 30px;
-                    flex: 0 0 100%;
-                    max-width: 100%;
-                    padding: 0 1rem;
-                    border: 0;
-                }
-
-                .item.list-group-item .img-event {
-                    float: left;
-                    width: 30%;
-                }
-
-                .item.list-group-item .list-group-image
-                {
-                    margin-right: 10px;
-                }
-                .item.list-group-item .thumbnail
-                {
-                    margin-bottom: 0px;
-                    display: inline-block;
-                }
-                .item.list-group-item .caption
-                {
-                    float: left;
-                    width: 70%;
-                    margin: 0;
-                }
-                
-                .item.list-group-item:before, .item.list-group-item:after
-                {
-                    display: table;
-                    content: " ";
-                }
-                
-                .item.list-group-item:after
-                {
-                    clear: both;
-                }
-
             }
+
+            >div{
+                >a{
+                    color:$blue!important;
+                    >img{
+                        display: block;
+                        margin: auto;
+                    }
+                    
+
+                    >h3{
+                        font-size: 1.5rem;
+                    }
+
+                    &:hover{
+                        color: $red!important;
+                    }
+                }
+            }
+
+            >h3{
+
+                color: $red;
+            }
+            ul{
+                a{
+                    color: $red;
+                }
+            }
+
+            article{
+                a{
+                    >img{
+                        &:hover{
+                            opacity: 0.7;
+                        }
+                    }
+
+                    >h4{
+                        color:$blue;
+                        font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
+                        &:hover{
+                            color: $red;
+                        }
+                    }
+
+                    >h3{
+                        font-size: 1.3rem;
+                        color: $blue;
+                        &:hover{
+                            color: $red;
+                        }
+                    }
+                }
+
+                p{
+                    line-height: 2rem;
+                }
+
+                
+                .wantToKnowMore{
+                    color: $blue;
+
+                    &:hover{
+                        color: $red;
+                    }
+                }
+            }
+
+
+            // div#products{
+
+            //     .view-group {
+            //         display: flex;
+            //         flex-direction: row;
+            //         padding-left: 0;
+            //         margin-bottom: 0;
+            //     }
+
+            //     .thumbnail
+            //     {
+            //         margin-bottom: 30px;
+            //         padding: 0px;
+            //         border-radius: 0px;
+            //     }
+
+            //     .item.list-group-item
+            //     {
+            //         float: none;
+            //         width: 100%;
+            //         background-color: #fff;
+            //         margin-bottom: 30px;
+            //         flex: 0 0 100%;
+            //         max-width: 100%;
+            //         padding: 0 1rem;
+            //         border: 0;
+            //     }
+
+            //     .item.list-group-item .img-event {
+            //         float: left;
+            //         width: 30%;
+            //     }
+
+            //     .item.list-group-item .list-group-image
+            //     {
+            //         margin-right: 10px;
+            //     }
+            //     .item.list-group-item .thumbnail
+            //     {
+            //         margin-bottom: 0px;
+            //         display: inline-block;
+            //     }
+            //     .item.list-group-item .caption
+            //     {
+            //         float: left;
+            //         width: 70%;
+            //         margin: 0;
+            //     }
+                
+            //     .item.list-group-item:before, .item.list-group-item:after
+            //     {
+            //         display: table;
+            //         content: " ";
+            //     }
+                
+            //     .item.list-group-item:after
+            //     {
+            //         clear: both;
+            //     }
+
+            // }
+
+
+
+
+
+        }
+    }
+
+    // }
+
+    footer{
+        address{
+            font-family: Times, 'Times New Roman', serif;
+            ul{
+                list-style: none;
+            }
+            
+        }
+
+        form{
+
+            input, textarea{
+                box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+            }
+
+            button{
+                background: linear-gradient(top, #eeeeee, #eeeeee) !important;
+                box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+                color: #6d6d6d !important;
+                    
+            }
+
+            button:hover {
+                box-shadow: 0px 3px 5px rgba(128, 128, 128, 1);
+                color: rgb(83, 83, 83)!important;
+            }
+
+
+        }
+
+        ul{
+            list-style-type: none;
+            a{
+                color: #003163;
+                
+                &:hover{
+                    color: $red !important;
+                }
+            }
+            
         }
     }
 

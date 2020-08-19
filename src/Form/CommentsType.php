@@ -50,6 +50,12 @@ class CommentsType extends AbstractType
                     '4' => 4,
                     '5' => 5
                 ],
+                'label_attr'=>[
+                    'class'=>'radio-inline'
+                ],
+                'attr'=>[
+                    'class'=>'d-inline'
+                ],
                 'placeholder' => false,
                 'choice_label'=>false,
                 'expanded'=> true,

@@ -1,16 +1,16 @@
 {{ form_start(formContact) }}
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-lg-6">
         {{ form_row(formContact.name) }}
         {{ form_row(formContact.email) }}
         {{ form_row(formContact.subject, { 'attr': {'value': product.title } }) }}
         {{ form_row(formContact.wished_date) }}
         {{ form_row(formContact.phone) }}
     </div>
-    <div class="col-6">
+    <div class="col-lg-6">
         {{ form_row(formContact.message) }}
-        <button>{{ button_label|default('Valider') }}</button>
+        <button class="btn my-5 float-right">{{ button_label|default('Valider') }}</button>
     </div>
 </div>
 

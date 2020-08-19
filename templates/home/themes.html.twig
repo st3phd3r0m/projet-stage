@@ -4,19 +4,19 @@
 
 {% block body %}
 
-<h2>La ludo-culture tous azimuts : Arts, Sciences, Histoire, coulisses, ateliers créatifs... À vous de choisir !</h2>
+<h2 class="text-center">La ludo-culture tous azimuts : Arts, Sciences, Histoire, coulisses, ateliers créatifs... À vous de choisir !</h2>
 
 <section class="row">
     {% for category in categories %}
-        <div class="col-4">
-            <a href="{{ path('home_category', {slug: category.slug}) }}" title="Aller vers le thème {{ category.title }}">
+        <div class="col-md-4 my-3">
+            <a class="text-decoration-none" href="{{ path('home_category', {slug: category.slug}) }}" title="Aller vers le thème {{ category.title }}">
                 <img src="{{ asset('images/products/' ~ category.images[0].name ) }}" alt="Logo Ludo et Sophie">
-                <h3>{{ category.title }}</h3>
+                <h3 class="text-center">{{ category.title }}</h3>
             </a>
         </div>
     {% endfor %}
 
-    <a href="{{ path('home_all_products') }}" title="Voir toutes les ***REMOVED***">Voir toutes les ***REMOVED*** programmées</a>
+    <a class="p-3 m-5 mx-auto text-white text-decoration-none" href="{{ path('home_all_products') }}" title="Voir toutes les ***REMOVED***">Voir toutes les ***REMOVED*** programmées</a>
 </section>
         
 {% endblock %}
