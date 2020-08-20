@@ -54,7 +54,7 @@
 							{# Illustration produit #}
 							{% if product.images is not empty %}
 								<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'toutes-les-***REMOVED***' , slugProduct: product.slug}) }}">
-									<img class="group list-group-image img-fluid w-100" src="{{ asset('images/products/' ~ product.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ product.title ?? '' }}">     								
+									<img class="group list-group-image img-fluid d-block mx-auto" src="{{ asset('images/products/' ~ product.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ product.title ?? '' }}"> 		
 								</a>  
 							{% endif %}    
 							{# Fin Illustration produit #}

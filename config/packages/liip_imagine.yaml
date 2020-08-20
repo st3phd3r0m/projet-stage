@@ -10,7 +10,23 @@ liip_imagine:
     filter_sets:
         cache: ~
 
+        mini:
+            quality: 70
+            filters:
+                thumbnail: { size: [110, 100] }
+
         miniatures:
             quality: 70
             filters:
-                thumbnail: { size: [100, 100] }
+                thumbnail: { size: [200, 200] }
+
+        miniatures_5on3:
+            quality: 70
+            filters:
+                thumbnail: { size: [333, 200] }
+
+        medium_size:
+            quality: 70
+            filters:
+                thumbnail: { size: [500, 400] }
+

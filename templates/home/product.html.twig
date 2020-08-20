@@ -53,11 +53,11 @@
 					<a data-toggle="modal" data-target="#carouselModal{{ id }}">
 						{% if id == 0 %}
 							<div class="border rounded-lg p-2 mr-1 my-3">
-								<img class="w-100" src="{{ asset('images/products/' ~ image.name ) }}" alt="Immage d'illustration {{ product.title ?? '' }}">
+								<img class="img-fluid" src="{{ asset('images/products/' ~ image.name )| imagine_filter('medium_size') }}" alt="Immage d'illustration {{ product.title ?? '' }}">
 							</div>
 						{% else %}
 							<div class="d-inline-block border rounded-lg p-2 mr-1 my-3">
-								<img src="{{ asset('images/products/' ~ image.name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ product.title ?? '' }}">
+								<img class="img-fluid" src="{{ asset('images/products/' ~ image.name )| imagine_filter('mini') }}" alt="Immage d'illustration {{ product.title ?? '' }}">
 							</div>
 						{% endif %}
 					</a>
@@ -202,7 +202,7 @@
 									{# Illustration produit #}
 									{% if suggestedProduct.images is not empty %}
 										<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
-											<img class="list-group-image img-fluid w-100" src="{{ asset('images/products/' ~ suggestedProduct.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ suggestedProduct.title ?? '' }}"> 			
+											<img class="list-group-image img-fluid" src="{{ asset('images/products/' ~ suggestedProduct.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ suggestedProduct.title ?? '' }}"> 			
 										</a>            
 									{% endif %}   
 									{# Fin Illustration produit #}
