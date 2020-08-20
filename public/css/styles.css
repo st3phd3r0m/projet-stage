@@ -165,7 +165,6 @@ body header nav ul > li > .dropdown-menu > .dropdown-item:hover {
 }
 
 body main > div h2 {
-  color: #19578b !important;
   font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
@@ -201,71 +200,61 @@ body main > div > article div #review form button:hover, body main > div > artic
   color: #535353 !important;
 }
 
-body main section > a {
-  background-color: #19578b;
+body main > div > article div #review > a, body main > div > article div #reserver > a {
+  background-color: #ff671f;
 }
 
-body main section > a:hover {
-  background-color: #9c122e !important;
+body main > div > article div #review > a:hover, body main > div > article div #reserver > a:hover {
+  background-color: #e3710d;
 }
 
-body main section > div > a {
-  color: #19578b !important;
-}
-
-body main section > div > a > img {
-  display: block;
-  margin: auto;
-}
-
-body main section > div > a > h3 {
-  font-size: 1.5rem;
-}
-
-body main section > div > a:hover {
-  color: #9c122e !important;
-}
-
-body main section > h3 {
-  color: #9c122e;
-}
-
-body main section ul a {
-  color: #9c122e;
-}
-
-body main section article a > img:hover {
+body main > div > section article a > img:hover {
   opacity: 0.7;
 }
 
-body main section article a > h4 {
-  color: #19578b;
+body main > div > section article a > h4 {
   font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-body main section article a > h4:hover {
+body main > div > section article a > h4:hover {
   color: #9c122e;
 }
 
-body main section article a > h3 {
+body main > div > section article a > h3 {
   font-size: 1.3rem;
-  color: #19578b;
 }
 
-body main section article a > h3:hover {
+body main > div > section article a > h3:hover {
   color: #9c122e;
 }
 
-body main section article p {
+body main > div > section article p {
   line-height: 2rem;
 }
 
-body main section article .wantToKnowMore {
-  color: #19578b;
+body main > div > section article .wantToKnowMore:hover {
+  color: #9c122e;
 }
 
-body main section article .wantToKnowMore:hover {
-  color: #9c122e;
+body main > div > section > div > a > h3 {
+  font-size: 1.5rem;
+}
+
+body main > div > section > div > a > h3:hover {
+  color: #9c122e !important;
+  font-weight: bold;
+}
+
+body main > div > section > div > a > img:hover {
+  opacity: 0.7;
+}
+
+body main > div > section > a {
+  background-color: #19578b;
+}
+
+body main > div > section > a:hover {
+  background-color: #9c122e;
 }
 
 body footer address {
@@ -297,10 +286,6 @@ body footer form button:hover {
 
 body footer ul {
   list-style-type: none;
-}
-
-body footer ul a {
-  color: #003163;
 }
 
 body footer ul a:hover {

@@ -338,28 +338,39 @@ class HomeController extends AbstractController
         ) {
             $product = $productsRepository->findOneBy(['slug' => $slugProduct]);
 
-            $categorySlugs = explode('/',$slugCategory);
-            $category = $categoriesRepository->findOneBy(['slug' => end($categorySlugs)]);
+            if($slugCategory === "toutes-les-***REMOVED***"){
 
-            $topCategoryTitlesAndSlugs = [];
+                $topCategoryTitlesAndSlugs = [];
+                $category = null;
+                $formAllProducts = true;
 
-            foreach ($categorySlugs as $categorySlug) {
-                $category = $categoriesRepository->findOneBy(['slug' => $categorySlug]);
+            } else {
 
-                //Si la catégorie n'existe pas, on redirige l'utilisateur vers l'acceuil avec un message
-                if (!$category) {
-                    //Envoi d'un message utilisateur
-                    $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
-                    return $this->redirectToRoute('home');
+                $formAllProducts = false;
+
+                $categorySlugs = explode('/',$slugCategory);
+                $category = $categoriesRepository->findOneBy(['slug' => end($categorySlugs)]);
+
+                $topCategoryTitlesAndSlugs = [];
+
+                foreach ($categorySlugs as $categorySlug) {
+                    $category = $categoriesRepository->findOneBy(['slug' => $categorySlug]);
+
+                    //Si la catégorie n'existe pas, on redirige l'utilisateur vers l'acceuil avec un message
+                    if (!$category) {
+                        //Envoi d'un message utilisateur
+                        $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
+                        return $this->redirectToRoute('home');
+                    }
+
+                    $topCategoryTitlesAndSlugs[] = [
+                        "categoryId" => $category->getId(),
+                        "categoryTitle" => $category->getTitle(),
+                        "categorySlug" => explode($categorySlug, $slugCategory)[0].$categorySlug,
+                    ];
                 }
 
-                $topCategoryTitlesAndSlugs[] = [
-                    "categoryId" => $category->getId(),
-                    "categoryTitle" => $category->getTitle(),
-                    "categorySlug" => explode($categorySlug, $slugCategory)[0].$categorySlug,
-                ];
             }
-
 
             //Récupération des attributs
             $attributes = [];
@@ -428,6 +439,7 @@ class HomeController extends AbstractController
             return $this->render('home/product.html.twig', [
                 'product' => $product,
                 'category' => $category,
+                'formAllProducts' => $formAllProducts,
                 'topCategoryTitlesAndSlugs'=>$topCategoryTitlesAndSlugs,
                 'attributes' => $attributes,
                 'moderatedComments' => $moderatedComments,

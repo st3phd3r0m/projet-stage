@@ -15,7 +15,7 @@
 		</li>
 		{% for topCategoryTitlesAndSlug in topCategoryTitlesAndSlugs %}
 		<li class="breadcrumb-item" {{ loop.last ? 'aria-current="page"' :'' }}>
-			<a class="text-muted" href="{{ path('home_category', {slug:topCategoryTitlesAndSlug["categorySlug"]}) }}" title="{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}">
+			<a class="text-muted text-decoration-none" href="{{ path('home_category', {slug:topCategoryTitlesAndSlug["categorySlug"]}) }}" title="{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}">
 				<p>{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}</p>
 			</a>
 		</li>
@@ -43,7 +43,7 @@
 
 	{# Présentation catégorie #}
 	<article>
-		<h2 class="font-italic">{{ category.title ?? '' }}</h2>
+		<h2 class="font-italic blue">{{ category.title ?? '' }}</h2>
 
 		{# Illustration de la catégorie #}
 		{% if category.images|length > 0 %}
@@ -74,7 +74,7 @@
 
 	{# Produits associés à la catégorie #}
 	{% if products|length > 0 %}
-		<section class="border-top">
+		<section class="border-top pt-5 mt-5">
 
 			{# Filtre recherche par catégories #}
 			{% if subCategoryTitlesAndSlugs|length > 1 %}
@@ -82,7 +82,7 @@
 				<ul>
 					{% for subCategoryTitleAndSlug in subCategoryTitlesAndSlugs|sort((a, b) => a.categoryTitle <=> b.categoryTitle) %}
 					<li>
-						<a class="text-decoration-none" href="{{ path('home_category', {slug: subCategoryTitleAndSlug.categorySlug }) }}">{{ subCategoryTitleAndSlug.categoryTitle }} ({{ subCategoryTitleAndSlug.nbrOfOccurences }})</a>
+						<a class="text-decoration-none red" href="{{ path('home_category', {slug: subCategoryTitleAndSlug.categorySlug }) }}">{{ subCategoryTitleAndSlug.categoryTitle }} ({{ subCategoryTitleAndSlug.nbrOfOccurences }})</a>
 					</li>
 					{% endfor %}
 				</ul>
@@ -115,7 +115,7 @@
 							{# Description produit #}
 
 							<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: topCategoryTitlesAndSlugs|last.categorySlug, slugProduct: product.slug}) }}">
-								<h3 class="group card-title inner list-group-item-heading font-weight-bold">
+								<h3 class="blue group card-title inner list-group-item-heading font-weight-bold">
 									{{ product.title }}
 								</h3>
 							</a>  
@@ -139,7 +139,7 @@
 								
 								<div class="col-xs-12 col-md-6 p-0">
 									{# Liens vers produit #}
-										<a class="text-decoration-none border-left border-top p-3 font-weight-bold float-right wantToKnowMore" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: topCategoryTitlesAndSlugs|last.categorySlug, slugProduct: product.slug}) }}">En savoir plus...</a> 
+										<a class="blue text-decoration-none border-left border-top p-3 font-weight-bold float-right wantToKnowMore" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: topCategoryTitlesAndSlugs|last.categorySlug, slugProduct: product.slug}) }}">En savoir plus...</a> 
 									{# Fin Liens vers produit #}
 								</div>
 							</div>

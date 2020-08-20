@@ -12,7 +12,7 @@
 			</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a class="text-muted" href="{{ path('home_all_products') }}" title="Voir toutes les ***REMOVED***">
+			<a class="text-muted text-decoration-none" href="{{ path('home_all_products') }}" title="Voir toutes les ***REMOVED***">
 				<p>Toutes les ***REMOVED***</p>
 			</a>
 		</li>
@@ -53,7 +53,7 @@
 						<div class="img-event p-3">
 							{# Illustration produit #}
 							{% if product.images is not empty %}
-								<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: '/', slugProduct: product.slug}) }}">
+								<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'toutes-les-***REMOVED***' , slugProduct: product.slug}) }}">
 									<img class="group list-group-image img-fluid w-100" src="{{ asset('images/products/' ~ product.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ product.title ?? '' }}">     								
 								</a>  
 							{% endif %}    
@@ -62,8 +62,8 @@
 
 						<div class="caption card-body pb-0">
 							{# Description produit #}
-							<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: '/', slugProduct: product.slug}) }}">
-								<h3 class="group card-title inner list-group-item-heading font-weight-bold">
+							<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'toutes-les-***REMOVED***', slugProduct: product.slug}) }}">
+								<h3 class="group card-title inner list-group-item-heading font-weight-bold blue">
 									{{ product.title }}
 								</h3>
 							</a>  
@@ -76,24 +76,6 @@
 								{% endfor %}						
 							</p>
 							{# Fin Description produit #}  
-							<div class="row">
-								<div class="col-xs-12 col-md-6">
-									<p class="lead">
-										{{ product.taxIncludedPrice }}&euro;
-									</p>
-								</div>
-								<div class="col-xs-12 col-md-6">
-									{# Liens vers produit #}
-									{% if product.weezeevent is not empty %}
-										<a class="btn" href="{{ product.weezeevent }}" title="Réserver sur weezevent.com" target="_blank" rel="noopener noreferrer">Réserver sur weezevent.com</a>
-									{% endif %}
-										<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: '/', slugProduct: product.slug}) }}">En savoir plus...</a>    
-									{# Fin Liens vers produit #}
-								</div>
-							</div>
-
-
-
 							<div class="row p-0">
 								<div class="col-xs-12 col-md-6">
 									<p class="text-secondary">
@@ -102,7 +84,7 @@
 								</div>
 								<div class="col-xs-12 col-md-6 p-0">
 									{# Liens vers produit #}
-										<a class="text-decoration-none border-left border-top p-3 font-weight-bold float-right wantToKnowMore" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: '/', slugProduct: product.slug}) }}">En savoir plus...</a> 
+										<a class="text-decoration-none border-left border-top p-3 font-weight-bold float-right wantToKnowMore blue" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'toutes-les-***REMOVED***', slugProduct: product.slug}) }}">En savoir plus...</a> 
 									{# Fin Liens vers produit #}
 								</div>
 							</div>

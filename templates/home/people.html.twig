@@ -5,60 +5,61 @@
 
 {% block body %}
 
-        <h1>Qui sommes-nous ?</h1>
+<h2 class="blue text-center my-5">Qui sommes-nous ?</h2>
 
-        <section class="row">
-            {% for person in people %}
-                {% if person.isHead == true %}
-                    <article class="col-6">
-                        <div class="row">
-                            <div class="col-4">
-                                {% if person.picture is not empty %}
-                                    <img src="{{ asset('images/people/'~ person.picture ) | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
-                                {% else %}
-                                    <img src="{{ asset('images/people/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
-                                {% endif %}
-                            </div>
-                            <div class="col-8">
-                                <h2>{{ person.name }}</h2>
-                                <p>{{ person.description }}</p>
-                            </div>
-                        </div>
-                            
-                        <blockquote>
-                            <p>Citation bien aimée : <span class="font-italic">"{{ person.quote }}"</span>  </p>
-                            <footer><cite>{{ person.cite }}</cite></footer>
-                        </blockquote>
-                    </article>                    
-                
-                {% endif %}
-            {% endfor %}
-        </section>
-
-        <section>
-            <p>L'idée en tête, elles mûrissent progressivement le concept avec l'objectif de créer un “doublé d’heureux” : la ludo-culture pour les ***REMOVED***s, le plus simple et rassurant pour leurs parents et lancent l'agence et son club ***REMOVED***s en 2016.  Ludo &amp; Sophie idéalement, ça aurait dû exister quand elles étaient petites, mais on n’en n’est pas si loin... les ***REMOVED***s, c’est une super excuse pour rester jeune ;-)</p>
-            <p>Ludo&amp;Sophie ne serait rien sans ses conférenciers, médiateurs scientifiques et animatrices encadrantes.</p>
-            <p>Découvrez-les ci-dessous.</p>
-        </section>
-
-        <section class="row">
-            {% for person in people %}
-                {% if person.isHead == false %}
-                    <article class="col-3">
+<section class="row">
+    {% for person in people %}
+        {% if person.isHead == true %}
+            <article class="col-lg-6 my-3">
+                <div class="row">
+                    <div class="col-md-4">
                         {% if person.picture is not empty %}
-                            <img src="{{ asset('images/people/'~ person.picture ) | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
+                            <img class="d-block img-fluid mx-auto my-3" src="{{ asset('images/people/'~ person.picture ) | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
                         {% else %}
-                            <img src="{{ asset('images/people/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
+                            <img class="d-block img-fluid mx-auto my-3" src="{{ asset('images/people/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
                         {% endif %}
-                        <h2>{{ person.name }}</h2>
-                        <p>{{ person.function }}</p>
+                    </div>
+                    <div class="col-md-8">
+                        <h3 class="text-center red">{{ person.name }}</h3>
                         <p>{{ person.description }}</p>
-                    </article>                    
-                {% endif %}
-            {% endfor %}
+                    </div>
+                </div>
+                    
+                <blockquote class="row blue">
+                    <p class="col-10">Citation bien aimée : <span class="font-italic">"{{ person.quote }}"</span></p>
+                    <footer class="col-2 mt-4"><cite>{{ person.cite }}</cite></footer>
+                </blockquote>
+            </article>                    
+        
+        {% endif %}
+    {% endfor %}
+</section>
 
-            <a href="{{ path('home_younglings') }}">Sans oublier tous nos petits éclaireurs que vous pouvez découvrir sur leur page à eux.</a>
-        </section>
+<section class="border-top border-bottom py-5 my-5">
+    <p>L'idée en tête, elles mûrissent progressivement le concept avec l'objectif de créer un “doublé d’heureux” : la ludo-culture pour les ***REMOVED***s, le plus simple et rassurant pour leurs parents et lancent l'agence et son club ***REMOVED***s en 2016.  Ludo &amp; Sophie idéalement, ça aurait dû exister quand elles étaient petites, mais on n’en n’est pas si loin... les ***REMOVED***s, c’est une super excuse pour rester jeune ;-)</p>
+    <p>Ludo&amp;Sophie ne serait rien sans ses conférenciers, médiateurs scientifiques et animatrices encadrantes.</p>
+    <p>Découvrez-les ci-dessous.</p>
+</section>
+
+<section class="row mb-5">
+    {% for person in people %}
+        {% if person.isHead == false %}
+            <article class="col-lg-3 p-4">
+                {% if person.picture is not empty %}
+                    <img class="d-block img-fluid mx-auto" src="{{ asset('images/people/'~ person.picture ) | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
+                {% else %}
+                    <img class="d-block img-fluid mx-auto" src="{{ asset('images/people/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo de {{ person.name }}">
+                {% endif %}
+                <h3 class="text-center red">{{ person.name }}</h3>
+                <p class="text-center font-italic font-weight-bold text-secondary">{{ person.function }}</p>
+                <p class="text-center">{{ person.description }}</p>
+            </article>                    
+        {% endif %}
+    {% endfor %}
+
+
+    <a class="p-3 m-5 mx-auto text-white text-decoration-none" href="{{ path('home_younglings') }}">Sans oublier tous nos petits éclaireurs que vous pouvez découvrir sur leur page à eux.</a>
+</section>
 
 		
 

@@ -5,19 +5,19 @@
 
 {% block body %}
 
-    <h1>Découvrez toute l'équipe des petits éclaireurs</h1>
+    <h2 class="blue text-center">Découvrez toute l'équipe des petits éclaireurs</h2>
 
     <p>{{ ( page.content ?? '')|raw }}</p>
 
-    <div class="row">
+    <div class="row my-5">
         {% for youngling in younglings %}
-            <div class="col-3">
+            <div class="col-md-4 col-lg-3 my-3">
                 {% if youngling.picture is not empty %}
-                    <img src="{{ asset('images/younglings/'~ youngling.picture ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des petits éclaireurs">
+                    <img class="d-block img-fluid mx-auto" src="{{ asset('images/younglings/'~ youngling.picture ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des petits éclaireurs">
                 {% else %}
-                    <img src="{{ asset('images/younglings/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des petits éclaireurs">
+                    <img class="d-block img-fluid mx-auto" src="{{ asset('images/younglings/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des petits éclaireurs">
                 {% endif %}
-                    <div>{{ youngling.name }}</div>
+                    <div class="text-center">{{ youngling.name }}</div>
             </div>                    
             
         {% endfor %}

@@ -193,7 +193,7 @@
                     {# Boucle sur liens footer #}
                     {% for link in links()|filter( link => link.position == 'footer' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
                             <li class="text-center">
-                                <a class="text-decoration-none"
+                                <a class="text-decoration-none blue"
                                 href="{{ link.url }}" 
                                 title="{{ link.title }}" 
                                 target="{{ (link.type == "external") ? '_blank' : '_self' }}" >
@@ -205,7 +205,7 @@
                 </ul>
 
             
-                <p class="text-center text-primary">Copyright &copy; 2016-2020 Ludo&amp;Sophie. Tous droits réservés.</p>
+                <p class="text-center blue">Copyright &copy; 2016-2020 Ludo&amp;Sophie. Tous droits réservés.</p>
             </div>
         
         </footer>    

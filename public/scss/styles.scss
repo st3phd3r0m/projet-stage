@@ -174,20 +174,19 @@ body{
         >div{
 
             h2{
-                color:$blue!important;
                 font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
             }
 
+            // page des produits d'une catégorie, page d'un produit
             >article{
                 div{
-
                     >ul{
-
                         >.nav-item{
                             >a{
-                                color: $blue;
-
+                                color: $blue;                                
                             }
+
+
                             >.active{
                                 color: $red!important;
                             }
@@ -219,160 +218,157 @@ body{
                 
                         }
 
+                        >a{
+                            background-color: $orange2;
+
+                            &:hover{
+                                background-color: $orange;
+                            }
+                        }
+
                     }
                 }
             }
 
-        }
 
+            >section{
 
+                // Carte produit dans : page des produits d'une catégorie, page de tous les produits, produits similaires
+                article{
+                    a{
+                        >img{
+                            &:hover{
+                                opacity: 0.7;
+                            }
+                        }
 
-        section{
+                        >h4{
+                            font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
+                            &:hover{
+                                color: $red;
+                            }
+                        }
 
-            >a{
-                background-color: $blue;
-
-                &:hover{
-                    background-color: $red!important;
-                }
-            }
-
-            >div{
-                >a{
-                    color:$blue!important;
-                    >img{
-                        display: block;
-                        margin: auto;
+                        >h3{
+                            font-size: 1.3rem;
+                            &:hover{
+                                color: $red;
+                            }
+                        }
                     }
+
+                    p{
+                        line-height: 2rem;
+                    }
+
                     
-
-                    >h3{
-                        font-size: 1.5rem;
-                    }
-
-                    &:hover{
-                        color: $red!important;
-                    }
-                }
-            }
-
-            >h3{
-
-                color: $red;
-            }
-            ul{
-                a{
-                    color: $red;
-                }
-            }
-
-            article{
-                a{
-                    >img{
-                        &:hover{
-                            opacity: 0.7;
-                        }
-                    }
-
-                    >h4{
-                        color:$blue;
-                        font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
-                        &:hover{
-                            color: $red;
-                        }
-                    }
-
-                    >h3{
-                        font-size: 1.3rem;
-                        color: $blue;
+                    .wantToKnowMore{
                         &:hover{
                             color: $red;
                         }
                     }
                 }
 
-                p{
-                    line-height: 2rem;
-                }
+                //Page ***REMOVED*** thématiques
+                >div{
+                    >a{
+                        >h3{
+                            font-size: 1.5rem;
 
-                
-                .wantToKnowMore{
-                    color: $blue;
+                            &:hover{
+                                color: $red!important;
+                                font-weight: bold;
+                            }
+                        }
 
-                    &:hover{
-                        color: $red;
+                        >img{
+                            &:hover{
+                                opacity: 0.7;
+                            }
+                        }
                     }
                 }
+
+                >a{
+                    background-color: $blue;
+                    &:hover{
+                        background-color: $red;
+                    }
+                }
+
+                // div#products{
+
+                //     .view-group {
+                //         display: flex;
+                //         flex-direction: row;
+                //         padding-left: 0;
+                //         margin-bottom: 0;
+                //     }
+
+                //     .thumbnail
+                //     {
+                //         margin-bottom: 30px;
+                //         padding: 0px;
+                //         border-radius: 0px;
+                //     }
+
+                //     .item.list-group-item
+                //     {
+                //         float: none;
+                //         width: 100%;
+                //         background-color: #fff;
+                //         margin-bottom: 30px;
+                //         flex: 0 0 100%;
+                //         max-width: 100%;
+                //         padding: 0 1rem;
+                //         border: 0;
+                //     }
+
+                //     .item.list-group-item .img-event {
+                //         float: left;
+                //         width: 30%;
+                //     }
+
+                //     .item.list-group-item .list-group-image
+                //     {
+                //         margin-right: 10px;
+                //     }
+                //     .item.list-group-item .thumbnail
+                //     {
+                //         margin-bottom: 0px;
+                //         display: inline-block;
+                //     }
+                //     .item.list-group-item .caption
+                //     {
+                //         float: left;
+                //         width: 70%;
+                //         margin: 0;
+                //     }
+                    
+                //     .item.list-group-item:before, .item.list-group-item:after
+                //     {
+                //         display: table;
+                //         content: " ";
+                //     }
+                    
+                //     .item.list-group-item:after
+                //     {
+                //         clear: both;
+                //     }
+
+                // }
+
+
+
+
+
             }
-
-
-            // div#products{
-
-            //     .view-group {
-            //         display: flex;
-            //         flex-direction: row;
-            //         padding-left: 0;
-            //         margin-bottom: 0;
-            //     }
-
-            //     .thumbnail
-            //     {
-            //         margin-bottom: 30px;
-            //         padding: 0px;
-            //         border-radius: 0px;
-            //     }
-
-            //     .item.list-group-item
-            //     {
-            //         float: none;
-            //         width: 100%;
-            //         background-color: #fff;
-            //         margin-bottom: 30px;
-            //         flex: 0 0 100%;
-            //         max-width: 100%;
-            //         padding: 0 1rem;
-            //         border: 0;
-            //     }
-
-            //     .item.list-group-item .img-event {
-            //         float: left;
-            //         width: 30%;
-            //     }
-
-            //     .item.list-group-item .list-group-image
-            //     {
-            //         margin-right: 10px;
-            //     }
-            //     .item.list-group-item .thumbnail
-            //     {
-            //         margin-bottom: 0px;
-            //         display: inline-block;
-            //     }
-            //     .item.list-group-item .caption
-            //     {
-            //         float: left;
-            //         width: 70%;
-            //         margin: 0;
-            //     }
-                
-            //     .item.list-group-item:before, .item.list-group-item:after
-            //     {
-            //         display: table;
-            //         content: " ";
-            //     }
-                
-            //     .item.list-group-item:after
-            //     {
-            //         clear: both;
-            //     }
-
-            // }
-
-
-
 
 
         }
+
+
+
     }
 
     // }
@@ -410,8 +406,6 @@ body{
         ul{
             list-style-type: none;
             a{
-                color: #003163;
-                
                 &:hover{
                     color: $red !important;
                 }

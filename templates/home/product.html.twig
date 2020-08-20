@@ -13,13 +13,28 @@
 				<i class="fa fa-home"></i>
 			</a>
 		</li>
-		{% for topCategoryTitlesAndSlug in topCategoryTitlesAndSlugs %}
-		<li class="breadcrumb-item" {{ loop.last ? 'aria-current="page"' :'' }}>
-			<a class="text-muted" href="{{ path('home_category', {slug:topCategoryTitlesAndSlug["categorySlug"]}) }}" title="{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}">
-				<p>{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}</p>
-			</a>
-		</li>
-		{% endfor %}
+
+		{% if formAllProducts == true %}
+			<li class="breadcrumb-item" aria-current="page">
+				<a class="text-decoration-none text-muted" href="{{ path('home_all_products') }}" title="Aller à toutes les ***REMOVED***">
+					<p>Toutes les ***REMOVED***</p>
+				</a>
+			</li>
+		{% elseif topCategoryTitlesAndSlugs|length > 0 %}
+			
+			{% for topCategoryTitlesAndSlug in topCategoryTitlesAndSlugs %}
+			<li class="breadcrumb-item" {{ loop.last ? 'aria-current="page"' :'' }}>
+				<a class="text-decoration-none text-muted" href="{{ path('home_category', {slug:topCategoryTitlesAndSlug["categorySlug"]}) }}" title="{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}">
+					<p>{{ topCategoryTitlesAndSlug["categoryTitle"] ?? '' }}</p>
+				</a>
+			</li>
+			{% endfor %}
+		
+		{% endif %}
+
+
+
+
 	</ol>
 	{# Fin Arborescence de filtrage par cétagories #}
 
@@ -27,7 +42,7 @@
 	{# Section dédiée au produit #}
 	<article>
 
-		<h2 class="font-italic">{{ product.title ?? '' }}</h2>
+		<h2 class="font-italic blue">{{ product.title ?? '' }}</h2>
 		<div class="d-block d-lg-flex">
 			<div>
 
@@ -118,7 +133,7 @@
 					{# Formulaire réservation/contact #}
 					<section class="tab-pane" id="reserver" role="tabpanel" aria-labelledby="reserver-tab">
 						{% if product.weezeevent is not empty %}
-							<a class="btn" title="Réserver sur weezevent.com" href="{{ product.weezeevent }}" target="_blank" rel="noopener noreferrer">Réserver</a>
+							<a class="btn p-3 m-5 text-white font-weight-bold" title="Réserver sur weezevent.com" href="{{ product.weezeevent }}" target="_blank" rel="noopener noreferrer">Réserver sur weezevent.com</a>
 						{% else %}
                         	{{ include('home/_formMessages.html.twig') }}							
 						{% endif %}
@@ -173,43 +188,49 @@
 	</article>
 	{# Fin Section dédiée au produit #}
 
-	{# Sorties similaires (produits de même catégorie) #}
-	{% if category.products|length > 1 %}
-	<section class="mb-5">
-		<h3>Sortie(s) similaire(s)</h3>
-		<div class="row">
-			{% for suggestedProduct in category.products %}
-				{% if suggestedProduct != product %}
-					<article class="border p-0 m-2 col-md-3">
-						<div class="p-md-3">
-						{% if suggestedProduct.images is not empty %}
-							<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
-								<img class="w-100 d-none d-md-block" src="{{ asset('images/products/' ~ suggestedProduct.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ suggestedProduct.title ?? '' }}"> 			
-							</a>            
-						{% endif %}                 
-						</div>
-						<div class="p-1 p-md-3">
-							<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
-								<h4 class="font-italic ">{{ suggestedProduct.title }}</h4>
-							</a>
-							<p class="d-none d-md-block">{{ suggestedProduct.description[:200]|striptags|raw }}{{ (suggestedProduct.description|length > 200)?'...':'' }}</p>
-							<p class="d-none d-md-block">
-								{% for keyWords in product.keywords %}
-								# <strong>{{ keyWords }}</strong>
-								{% endfor %}						
+	{% if category != null  %}
+		{# Sorties similaires (produits de même catégorie) #}
+		{% if category.products|length > 1 %}
+		<section class="mb-5">
+			<h3 class="red">Sortie(s) similaire(s)</h3>
+			<div class="row">
+				{% for suggestedProduct in category.products %}
+					{% if suggestedProduct != product %}
+						<article class="border p-0 m-2 col-md-3">
+							<div class="p-md-3">
+							{% if suggestedProduct.images is not empty %}
+								<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
+									<img class="w-100 d-none d-md-block" src="{{ asset('images/products/' ~ suggestedProduct.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ suggestedProduct.title ?? '' }}"> 			
+								</a>            
+							{% endif %}                 
+							</div>
+							<div class="p-1 p-md-3">
+								<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
+									<h4 class="blue font-italic ">{{ suggestedProduct.title }}</h4>
+								</a>
+								<p class="d-none d-md-block">{{ suggestedProduct.description[:200]|striptags|raw }}{{ (suggestedProduct.description|length > 200)?'...':'' }}</p>
+								<p class="d-none d-md-block">
+									{% for keyWords in product.keywords %}
+									# <strong>{{ keyWords }}</strong>
+									{% endfor %}						
+								</p>
+								<p class="d-none d-md-block">{{ suggestedProduct.taxIncludedPrice }}&euro;</p>
+							</div>            
+							<p class="border-top p-3 my-0 text-center d-none d-md-block">
+								<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">En savoir plus...</a>              
 							</p>
-							<p class="d-none d-md-block">{{ suggestedProduct.taxIncludedPrice }}&euro;</p>
-						</div>            
-						<p class="border-top p-3 my-0 text-center d-none d-md-block">
-							<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">En savoir plus...</a>              
-						</p>
-					</article>
-				{% endif %}
-			{% endfor %}
-		</div>	
-	</section>
+						</article>
+					{% endif %}
+				{% endfor %}
+			</div>	
+		</section>
+		{% endif %}
+		{# Fin Sorties similaires (produits de même catégorie) #}
+
+
+
 	{% endif %}
-	{# Fin Sorties similaires (produits de même catégorie) #}
+
 
 {% endblock %}
 {% block javascripts %}
