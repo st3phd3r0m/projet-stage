@@ -17,7 +17,6 @@ body{
         color: $orange !important;
     }
 
-
     #scrollChrevron {
         position: sticky;
         top: 80%;
@@ -52,7 +51,7 @@ body{
                 @media screen and (min-width: 576px) {
                     width: 10%;
                 }
-                @media screen and (min-width: 768px) {
+                @media screen and (min-width: 992px) {
                     width: 20%;
                 }
             }
@@ -67,7 +66,7 @@ body{
                 @media screen and (min-width: 576px) {
                     width: 10%;
                 }
-                @media screen and (min-width: 768px) {
+                @media screen and (min-width: 992px) {
                     width: 20%;
                 }
             }
@@ -131,11 +130,19 @@ body{
                 transition-duration: 0.3s;
                 transition-property: right, visibility;
                 box-shadow: 0px 3px 10px rgb(128, 128, 128);
+
+                @media screen and (min-width: 992px) {
+                    position: relative;
+                    visibility: visible;
+                    right: 0;
+                }
             }
 
             .offcanvas-collapse.open {
-                right: 50%;
-                visibility: visible;
+                @media screen and (max-width: 992px) {
+                    right: 50%;
+                    visibility: visible;
+                }
             }
 
             ul{
@@ -156,15 +163,22 @@ body{
                             &:hover{
                                 background-color: $red !important;
                             }
-            
                         }
                     }
+
                 }
                 
             }
 
+            .stickyNavBar{
+                position: fixed;
+                width: 100%;
+                left: 0;
+                top:0;
+            }
 
         }
+
 
 
     }
@@ -201,6 +215,10 @@ body{
                             input, textarea{
                                 box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
                             }
+
+                            textarea{
+                                height: 200px!important;
+                            }
                 
                             button{
                                 display: block;
@@ -228,6 +246,9 @@ body{
 
                     }
                 }
+
+                @media screen and (min-width: 768px) {}
+
             }
 
 
@@ -296,67 +317,72 @@ body{
                     }
                 }
 
-                // div#products{
+                @media screen and (min-width: 768px) {
 
-                //     .view-group {
-                //         display: flex;
-                //         flex-direction: row;
-                //         padding-left: 0;
-                //         margin-bottom: 0;
-                //     }
 
-                //     .thumbnail
-                //     {
-                //         margin-bottom: 30px;
-                //         padding: 0px;
-                //         border-radius: 0px;
-                //     }
+                    div#products{
 
-                //     .item.list-group-item
-                //     {
-                //         float: none;
-                //         width: 100%;
-                //         background-color: #fff;
-                //         margin-bottom: 30px;
-                //         flex: 0 0 100%;
-                //         max-width: 100%;
-                //         padding: 0 1rem;
-                //         border: 0;
-                //     }
+                        .view-group {
+                            display: flex;
+                            flex-direction: row;
+                            padding-left: 0;
+                            margin-bottom: 0;
+                        }
 
-                //     .item.list-group-item .img-event {
-                //         float: left;
-                //         width: 30%;
-                //     }
+                        .thumbnail
+                        {
+                            margin-bottom: 30px;
+                            padding: 0px;
+                            border-radius: 0px;
+                        }
 
-                //     .item.list-group-item .list-group-image
-                //     {
-                //         margin-right: 10px;
-                //     }
-                //     .item.list-group-item .thumbnail
-                //     {
-                //         margin-bottom: 0px;
-                //         display: inline-block;
-                //     }
-                //     .item.list-group-item .caption
-                //     {
-                //         float: left;
-                //         width: 70%;
-                //         margin: 0;
-                //     }
-                    
-                //     .item.list-group-item:before, .item.list-group-item:after
-                //     {
-                //         display: table;
-                //         content: " ";
-                //     }
-                    
-                //     .item.list-group-item:after
-                //     {
-                //         clear: both;
-                //     }
+                        .item.list-group-item
+                        {
+                            float: none;
+                            width: 100%;
+                            background-color: #fff;
+                            margin-bottom: 30px;
+                            flex: 0 0 100%;
+                            max-width: 100%;
+                            padding: 0 1rem;
+                            border: 0;
+                        }
 
-                // }
+                        .item.list-group-item .img-event {
+                            float: left;
+                            width: 30%;
+                        }
+
+                        .item.list-group-item .list-group-image
+                        {
+                            margin-right: 10px;
+                        }
+                        .item.list-group-item .thumbnail
+                        {
+                            margin-bottom: 0px;
+                            display: inline-block;
+                        }
+                        .item.list-group-item .caption
+                        {
+                            float: left;
+                            width: 70%;
+                            margin: 0;
+                        }
+                        
+                        .item.list-group-item:before, .item.list-group-item:after
+                        {
+                            display: table;
+                            content: " ";
+                        }
+                        
+                        .item.list-group-item:after
+                        {
+                            clear: both;
+                        }
+
+                    }
+
+                }
 
 
 
@@ -387,6 +413,11 @@ body{
             input, textarea{
                 box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
             }
+            
+            textarea{
+                height: 200px!important;
+            }
+
 
             button{
                 background: linear-gradient(top, #eeeeee, #eeeeee) !important;
@@ -405,6 +436,7 @@ body{
 
         ul{
             list-style-type: none;
+
             a{
                 &:hover{
                     color: $red !important;
@@ -412,6 +444,17 @@ body{
             }
             
         }
+
+        @media screen and (min-width: 992px) {
+            >div{
+                >ul{
+                    >li{
+                        width: 200px;
+                    }
+                }
+            }
+        }
+
     }
 
 }

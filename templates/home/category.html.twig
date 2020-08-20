@@ -20,7 +20,6 @@
 			</a>
 		</li>
 		{% endfor %}
-
 	</ol>
 	{# Fin Arborescence des filtres catégories #}
 
@@ -47,9 +46,9 @@
 
 		{# Illustration de la catégorie #}
 		{% if category.images|length > 0 %}
-			<div>
+			<div class="w-50 mx-auto my-5">
 				{% for image in category.images %}
-					<img class="w-100" src="{{ asset('images/products/' ~ image.name ) }}" alt="Immage d'illustration {{ category.title ?? '' }}">
+					<img class="img-fluid" src="{{ asset('images/products/' ~ image.name ) }}" alt="Immage d'illustration {{ category.title ?? '' }}">
 				{% endfor %}
 			</div>
 		{% endif %}
@@ -97,15 +96,15 @@
 
 			{# Boucle sur produits #}
 			{% for product in products %}
-				<article class="item col-xs-3 col-lg-3 my-3">
-					<div class="thumbnail card">
+				<article class="item col-md-6 col-lg-3 my-3">
+					<div class="thumbnail card w-100">
 						<div class="img-event p-3">
 							{# Illustration produit #}
 							{% if product.images is not empty %}
 								<a class="text-decoration-none" 
 									title="Aller à la page de {{ product.title }}" 
 									href="{{ path('home_product', { slugCategory: topCategoryTitlesAndSlugs|last.categorySlug, slugProduct: product.slug}) }}">
-										<img class="group list-group-image img-fluid w-100" src="{{ asset('images/products/' ~ product.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ product.title ?? '' }}">     
+										<img class="list-group-image img-fluid w-100" src="{{ asset('images/products/' ~ product.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ product.title ?? '' }}">     
 								</a>  
 							{% endif %}    
 							{# Fin Illustration produit #}
@@ -115,13 +114,12 @@
 							{# Description produit #}
 
 							<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: topCategoryTitlesAndSlugs|last.categorySlug, slugProduct: product.slug}) }}">
-								<h3 class="blue group card-title inner list-group-item-heading font-weight-bold">
+								<h3 class="blue card-title list-group-item-heading font-weight-bold">
 									{{ product.title }}
 								</h3>
 							</a>  
-
-							<p class="group inner list-group-item-text text-secondary">
-								{{ product.description[:400]|striptags|raw }}{{ (product.description|length > 400)?'...':'' }}
+							<p class="list-group-item-text text-secondary">
+								{{ product.description|striptags|slice(0, 400)|raw }}{{ (product.description|length > 100)?'...':'' }}
 							</p>
 							<p>
 								{% for keyWords in product.keywords %}

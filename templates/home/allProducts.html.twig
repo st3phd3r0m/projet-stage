@@ -48,7 +48,7 @@
 
 			{% for product in products %}
 
-				<article class="item col-xs-3 col-lg-3 my-3">
+				<article class="item col-md-6 col-lg-3 my-3">
 					<div class="thumbnail card">
 						<div class="img-event p-3">
 							{# Illustration produit #}
@@ -63,12 +63,12 @@
 						<div class="caption card-body pb-0">
 							{# Description produit #}
 							<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'toutes-les-***REMOVED***', slugProduct: product.slug}) }}">
-								<h3 class="group card-title inner list-group-item-heading font-weight-bold blue">
+								<h3 class="card-title inner list-group-item-heading font-weight-bold blue">
 									{{ product.title }}
 								</h3>
 							</a>  
-							<p class="group inner list-group-item-text text-secondary">
-								{{ product.description[:400]|striptags|raw }}{{ (product.description|length > 400)?'...':'' }}
+							<p class="list-group-item-text text-secondary">
+								{{ product.description|striptags|slice(0, 400)|raw }}{{ (product.description|length > 400)?'...':'' }}
 							</p>
 							<p>
 								{% for keyWords in product.keywords %}

@@ -43,8 +43,8 @@
 	<article>
 
 		<h2 class="font-italic blue">{{ product.title ?? '' }}</h2>
-		<div class="d-block d-lg-flex">
-			<div>
+		<div class="row">
+			<div class="col-lg-5">
 
 				{# Images d'illustration et carousel #}
 				{% for image in product.images %}
@@ -73,7 +73,7 @@
 			</div>
 
 			{# Bloc decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
-			<div>
+			<div class="col-lg-7">
 
 				{# Onglets decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
 				<ul class="nav nav-tabs" role="tablist">
@@ -196,29 +196,48 @@
 			<div class="row">
 				{% for suggestedProduct in category.products %}
 					{% if suggestedProduct != product %}
-						<article class="border p-0 m-2 col-md-3">
-							<div class="p-md-3">
-							{% if suggestedProduct.images is not empty %}
-								<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
-									<img class="w-100 d-none d-md-block" src="{{ asset('images/products/' ~ suggestedProduct.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ suggestedProduct.title ?? '' }}"> 			
-								</a>            
-							{% endif %}                 
+						<article class="item col-md-6 col-lg-3 my-3">
+							<div class="thumbnail card w-100">
+								<div class="img-event p-3">
+									{# Illustration produit #}
+									{% if suggestedProduct.images is not empty %}
+										<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
+											<img class="list-group-image img-fluid w-100" src="{{ asset('images/products/' ~ suggestedProduct.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ suggestedProduct.title ?? '' }}"> 			
+										</a>            
+									{% endif %}   
+									{# Fin Illustration produit #}
+								</div>
+
+								<div class="caption card-body pb-0">
+									{# Description produit #}
+									<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
+										<h4 class="blue card-title list-group-item-heading">{{ suggestedProduct.title }}</h4>
+									</a>
+									<p class="list-group-item-text text-secondary">
+										{{ suggestedProduct.description|striptags|slice(0, 400)|raw }}{{ (suggestedProduct.description|length > 200)?'...':'' }}
+									</p>
+									<p>
+										{% for keyWords in suggestedProduct.keywords %}
+										# <strong>{{ keyWords }}</strong>
+										{% endfor %}						
+									</p>
+									{# Fin Description produit #}  
+									<div class="row p-0">
+										<div class="col-xs-12 col-md-6">
+											<p class="text-secondary">
+												{{ suggestedProduct.taxIncludedPrice }}&euro;
+											</p>									
+										</div>
+
+										
+										<div class="col-xs-12 col-md-6 p-0">
+											{# Liens vers produit #}
+												<a class="blue text-decoration-none border-left border-top p-3 font-weight-bold float-right wantToKnowMore" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory: topCategoryTitlesAndSlugs|last.categorySlug, slugProduct: product.slug}) }}">En savoir plus...</a> 
+											{# Fin Liens vers produit #}
+										</div>
+									</div>
+								</div>
 							</div>
-							<div class="p-1 p-md-3">
-								<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">
-									<h4 class="blue font-italic ">{{ suggestedProduct.title }}</h4>
-								</a>
-								<p class="d-none d-md-block">{{ suggestedProduct.description[:200]|striptags|raw }}{{ (suggestedProduct.description|length > 200)?'...':'' }}</p>
-								<p class="d-none d-md-block">
-									{% for keyWords in product.keywords %}
-									# <strong>{{ keyWords }}</strong>
-									{% endfor %}						
-								</p>
-								<p class="d-none d-md-block">{{ suggestedProduct.taxIncludedPrice }}&euro;</p>
-							</div>            
-							<p class="border-top p-3 my-0 text-center d-none d-md-block">
-								<a class="text-decoration-none" title="Aller à la page de {{ suggestedProduct.title }}" href="{{ path('home_product', { slugCategory:category.slug, slugProduct: suggestedProduct.slug}) }}">En savoir plus...</a>              
-							</p>
 						</article>
 					{% endif %}
 				{% endfor %}

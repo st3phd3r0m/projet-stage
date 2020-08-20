@@ -1,5 +1,5 @@
-let pointTablette = 992;
-let pointMobile = 576;
+let pointDesktop = 992;
+let pointTablette = 576;
 
 $(document).ready(function() {
 
@@ -28,17 +28,24 @@ function displayList(event){
 function displayGrid(event){
     event.preventDefault();
     $('#products .item').removeClass('list-group-item');
-    $('#products .item').addClass('grid-group-item');
 }
 
 function switchBanner(){
 
     let positionScroll = $(document).scrollTop();
+    let navbar = $("#navbar");
+    let positionNavbar = Math.round(navbar.offset().top);
 
-    if (positionScroll > 0 && $(window).width() < pointTablette ) {
+    if (positionScroll > 0 && $(window).width() < pointDesktop ) {
         $("#logoMobile").show();
     } else {
         $("#logoMobile").hide();
+    }
+
+    if ( positionScroll >= positionNavbar && $(window).width() > pointDesktop  ) {
+        $("#navbarUL").addClass('stickyNavBar').addClass('container');
+    } else {
+        $("#navbarUL").removeClass('stickyNavBar').removeClass('container');
     }
 };
 

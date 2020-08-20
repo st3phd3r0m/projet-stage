@@ -48,7 +48,7 @@ body header h1::after {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   body header h1::after {
     width: 20%;
   }
@@ -69,7 +69,7 @@ body header h1::before {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 992px) {
   body header h1::before {
     width: 20%;
   }
@@ -135,9 +135,19 @@ body header nav .offcanvas-collapse {
           box-shadow: 0px 3px 10px gray;
 }
 
-body header nav .offcanvas-collapse.open {
-  right: 50%;
-  visibility: visible;
+@media screen and (min-width: 992px) {
+  body header nav .offcanvas-collapse {
+    position: relative;
+    visibility: visible;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  body header nav .offcanvas-collapse.open {
+    right: 50%;
+    visibility: visible;
+  }
 }
 
 body header nav ul {
@@ -164,6 +174,13 @@ body header nav ul > li > .dropdown-menu > .dropdown-item:hover {
   background-color: #9c122e !important;
 }
 
+body header nav .stickyNavBar {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
 body main > div h2 {
   font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
 }
@@ -183,6 +200,10 @@ body main > div > article div #review form, body main > div > article div #reser
 body main > div > article div #review form input, body main > div > article div #review form textarea, body main > div > article div #reserver form input, body main > div > article div #reserver form textarea {
   -webkit-box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
           box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+}
+
+body main > div > article div #review form textarea, body main > div > article div #reserver form textarea {
+  height: 200px !important;
 }
 
 body main > div > article div #review form button, body main > div > article div #reserver form button {
@@ -257,6 +278,60 @@ body main > div > section > a:hover {
   background-color: #9c122e;
 }
 
+@media screen and (min-width: 768px) {
+  body main > div > section div#products .view-group {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+  body main > div > section div#products .thumbnail {
+    margin-bottom: 30px;
+    padding: 0px;
+    border-radius: 0px;
+  }
+  body main > div > section div#products .item.list-group-item {
+    float: none;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 30px;
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+    max-width: 100%;
+    padding: 0 1rem;
+    border: 0;
+  }
+  body main > div > section div#products .item.list-group-item .img-event {
+    float: left;
+    width: 30%;
+  }
+  body main > div > section div#products .item.list-group-item .list-group-image {
+    margin-right: 10px;
+  }
+  body main > div > section div#products .item.list-group-item .thumbnail {
+    margin-bottom: 0px;
+    display: inline-block;
+  }
+  body main > div > section div#products .item.list-group-item .caption {
+    float: left;
+    width: 70%;
+    margin: 0;
+  }
+  body main > div > section div#products .item.list-group-item:before, body main > div > section div#products .item.list-group-item:after {
+    display: table;
+    content: " ";
+  }
+  body main > div > section div#products .item.list-group-item:after {
+    clear: both;
+  }
+}
+
 body footer address {
   font-family: Times, 'Times New Roman', serif;
 }
@@ -268,6 +343,10 @@ body footer address ul {
 body footer form input, body footer form textarea {
   -webkit-box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
           box-shadow: 0px 3px 5px rgba(128, 128, 128, 0.41);
+}
+
+body footer form textarea {
+  height: 200px !important;
 }
 
 body footer form button {
@@ -290,5 +369,11 @@ body footer ul {
 
 body footer ul a:hover {
   color: #9c122e !important;
+}
+
+@media screen and (min-width: 992px) {
+  body footer > div > ul > li {
+    width: 200px;
+  }
 }
 /*# sourceMappingURL=styles.css.map */

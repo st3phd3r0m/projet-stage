@@ -22,43 +22,50 @@
         <header>
 
             <div class="container">
-                <div class="row">
-                    <div class="d-none col-2">
+                <div class="row mt-5">
+                    <div class="d-none d-md-block col-md-1 mt-5 px-0">
                         {# Boucle sur liens header #}
                         {% for link in links()|filter( link => link.position == 'header' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
-                                <a href="{{ link.url }}" 
+                                <a class="blue text-decoration-none" href="{{ link.url }}" 
                                 title="{{ link.title }}"
                                 target="{{ (link.type == "external") ? '_blank' : '_self' }}">
                                     {% if link.image is not null %}
-                                        <img src="{{ asset('images/icones/'~ link.image ) | imagine_filter('miniatures') }}" alt="Icone du lien {{ link.title }}">
+                                        <img class="img-fluid mt-5" src="{{ asset('images/icones/'~ link.image ) | imagine_filter('miniatures') }}" alt="Icone du lien {{ link.title }}">
                                     {% endif %}
-                                    <p class="m-0 p-0">{{ link.content }}</p>
+                                    <p class="d-none d-lg-block m-0 p-0 text-center">{{ link.content }}</p>
                                 </a>
                         {% endfor %}
                         {# Fin Boucle sur liens header #}
 
                     </div>
-                    <div class="mt-5">
+                    <div class="col-md-10 mt-5">
                         <a href="{{ path('home') }}" title="Ludo et Sophie : Acceuil" >
-                            <img class="w-100 mt-5" src="{{ asset('images/icones/logo_neutrenew.jpg') }}" alt="Image d'acceuil du site Ludo et Sophie">
+                            <img class="img-fluid" src="{{ asset('images/icones/logo_neutrenew.jpg') }}" alt="Image d'acceuil du site Ludo et Sophie">
                         </a>
                         <h1 class="font-italic"><span class="red">et la culture devient</span> <span class="blue">un jeu d'***REMOVED***</span><span class="orange">(s)</span><span class="blue">!</span></h1>
                     </div>
-                    <div class="d-none col-2 ">
-                        {% for foreignLanguage in foreignLanguages() %} 
-                            <a href="{{ path('foreign', { slug: foreignLanguage.slug}) }}"><img src="{{ asset('images/languages/' ~ foreignLanguage.flag ) | imagine_filter('miniatures') }}" alt="Icone de la langue {{ foreignLanguage.name }}"></a>
+                    <div class="d-none d-md-block col-md-1 mt-5">
+                        <div class="row mt-5">
+                            {% for foreignLanguage in foreignLanguages() %} 
+                            <div class="col-lg-6 p-1">
+                                <a href="{{ path('foreign', { slug: foreignLanguage.slug}) }}" title="English and Spanish family tours">
+                                    <img class="img-fluid" src="{{ asset('images/languages/' ~ foreignLanguage.flag ) | imagine_filter('miniatures') }}" alt="Icone de la langue {{ foreignLanguage.name }}">
+                                </a>
+                            </div>
+                            {% endfor %}
+                            <p class="d-none d-lg-block text-center">English and Spanish family tours</p>                        
+                        </div>
 
-                        {% endfor %}
-                        <p>English and Spanish family tours</p>
                     </div>
                 </div>
             </div>
 
+        
             <div class="container">
 
                 <nav class="navbar navbar-expand-lg navbar-light bg-white" id="navbar">
 
-                    <div class="fixed-top" id="burgerAndBannerWrapper">
+                    <div class="fixed-top d-lg-none" id="burgerAndBannerWrapper">
                     
                         <button class="navbar-toggler p-2 border my-2 mx-2" type="button" data-toggle="offcanvas">
                             <span class="navbar-toggler-icon"></span>
@@ -68,10 +75,10 @@
                     </div>
 
 
-                    <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+                    <div class="navbar-collapse offcanvas-collapse" id="navbarUL">
 
 
-                        <ul class="navbar-nav mr-auto">
+                        <ul class="navbar-nav mx-auto">
 
                             {% set dropDownButtonText = '' %}
 
@@ -80,7 +87,7 @@
                                 {% if loop.last %}
                                     {% set dropDownButtonText = link.content  %}
 
-                                <li id="lastDesktop" class="nav-item d-none">
+                                <li id="lastDesktop" class="nav-item d-none d-lg-inline mx-lg-4">
                                     <a class="nav-link px-2" 
                                     href="{{ link.url }}" 
                                     title="{{ link.title }}" 
@@ -88,7 +95,7 @@
                                         {{ link.content }}
                                     </a> 
                                 </li>
-                                <li class="nav-item dropdown">
+                                <li class="nav-item dropdown d-lg-none mx-lg-4">
                                     <a class="nav-link dropdown-toggle px-2" 
                                         data-toggle="dropdown" 
                                         href="#" role="button" 
@@ -108,7 +115,7 @@
                                     </div>
                                 </li>
                                 {% else %}
-                                <li class="nav-item">
+                                <li class="nav-item mx-lg-4">
                                     <a class="nav-link px-2" 
                                     href="{{ link.url }}" 
                                     title="{{ link.title }}" 
@@ -123,7 +130,7 @@
 
                             {# Boucle sur liens header #}
                             {% for link in links()|filter( link => link.position == 'header' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
-                                <li class="nav-item">
+                                <li class="nav-item d-lg-none">
                                     <a class="nav-link px-2" 
                                         href="{{ link.url }}" 
                                         title="{{ link.title }}"
@@ -184,7 +191,7 @@
                             </address>             
                         </div>
                     </div>
-                    <div class="col-md-9 mb-5">
+                    <div class="col-md-9 my-5">
                         {{ include('_formMessages.html.twig') }}
                     </div>
                 </div>
@@ -192,20 +199,20 @@
                 <ul>
                     {# Boucle sur liens footer #}
                     {% for link in links()|filter( link => link.position == 'footer' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
-                            <li class="text-center">
-                                <a class="text-decoration-none blue"
-                                href="{{ link.url }}" 
-                                title="{{ link.title }}" 
-                                target="{{ (link.type == "external") ? '_blank' : '_self' }}" >
-                                    {{ link.content }}
-                                </a> 
-                            </li>
+                        <li class="text-center d-lg-inline-block my-lg-3 align-text-top">
+                            <a class="text-decoration-none blue"
+                            href="{{ link.url }}" 
+                            title="{{ link.title }}" 
+                            target="{{ (link.type == "external") ? '_blank' : '_self' }}" >
+                                {{ link.content }}
+                            </a> 
+                        </li>
                     {% endfor %}
                     {# Fin Boucle sur liens footer #}
                 </ul>
 
             
-                <p class="text-center blue">Copyright &copy; 2016-2020 Ludo&amp;Sophie. Tous droits réservés.</p>
+                <p class="text-center blue my-5">Copyright &copy; 2016-2020 Ludo&amp;Sophie. Tous droits réservés.</p>
             </div>
         
         </footer>    
