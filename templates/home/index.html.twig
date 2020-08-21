@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ludo et Sophie Accueil{% endblock %}
+{% block title %}Ludo et Sophie Accueil
+{% endblock %}
 
 
 {% block body %}
 	<article>
 		<div class="container">
-			<div class="row">
-				<div class="col-sm-12">
-					{{ ( page.content ?? '')|raw }}
-				</div>
+
+			<div>
+				{{ ( page.content ?? '')|raw }}
 			</div>
-            <p>
-                {% for keyWords in page.keywords %}
-                # <strong>{{ keyWords }}</strong>
-                {% endfor %}						
-            </p>
+
+			<p class="my-5 ml-5">
+				{% for keyWords in page.keywords %}
+					#
+					<strong>{{ keyWords }}</strong>
+				{% endfor %}
+			</p>
 		</div>
 	</article>
 {% endblock %}
-        
-
