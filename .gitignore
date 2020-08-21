@@ -18,4 +18,4 @@
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
-/public/images/products
+# /public/images/products

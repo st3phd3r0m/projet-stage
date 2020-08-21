@@ -15,7 +15,7 @@ $(document).ready(function() {
 
     $('[data-toggle="offcanvas"]').one('click', slideMenuToRight);
 
-    // double Flèche en bas à droite de la fenetre en position:sticky pour retour à l'acceuil du site
+    // double Flèche en bas à droite de la fenetre en position:sticky pour retour à l'accueil du site
     $("#scrollChrevron").on("click", goToHomeSite);
 
 });
@@ -66,7 +66,7 @@ function slideMenuToLeft(){
 }
 
 /**
- * Fonction qui va vers l'acceuil en scrolling
+ * Fonction qui va vers l'accueil en scrolling
  * @param {*} event 
  */
 function goToHomeSite() {

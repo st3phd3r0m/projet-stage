@@ -47,7 +47,7 @@ class LinksType extends AbstractType
                 'required' => true,
                 'label'=>'Type de lien à ajouter',
                 'choices'=>[
-                    'Acceuil'=>'/acceuil',
+                    'Accueil'=>'/accueil',
                     'Qui sommes nous'=>'/qui-sommes-nous',
                     'Petits éclaireurs'=>'/equipe-petits-eclaireurs',
                     'Foire aux questions'=>'/faq',
@@ -57,7 +57,7 @@ class LinksType extends AbstractType
                     'Catégorie'=>'/categorie/',
                     'Lien sortant'=>'external',
                 ],
-                'data' => '/acceuil',
+                'data' => '/accueil',
                 'constraints' => [
 					new NotBlank([
 						'message' => 'Veuillez choisir un type de lien'

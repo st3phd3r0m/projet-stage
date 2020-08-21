@@ -36,7 +36,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/acceuil", name="home")
+     * @Route("/accueil", name="home")
      */
     public function index()
     {
@@ -214,7 +214,7 @@ class HomeController extends AbstractController
      */
     public function showCategory(string $slug = null, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur vers l'acceuil
+        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur vers l'accueil
         if (isset($slug) && !empty($slug)) {
 
             //---------------Traitement des catégories ascendantes sélectionnées par l'utilisateur pour filtrage des produits par catégories--------------------
@@ -228,7 +228,7 @@ class HomeController extends AbstractController
                 //Pour chacun des slugs sélectionnés, on va chercher la catégorie correspondante 
                 $category = $categoriesRepository->findOneBy(['slug' => $categorySlug]);
 
-                //Si la catégorie n'est pas en bdd, on redirige l'utilisateur vers l'acceuil avec un message
+                //Si la catégorie n'est pas en bdd, on redirige l'utilisateur vers l'accueil avec un message
                 if (!$category) {
                     //Envoi d'un message utilisateur
                     $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
@@ -237,7 +237,7 @@ class HomeController extends AbstractController
 
                 //on stocke le titre, le slug et l'identifiant de la catégorie
                 //Ce tableau servira à affiché les catégories précédemment sélectionnées en haut de la page.
-                //Par exemple :  "Acceuil>Visites guidées en France>Bourgogne>..." 
+                //Par exemple :  "Accueil>Visites guidées en France>Bourgogne>..." 
                 $topCategoryTitlesAndSlugs[] = [
                     "categoryId" => $category->getId(),
                     "categoryTitle" => $category->getTitle(),
@@ -321,7 +321,7 @@ class HomeController extends AbstractController
             ]);
         }
 
-        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur vers l'acceuil
+        //Si le paramètre "slug" passé en barre d'url n'est pas défini, on renvoie l'utilisateur vers l'accueil
         //Envoi d'un message utilisateur
         $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
         return $this->redirectToRoute('home');
@@ -356,7 +356,7 @@ class HomeController extends AbstractController
                 foreach ($categorySlugs as $categorySlug) {
                     $category = $categoriesRepository->findOneBy(['slug' => $categorySlug]);
 
-                    //Si la catégorie n'existe pas, on redirige l'utilisateur vers l'acceuil avec un message
+                    //Si la catégorie n'existe pas, on redirige l'utilisateur vers l'accueil avec un message
                     if (!$category) {
                         //Envoi d'un message utilisateur
                         $this->addFlash('fail', 'Catégorie sélectionnée inéxistante.');
