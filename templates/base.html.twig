@@ -30,7 +30,7 @@
                                 title="{{ link.title }}"
                                 target="{{ (link.type == "external") ? '_blank' : '_self' }}">
                                     {% if link.image is not null %}
-                                        <img class="d-block mx-auto img-fluid mt-5" src="{{ asset('images/icones/'~ link.image ) | imagine_filter('newsletter') }}" alt="Icone du lien {{ link.title }}">
+                                        <img class="d-block mx-auto img-fluid mt-5" src="{{ asset('images/icones/'~ link.image )| imagine_filter('newsletter') }}" alt="Icone du lien {{ link.title }}">
                                     {% endif %}
                                     <p class="d-none d-lg-block m-0 p-0 text-center">{{ link.content }}</p>
                                 </a>
@@ -181,10 +181,10 @@
                     <div class="col-md-3 my-5">
                         <h4 class="mb-4 red font-weight-bold">Une question ? Une idée ?</h4>
                         <div class="row">
-                            <div class="col-6">
-                                <img class="w-100" src="{{ asset('images/icones/logo_footer.jpg')| imagine_filter('miniatures') }}" alt="Logo footer Ludo et Sophie">                            
+                            <div class="col-6 col-md-12 col-xl-6">
+                                <img class="img-fluid" src="{{ asset('images/icones/logo_footer.jpg')| imagine_filter('miniatures') }}" alt="Logo footer Ludo et Sophie">                            
                             </div>
-                            <address class="col-6 text-left p-0 m-0">
+                            <address class="col-6 col-md-12 col-xl-6 text-left p-0 m-0 ml-md-4 ml-xl-0">
                                 <ul class="p-0 m-0 mt-3">
                                     <li>Ludo &amp; Sophie SAS</li>
                                     <li>49 rue de Ponthieu</li>
@@ -223,13 +223,11 @@
 
 
         <!-- JS, Popper.js-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-        {# <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> #}
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
-        <script src="{{ asset('js/gridList.js') }}"></script>
+        <script src="{{ asset('js/miscellaneous.js') }}"></script>
 
         {% block javascripts %}{% endblock %}
     </body>
