@@ -12,9 +12,11 @@ use App\Form\MessagesType;
 use App\Repository\AttributesRepository;
 use App\Repository\CategoriesRepository;
 use App\Repository\FrequentlyAskedQuestionsRepository;
+use App\Repository\LinksRepository;
 use App\Repository\PagesRepository;
 use App\Repository\PeopleRepository;
 use App\Repository\ProductsRepository;
+use App\Repository\UsersRepository;
 use App\Repository\YounglingsRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,21 +40,76 @@ class HomeController extends AbstractController
     /**
      * @Route("/accueil", name="home")
      */
-    public function index()
+    public function index(LinksRepository $linksRepository, PagesRepository $pagesRepository, UsersRepository $usersRepository)
     {
-        
+
+        if($pagesRepository->findBy(['title'=>'Accueil'])){
+            
+            $page = $pagesRepository->findBy(['title'=>'Accueil'])[0];
+
+        }else{
+            //Instanciation entité Pages
+            $page = new Pages;
+
+            $page->setTitle('Accueil');
+            $page->setMetaTagTitle('Contenu à éditer');
+            $page->setContent('Contenu à éditer');
+            $page->setMetaTagDescription('Contenu à éditer');
+
+            $keywords=["Contenu à éditer"];
+            $page->setKeyWords($keywords);
+            $page->setMetaTagKeywords($keywords);
+            $page->setCreatedAt(new \DateTime('now'));
+            $page->setUpdatedAt(new \DateTime('now'));
+            
+            $page->setUser($usersRepository->findAll()[0]);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($page);
+            $entityManager->flush();
+        }
+
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'page' => $page,
         ]);
     }
 
     /**
      * @Route("/home/{slug}", name="foreign")
      */
-    public function foreignIndex()
+    public function foreignIndex(string $slug, LinksRepository $linksRepository, PagesRepository $pagesRepository, UsersRepository $usersRepository)
     {
+
+        $title = ucwords(str_replace('-',' ',$slug));
+
+        if($pagesRepository->findBy(['title'=>$title])){
+                
+            $page = $pagesRepository->findBy(['title'=>$title])[0];
+
+        }else{
+            //Instanciation entité Pages
+            $page = new Pages;
+
+            $page->setTitle($title);
+            $page->setMetaTagTitle('Contenu à éditer');
+            $page->setContent('Contenu à éditer');
+            $page->setMetaTagDescription('Contenu à éditer');
+
+            $keywords=["Contenu à éditer"];
+            $page->setKeyWords($keywords);
+            $page->setMetaTagKeywords($keywords);
+            $page->setCreatedAt(new \DateTime('now'));
+            $page->setUpdatedAt(new \DateTime('now'));
+            
+            $page->setUser($usersRepository->findAll()[0]);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($page);
+            $entityManager->flush();
+        }
+
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'page' => $page,
         ]);
     }
 

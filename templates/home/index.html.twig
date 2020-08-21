@@ -4,6 +4,20 @@
 
 
 {% block body %}
-
-        
+	<article>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					{{ ( page.content ?? '')|raw }}
+				</div>
+			</div>
+            <p>
+                {% for keyWords in page.keywords %}
+                # <strong>{{ keyWords }}</strong>
+                {% endfor %}						
+            </p>
+		</div>
+	</article>
 {% endblock %}
+        
+

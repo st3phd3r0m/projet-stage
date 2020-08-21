@@ -35,11 +35,11 @@ class LinksType extends AbstractType
             ])
             ->add('position_order', NumberType::class,[
                 'required'=>true,
-                'label'=>'Ordre d\'apparition du lien ?',
+                'label'=>'Ordre d\'apparition du lien ? (Saisir un chiffre. Du plus petit au plus grand : liens de la gauche vers la droite)',
                 'html5'=>true,
                 'constraints' => [
 					new NotBlank([
-						'message' => 'Veuillez saisir un ordre d\'apparition'
+						'message' => 'Veuillez saisir un nombre entier'
 					])
 				]
             ])
@@ -47,7 +47,7 @@ class LinksType extends AbstractType
                 'required' => true,
                 'label'=>'Type de lien à ajouter',
                 'choices'=>[
-                    'Accueil'=>'/accueil',
+                    'Accueil (page éditable dans le menu "Gestion des pages")'=>'/accueil',
                     'Qui sommes nous'=>'/qui-sommes-nous',
                     'Petits éclaireurs'=>'/equipe-petits-eclaireurs',
                     'Foire aux questions'=>'/faq',
@@ -66,7 +66,7 @@ class LinksType extends AbstractType
             ])
             ->add('title', TextType::class, [
                 'required' => true,
-                'label' => 'Titre du lien : ',
+                'label' => 'Titre du lien (Visible lors du survol de la souris sur le lien) : ',
 
                 'constraints' => [
                     new NotBlank([
@@ -76,7 +76,7 @@ class LinksType extends AbstractType
             ])
             ->add('content', TextType::class, [  
                 'required' => true,
-                'label'=>'Contenu du lien : ',
+                'label'=>'Texte du lien (Contenu directement visible à l\'écran) : ',
                 'constraints' => [
                     new NotBlank([
                         'message'=>'Veuillez saisir le contenu du lien',
@@ -85,7 +85,7 @@ class LinksType extends AbstractType
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
-                'label' => 'Choisir une icône (optionnel)',
+                'label' => 'Choisir une icône (optionnel, n\'apparaîtra que pour les liens au haut à gauche de la page )',
                 'download_uri' => false,
                 'imagine_pattern' => 'miniatures',
                 'constraints' => [
