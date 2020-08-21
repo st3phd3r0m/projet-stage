@@ -22,15 +22,15 @@
         <header>
 
             <div class="container">
-                <div class="row mt-5">
-                    <div class="d-none d-md-block col-md-1 mt-5 px-0">
+                <div class="row mt-5 mt-lg-0">
+                    <div class="d-none d-md-block col-md-2 mt-0 px-0">
                         {# Boucle sur liens header #}
                         {% for link in links()|filter( link => link.position == 'header' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
                                 <a class="blue text-decoration-none" href="{{ link.url }}" 
                                 title="{{ link.title }}"
                                 target="{{ (link.type == "external") ? '_blank' : '_self' }}">
                                     {% if link.image is not null %}
-                                        <img class="img-fluid mt-5" src="{{ asset('images/icones/'~ link.image ) | imagine_filter('miniatures') }}" alt="Icone du lien {{ link.title }}">
+                                        <img class="d-block mx-auto img-fluid mt-5" src="{{ asset('images/icones/'~ link.image ) | imagine_filter('newsletter') }}" alt="Icone du lien {{ link.title }}">
                                     {% endif %}
                                     <p class="d-none d-lg-block m-0 p-0 text-center">{{ link.content }}</p>
                                 </a>
@@ -38,18 +38,20 @@
                         {# Fin Boucle sur liens header #}
 
                     </div>
-                    <div class="col-md-10 mt-5">
+                    {# Image header #}
+                    <div class="col-md-8 mt-5">
                         <a href="{{ path('home') }}" title="Ludo et Sophie : Accueil" >
-                            <img class="img-fluid" src="{{ asset('images/icones/nouveaulogo2.png') }}" alt="Image d'accueil du site Ludo et Sophie">
+                            <img class="d-block img-fluid w-50 mx-auto" src="{{ asset('images/icones/nouveaulogo2.png') }}" alt="Image d'accueil du site Ludo et Sophie">
                         </a>
                         <h1 class="font-italic"><span class="red">et la culture devient</span> <span class="blue">un jeu d'***REMOVED***</span><span class="orange">(s)</span><span class="blue">!</span></h1>
                     </div>
-                    <div class="d-none d-md-block col-md-1 mt-5">
+                    {# Fin Image header #}
+                    <div class="d-none d-md-block col-md-2 mt-0">
                         <div class="row mt-5">
                             {% for foreignLanguage in foreignLanguages() %} 
                             <div class="col-lg-6 p-1">
                                 <a href="{{ path('foreign', { slug: foreignLanguage.slug}) }}" title="English and Spanish family tours">
-                                    <img class="img-fluid" src="{{ asset('images/languages/' ~ foreignLanguage.flag ) | imagine_filter('miniatures') }}" alt="Icone de la langue {{ foreignLanguage.name }}">
+                                    <img class="d-block mx-auto img-fluid" src="{{ asset('images/languages/' ~ foreignLanguage.flag ) | imagine_filter('flag') }}" alt="Icone de la langue {{ foreignLanguage.name }}">
                                 </a>
                             </div>
                             {% endfor %}
@@ -221,9 +223,12 @@
 
 
         <!-- JS, Popper.js-->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        {# <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> #}
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
         <script src="{{ asset('js/gridList.js') }}"></script>
 
         {% block javascripts %}{% endblock %}

@@ -21,7 +21,7 @@ body #scrollChrevron {
   background-color: #f5f5f5;
 }
 
-body #scrollChrevron:hover {
+body .clickChevron {
   -webkit-box-shadow: 0 0 5px gray;
           box-shadow: 0 0 5px gray;
 }
@@ -44,11 +44,17 @@ body header h1::after {
 
 @media screen and (min-width: 576px) {
   body header h1::after {
-    width: 10%;
+    width: 5%;
   }
 }
 
 @media screen and (min-width: 992px) {
+  body header h1::after {
+    width: 15%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
   body header h1::after {
     width: 20%;
   }
@@ -65,11 +71,17 @@ body header h1::before {
 
 @media screen and (min-width: 576px) {
   body header h1::before {
-    width: 10%;
+    width: 5%;
   }
 }
 
 @media screen and (min-width: 992px) {
+  body header h1::before {
+    width: 15%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
   body header h1::before {
     width: 20%;
   }
@@ -156,6 +168,7 @@ body header nav ul {
 
 body header nav ul > li > a {
   color: white !important;
+  font-size: 1.3rem;
 }
 
 body header nav ul > li > a:hover {

@@ -26,15 +26,19 @@ body{
         color: $red;
         background-color: #f5f5f5;
 
-        &:hover {
-            box-shadow: 0 0 5px rgb(128, 128, 128);
-        }
+        // &:hover {
+        //     box-shadow: 0 0 5px rgb(128, 128, 128);
+        // }
 
+    }
+
+    .clickChevron {
+        box-shadow: 0 0 5px rgb(128, 128, 128);
     }
 
     header{
 
-
+        //Titre accroche header
         h1{
             font-family: Cochin, Georgia, Times, 'Times New Roman', serif;
             font-size : 1.3rem;
@@ -49,9 +53,12 @@ body{
                 bottom: 10px;
                 left: 0px;
                 @media screen and (min-width: 576px) {
-                    width: 10%;
+                    width: 5%;
                 }
                 @media screen and (min-width: 992px) {
+                    width: 15%;
+                }
+                @media screen and (min-width: 1200px) {
                     width: 20%;
                 }
             }
@@ -64,9 +71,12 @@ body{
                 bottom: 10px;
                 right: 0px;
                 @media screen and (min-width: 576px) {
-                    width: 10%;
+                    width: 5%;
                 }
                 @media screen and (min-width: 992px) {
+                    width: 15%;
+                }
+                @media screen and (min-width: 1200px) {
                     width: 20%;
                 }
             }
@@ -151,6 +161,7 @@ body{
 
                     >a{
                         color: white !important;
+                        font-size: 1.3rem;
                         &:hover{
                             background-color: $red !important;
                         }

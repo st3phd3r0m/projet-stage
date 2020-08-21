@@ -70,9 +70,26 @@ function slideMenuToLeft(){
  * @param {*} event 
  */
 function goToHomeSite() {
-    window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
+
+    // let positionScroll = $(document).scrollTop();
+
+    $(this).addClass('clickChevron');
+
+    $('html').animate({
+        scrollTop: '0'
+    }, function(){
+        $("#scrollChrevron").removeClass('clickChevron');
     });
+
+    // window.scrollTo({
+    //     top: 0,
+    //     left: 0,
+    //     behavior: 'smooth'
+    // });
+
+    // if ( positionScroll == 0  ) {
+    //     $("#navbarUL").addClass('stickyNavBar').addClass('container');
+    // } 
+
+    // $(this).removeClass('clickChevron');
 }

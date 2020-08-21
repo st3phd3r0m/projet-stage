@@ -10,10 +10,20 @@ liip_imagine:
     filter_sets:
         cache: ~
 
+        newsletter:
+            quality: 70
+            filters:
+                thumbnail: { size: [80, 90] }
+
+        flag:
+            quality: 70
+            filters:
+                thumbnail: { size: [40, 40] }
+
         mini:
             quality: 70
             filters:
-                thumbnail: { size: [110, 100] }
+                thumbnail: { size: [80, 80] }
 
         miniatures:
             quality: 70
