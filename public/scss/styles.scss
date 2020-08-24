@@ -18,17 +18,13 @@ body{
     }
 
     #scrollChrevron {
-        position: sticky;
+        position: fixed;
         top: 80%;
-        left: 100%;
+        left: 90%;
         z-index: 3;
         font-size: 2rem;
         color: $red;
         background-color: #f5f5f5;
-
-        // &:hover {
-        //     box-shadow: 0 0 5px rgb(128, 128, 128);
-        // }
 
     }
 

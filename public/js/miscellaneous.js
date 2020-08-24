@@ -112,9 +112,11 @@ function goToHomeSite() {
     $(this).addClass('clickChevron');
 
     $('html').animate({
-        scrollTop: '0'
-    }, function(){
-        $("#scrollChrevron").removeClass('clickChevron');
-    });
+        scrollTop: 0
+    }, enleveClasse);
 
+}
+
+function enleveClasse(){
+    $("#scrollChrevron").removeClass('clickChevron');
 }

@@ -11,10 +11,9 @@ body .orange {
 }
 
 body #scrollChrevron {
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   top: 80%;
-  left: 100%;
+  left: 90%;
   z-index: 3;
   font-size: 2rem;
   color: #9c122e;
