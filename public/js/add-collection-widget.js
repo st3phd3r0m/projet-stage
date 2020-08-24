@@ -1,35 +1,49 @@
+//Code js destiné à la gestion des fomulaires d'édition et de création d'un produit et d'une catégorie
+
 let id; 
 let attributesFormElements;
 let attributes;
 let counter = 0;
 
 $(document).ready(function () {
-    //Ecouteur d'évémenents sur le bouton d'ajout de formulaire de collection (fonctionne pour l'ajout d'image et l'ajout d'attributs) 
+    //Ecouteur d'évémenents sur le bouton d'ajout de champ (en lien avec les collectionType) 
+    //Ajout champ attribut du produit
     $('.add-another-attribute-collection-widget').on('click', addAnotherAttributeCollectionWidget);
+    //Ajout champ image du produit
     $('.add-another-image-collection-widget').on('click', addAnotherCollectionWidget);
+    //Ajout champ categorie du produit
     $('.add-another-category-collection-widget').on('click', addAnotherCollectionWidget);
 
+    //Un champ ajoutés via le prototype du collectionType est encapsulé par des balises <li>
     //Selection des éléments li>div de la collection des attributs
     attributesFormElements = $('#attribute-fields-list>li>div');
 
+    //Pour les champs attributs pré-remplis (mapping des attributs qui sont déjà liés au produit en bdd) :
     for (let attributesFormElement of attributesFormElements) {
+        //On laisse la possibilité à l'uilisateur de modifier ces attributs.
         let firstSelectElement = $(attributesFormElement).find('select')[0];
+        //On met un écouteur d'événements sur chacun des champ <select> de selection d'attribut
         $(firstSelectElement).on('click', getOptionElement);
 
+        //Unne balise <a> dans le template sert accéssoirement à supprimer un attribut du produit
+        //Un écouteur d'événement y est adossé
         $(attributesFormElement).find('a').on('click', removeAttributeFromProduct);
     }
 
+    //Pour les champs catégorie pré-remplis (mapping des catégories qui sont déjà liés au produit en bdd) :
     //Selection des éléments li de la collection des catégories
     let categoriesFormElements = $('#categories-fields-list>li');
     
     for (let categoriesFormElement of categoriesFormElements) {
+        //Unne balise <a> dans le template sert accéssoirement à supprimer une catégorie du produit
+        //Un écouteur d'événement y est adossé
         $(categoriesFormElement).find('a').on('click', removeCategoryFromProduct);
     }
 
 });
 
 /**
- * Cette fonction ajoute un champs ou un groupe de champs, à l'image des prototypes délivrés 
+ * Cette fonction ajoute un groupe de champs, à l'image des prototypes délivrés 
  * par les collectionType du formulaire ProductsType 
  */
 function addAnotherAttributeCollectionWidget(event) {
@@ -37,8 +51,7 @@ function addAnotherAttributeCollectionWidget(event) {
     event.preventDefault();
 
     let list = $($(this).data('list-selector'));
-    //Donne le nombre d'éléments dans la liste de collection, soit via le data dans l'élémént 'list', soit
-    //en utilisant la méthode children
+    //Donne le nombre d'éléments dans la liste de collection, soit via l'attribut data de l'élémént 'list', soit en utilisant la méthode children
     counter = list.data('widget-counter') || list.children().length;
 
     // Récupération en data du prototype qui se trouve dans l'élément 'list'
@@ -52,17 +65,21 @@ function addAnotherAttributeCollectionWidget(event) {
     // Ecrasement de counter en data dans l'élément 'list'
     list.data('widget-counter', counter);
 
-    // Création d'un nouvel élément encapsulé dans un élément li grace au prototype encodé dans 'newWidget'
-    let newElement = $(list.data('widget-tags')).html(newWidget);
-    //Insertion du nouvel élément dans l'élément 'list' 
-    newElement.appendTo(list);
+    // Création d'un nouvel élément encapsulé dans une balise <li> grace au prototype encodé dans 'newWidget'
+    let newFieldsGroup = $(list.data('widget-tags')).html(newWidget);
+    //Insertion du nouvel élément dans l'élément DOM 'list' 
+    newFieldsGroup.appendTo(list);
     // Ajout du nouvel élément dans un array
-    attributesFormElements.push($(newElement).children()[0]);
-    //Ajout d'un écouteur d'évenements sur les balises option de la première balise select dans le nouvel élément
-    let divElement = $(newElement).children()[0];
-    let firstSelectElement = $(divElement).find('select')[0];
+    attributesFormElements.push($(newFieldsGroup).children()[0]);
+
+    //Dans le champ "goupe d'attributs" (première balise <select> du nouveau groupe de champs), on veut récupérer le groupe d'attributs choisi par l'utilisateur
+    //I
+    let divElement = $(newFieldsGroup).children()[0];
+    let firstSelectElement = $(newFieldsGroup).find('select')[0];
+    //Ajout d'un écouteur d'évenements sur la première balise <select> dans le nouvel élément
     $(firstSelectElement).on('click', getOptionElement);
 
+    //Tant que l'utilisateur n'a pas sélectionné un groupe d'attributs, 
     $($(divElement).children()[1]).hide();
     $($(divElement).children()[2]).hide();
 
