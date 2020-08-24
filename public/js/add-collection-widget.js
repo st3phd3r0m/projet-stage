@@ -1,4 +1,9 @@
-//Code js destiné à la gestion des fomulaires d'édition et de création d'un produit et d'une catégorie
+/**Code js destiné à la gestion d'ajout dynamiques d'éléments de fomulaire pour l'édition et la création d'un produit ou d'une catégorie.
+ * Les ajouts d'éléments permettent d'associer plusieurs images, plusieurs catégories ou plusieurs attributs à un produit lors de son édition/création.
+ * On peut aussi ajouter plusieurs images à une catégorie lors de son édition/création.
+ * 
+*/
+
 
 let id; 
 let attributesFormElements;
@@ -22,7 +27,7 @@ $(document).ready(function () {
     for (let attributesFormElement of attributesFormElements) {
         //On laisse la possibilité à l'uilisateur de modifier ces attributs.
         let firstSelectElement = $(attributesFormElement).find('select')[0];
-        //On met un écouteur d'événements sur chacun des champ <select> de selection d'attribut
+        //On met un écouteur d'événements sur chacun des champs <select> de selection d'un groupe d'attributs
         $(firstSelectElement).on('click', getOptionElement);
 
         //Unne balise <a> dans le template sert accéssoirement à supprimer un attribut du produit
@@ -43,7 +48,7 @@ $(document).ready(function () {
 });
 
 /**
- * Cette fonction ajoute un groupe de champs, à l'image des prototypes délivrés 
+ * Cette fonction ajoute un groupe de champs "attributs", à l'image des prototypes délivrés 
  * par les collectionType du formulaire ProductsType 
  */
 function addAnotherAttributeCollectionWidget(event) {
@@ -79,13 +84,13 @@ function addAnotherAttributeCollectionWidget(event) {
     //Ajout d'un écouteur d'évenements sur la première balise <select> dans le nouvel élément
     $(firstSelectElement).on('click', getOptionElement);
 
-    //Tant que l'utilisateur n'a pas sélectionné un groupe d'attributs, 
+    //Tant que l'utilisateur n'a pas sélectionné un groupe d'attributs, les zones "name" et "value" du formulaire du nouvel attribut sont cachés
     $($(divElement).children()[1]).hide();
     $($(divElement).children()[2]).hide();
-
+    //On met un écouteur d'evenements le champ groupe d'attributs
     $($(divElement).children()[0]).on('change', showField);
 
-    //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attribut
+    //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attributs
     if(divElement.id.includes('products_attribute')){
         let deleteLink = document.createElement('a');
         deleteLink.setAttribute('href','#');
@@ -98,7 +103,7 @@ function addAnotherAttributeCollectionWidget(event) {
 }
 
 /**
- * Cette fonction ajoute un champs ou un groupe de champs, à l'image des prototypes délivrés 
+ * Cette fonction ajoute un groupe de champs "catégories" ou "images", à l'image des prototypes délivrés 
  * par les collectionType du formulaire ProductsType 
  */
 function addAnotherCollectionWidget(event) {
@@ -130,8 +135,8 @@ function addAnotherCollectionWidget(event) {
     let selectElement = $(newElement).children()[0];
 
 
+    //On veut afficher l'image que l'utilisateur vient de sélectionner
     if(selectElement.id.includes('_images_')){
-
         //Champ input d'ajout d'image
         let input = $(selectElement).find('input')[0];
         //Création d'une balise <img>
@@ -143,7 +148,7 @@ function addAnotherCollectionWidget(event) {
         $(input).on('change', pickFileName);
     }
 
-    //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attribut
+    //Insertion dans le DOM d'une balise <a> pour la suppression individuelle de catégories
     if(selectElement.id.includes('products_category')){
         let deleteLink = document.createElement('a');
         deleteLink.setAttribute('href','#');
@@ -154,17 +159,21 @@ function addAnotherCollectionWidget(event) {
     }
 }
 
+/**
+ * Fonction qui récupère l'identifiant du formulaire d'attribut sélectionné par l'utilisateur
+ * et qui vide les champs texte des zones "nom d'attribut" ("name") et "valeur d'attribut" ("value")
+ */
 function getOptionElement() {
 
-    //Récupération du numéro de l'élémént de formulaire de collection cliqué
+    //Récupération du numéro de l'élémént de formulaire de collection cliqué dans la zone "groupe d'attributs"
     id = this.id.replace('_attribute_group','').replace('products_attribute_','');
-    //On vide les champs <input> de l'élément de formulaire de collection
-    let inputs =  $(attributesFormElements[id]).find('input');
+    //On vide les champs <input> et <textarea> de l'élément de formulaire de collection
+    let input =  $(attributesFormElements[id]).find('input')[0];
+    input.value = '';
+    let textarea =  $(attributesFormElements[id]).find('textarea')[0];
+    textarea.value = '';
 
-    for (let input of inputs) {
-        input.value = '';
-    }
-    
+    //On met un ecouteur d'évenement toutes les balises <option> du selecteur de groupe d'attributs
     let options = $(this).find('option');
     options.on('click', ajaxCall);
 }
@@ -178,6 +187,7 @@ function ajaxCall() {
     let url = $('#attribute-fields-list').data('url-path');
     //Récupération valeur de la balise option
     let groupAttributeId = this.value;
+    //Requete ajax methode get
     $.ajax({
         url: url,
         method: "get",
@@ -187,6 +197,10 @@ function ajaxCall() {
     });
 }
 
+/**
+ * Fonction qui affiche, dans la balise <select> de la zone "name" de l'attribut, les noms d'attributs 
+ * obtenus via la requête ajax 
+ */
 function fillAttributeNames(response){
     //élément select cible
     let attributeNamesDatalist = $(attributesFormElements[id]).find('select')[1];
@@ -200,15 +214,15 @@ function fillAttributeNames(response){
     attributes = JSON.parse(response);
 
     if(attributes.length == 0){
-
+        //Si le groupe d'attributs sélectionné n'est lié à aucun attribut , on affiche un message utilisateur dans la balise <select>
         let option = document.createElement("option"); 
         option.value = "Aucun attribut appartenant à ce groupe en bdd";
         option.textContent = "Aucun attribut appartenant à ce groupe en bdd";
         attributeNamesDatalist.appendChild(option);
 
     }else{
-
-        //On vide l'élément de ses balises option
+        //Sinon
+        //On vide l'élément de ses balises option, pour en créer de nouvelles
         attributeNamesDatalist.innerHTML = '';
 
         // Récupération des noms d'attributs (sans doublons)
@@ -222,27 +236,38 @@ function fillAttributeNames(response){
             }
         }
 
+        //Création d'une balise <option> pour chacun des attributs récupérés
         for (let attribute of attributeNames) {
             let option = document.createElement("option"); 
             option.value = attribute.name;
             option.textContent = attribute.name;
             attributeNamesDatalist.appendChild(option);
+            //Un écouteur d'évenements est adossé à chacune des balises pour remplir la balise <input> avec le nom de l'attribut sélectionné 
             option.addEventListener('click', fillAttributeNamesInput);
         }
-
-        attributeNamesDatalist.setAttribute('size', attributeNames.length );
-    }
-    
+        //Ajustement de la taille de la balise <select> pour affichage de tous les noms d'attributs appartenants au groupe d'attributs sélectionné par l'utilisateur
+        attributeNamesDatalist.setAttribute('size', attributeNames.length+1 );
+    }   
 }
 
+/**
+ * Fonction qui remplit l'input "name" de l'attribut
+ */
 function fillAttributeNamesInput(){
-    $id = this.parentElement.id.replace('_name_list','').replace('products_attribute_','');
+    //Récupération du numéro de l'élémént de formulaire de collection cliqué
     let selectElementId = this.parentElement.id;
-    let attachedInput = document.querySelector('[list='+selectElementId+']')
+    id = selectElementId.replace('_name_list','').replace('products_attribute_','');
+    //Sélection du champ input cible
+    let attachedInput = document.querySelector('[list='+selectElementId+']');
+    //Remplissage du champ
     attachedInput.value = this.value;
+    //On met en paramêtre la valeur de remplissage dans une fonction qu'on appelle
     fillAttributeContents(this.value);
 }
 
+/**
+ * Fonction qui remplit la balise <select> dans la zone "value" de l'attribut
+ */
 function fillAttributeContents($value){
 
     //élément select cible
@@ -254,6 +279,7 @@ function fillAttributeContents($value){
     //On vide l'élément de ses balises option
     attributeContentsDatalist.innerHTML = '';
 
+    //On remplit la balise <select> avec des balises <option> avec toutes valeurs d'attribut qui ont le même nom d'attribut sélectionné par l'utilisateur
     $countValidAttributes = 0;
     for (let attribute of attributes) {
         if($value == attribute.name){
@@ -262,13 +288,17 @@ function fillAttributeContents($value){
             option.value = attribute.value;
             option.textContent = attribute.value;
             attributeContentsDatalist.appendChild(option);
+            //On adosse un ecouteur d'evenement sur chacune des balises <option>
             option.addEventListener('click', fillAttributeContentsInput);
         }
     }
-
-    attributeContentsDatalist.setAttribute('size', $countValidAttributes );
+    //Ajustement de la taille de la balise <select> pour affichage de toutes les valeurs d'attributs appartenants au nom d'attribut sélectionné par l'utilisateur
+    attributeContentsDatalist.setAttribute('size', $countValidAttributes+1 );
 }
 
+/**
+ * Fonction qui remplit la balise <input> de la zone "value" de l'attribut
+ */
 function fillAttributeContentsInput(){
 
     let selectElementId = this.parentElement.id;
@@ -276,33 +306,48 @@ function fillAttributeContentsInput(){
     attachedInput.value = this.value;
 }
 
-
-
+/**
+ * Fonction qui efface du DOM tous les champs d'un attribut (même ceux mappés par les collectionType sur symfony) que l'utilisateur veut enlever d'un produit
+ */
 function removeAttributeFromProduct(event){
     event.preventDefault();
     this.parentElement.parentElement.remove();
 }
 
+/**
+ * Fonction qui efface du DOM tous les champs d'une catégorie (même ceux mappés par les collectionType sur symfony) que l'utilisateur veut enlever d'un produit
+ */
 function removeCategoryFromProduct(event){
     event.preventDefault();
     this.parentElement.remove();
 }
 
+/**
+ * Fonction qui fait apparaître le groupe de champs "nom d'attribut" ("name") si un groupe d'attributs a été sélectionné par l'utilisateur, ou, le groupe de champs "valeur d'attribut" ("value") si un nom d'attribut a été sélectionné par l'utilisateur
+ */
 function showField(){
     $(this).next().show();
     $(this).next().on('keyup',showField);
 }
 
+/**
+ * Fonction qui affiche l'image sélectionnée par l'utilisateur dans
+ */
 function pickFileName(){
+    //Instanciation de FileReader
     var reader = new FileReader();
+    //L'instance lit le fichier image
     reader.readAsDataURL(this.files[0]);
 
     //Récupération de l'élément <img>
     let img = $($(this).parents('fieldset')[0]).next()[0];
 
+    //On met un écouteur d'événements sur l'instance reader
     reader.addEventListener("load", function () {
+        //Une fois la lecture du fichier image par reader est terminée, on récupére l'url de l'image que l'on charge dans l'attribut src de la balise <img>
         img.src = reader.result;
       }, false);
 
+    //On fait apparaître la balise <img> dans le DOM
     $(img).removeClass('d-none').addClass('d-inline');
 }
