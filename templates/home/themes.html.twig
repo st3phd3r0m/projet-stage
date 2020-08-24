@@ -6,17 +6,23 @@
 
 <h2 class="text-center blue">La ludo-culture tous azimuts : Arts, Sciences, Histoire, coulisses, ateliers créatifs... À vous de choisir !</h2>
 
-<section class="row">
-    {% for category in categories %}
-        <div class="col-md-4 my-3">
-            <a class="text-decoration-none" href="{{ path('home_category', {slug: category.slug}) }}" title="Aller vers le thème {{ category.title }}">
-                <img class="d-block img-fluid mx-auto" src="{{ asset('images/products/' ~ category.images[0].name )| imagine_filter('miniatures_5on3') }}" alt="Logo Ludo et Sophie">
-                <h3 class="text-center blue">{{ category.title }}</h3>
-            </a>
-        </div>
-    {% endfor %}
 
-    <a class="p-3 m-5 mx-auto text-white text-decoration-none" href="{{ path('home_all_products') }}" title="Voir toutes les ***REMOVED***">Voir toutes les ***REMOVED*** programmées</a>
+<section>
+
+    <div class="row">
+        {% for category in categories %}
+            <div class="col-md-4 my-3">
+                <a class="text-decoration-none" href="{{ path('home_category', {slug: category.slug}) }}" title="Aller vers le thème {{ category.title }}">
+                    {% if category.images is not empty %}
+                    <img class="d-block img-fluid mx-auto" src="{{ asset('images/products/' ~ category.images[0].name )| imagine_filter('miniatures_5on3') }}" alt="Logo Ludo et Sophie">
+                    {% endif %}
+                    <h3 class="text-center blue">{{ category.title }}</h3>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <a class="d-block w-50 p-3 m-5 mx-auto text-white text-decoration-none text-center" href="{{ path('home_all_products') }}" title="Voir toutes les ***REMOVED***">Voir toutes les ***REMOVED*** programmées</a>
 
 </section>
         

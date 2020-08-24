@@ -20,7 +20,7 @@ class PeopleType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'label' => 'nom du collaborateur : ',
+                'label' => 'Nom du collaborateur : ',
 
                 'constraints' => [
                     new NotBlank([
@@ -30,7 +30,7 @@ class PeopleType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'required' => true,
-                'label' => 'Text d\introduction du collaborateur: ',
+                'label' => 'Text d\'introduction du collaborateur: ',
 
                 'constraints' => [
                     new NotBlank([

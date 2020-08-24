@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Ludo et Sophie -
-	{{ page.title ?? '' }}
+	{{ page.meta_tag_title ?? '' }}
 {% endblock %}
 
 {% block body %}
@@ -13,17 +13,14 @@
 				{{ ( page.content ?? '')|raw }}
 			</div>
 
-			<p class="my-5 ml-5">
-				{% for keyWords in page.keywords %}
-					#
-					<strong>{{ keyWords }}</strong>
-				{% endfor %}
-			</p>
+			{% if page.keywords is defined %}
+				<p class="my-5 ml-5">
+					{% for keyWords in page.keywords %}
+						#
+						<strong>{{ keyWords }}</strong>
+					{% endfor %}
+				</p>
+			{% endif %}
 		</div>
 	</article>
 {% endblock %}
-
-
-
-
-

@@ -43,12 +43,14 @@
 						<td>{{ page.content|raw }}</td>
 					</tr>
 					<tr>
-						<th>Image</th>
-						<td>{{ page.image ? page.image|json_encode : '' }}</td>
-					</tr>
-					<tr>
 						<th>Mots-clés</th>
-						<td>{{ page.keywords ? page.keywords|json_encode : '' }}</td>
+						<td>
+							{% for keyWord in page.keywords %}
+								#{{ keyWord }}
+							{% else %}
+								Pas de mot-clés pour cette publication
+							{% endfor %}
+						</td>
 					</tr>
 					<tr>
 						<th>Titre en méta donnée</th>
@@ -60,7 +62,13 @@
 					</tr>
 					<tr>
 						<th>Mots-clés en méta donnée</th>
-						<td>{{ page.metaTagKeywords ? page.metaTagKeywords|json_encode : '' }}</td>
+						<td>
+							{% for metaTagKeyword in page.metaTagKeywords %}
+								#{{ metaTagKeyword }}
+							{% else %}
+								Pas de mot-clés pour cette publication
+							{% endfor %}
+						</td>
 					</tr>
 					<tr>
 						<th>Créé le</th>

@@ -10,43 +10,48 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     </head>
     <body>
-        
-        
-        <div class="container">
 
-            <header>
-                <a href="{{ path('home') }}" title="Ludo et Sophie : Accueil"><img class="d-block mx-auto" src="{{ asset('images/logo_neutre.jpg') }}" alt="Image bandeau du site 'Ludo et Sophie'"></a>
-                <h1 class="text-center" >Ludo et Sophie - Bienvenue dans l'administration du site</h1>
-            </header>
+        <div class="container mb-5">
 
+            <div class="w-50 mx-auto mb-5">
+                <header>
+                    <a href="{{ path('home') }}" title="Ludo et Sophie : Accueil"><img class="d-block mx-auto" src="{{ asset('images/logo_neutre.jpg') }}" alt="Image bandeau du site 'Ludo et Sophie'"></a>
+                    <h1 class="text-center" >Ludo et Sophie - Bienvenue dans l'administration du site</h1>
+                </header>
 
-            <form method="post">
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
+                <main>
+                    <form method="post" class="mb-5">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
 
-                {% if app.user %}
-                    <div class="my-3 text-center">
-                        <p>Vous êtes connecté en tant que {{ app.user.username }}</p>
-                        <p><a href="{{ path('app_logout') }}">Se déconnecter</a></p>
-                    </div>
-                {% else %}    
-                    <p class="h3 my-5 font-weight-normal text-center">Veuillez vous connecter</p>
+                        {% if app.user %}
+                            <div class="my-3 text-center">
+                                <p>Vous êtes connecté en tant que {{ app.user.username }}</p>
+                                <p><a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+                            </div>
+                        {% else %}    
+                            <p class="h3 my-5 font-weight-normal text-center">Veuillez vous connecter</p>
 
-                    <label for="inputEmail">Email</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-                    <label for="inputPassword">Mot de passe</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" required>
+                            <label for="inputEmail">Email</label>
+                            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+                            <label for="inputPassword">Mot de passe</label>
+                            <input type="password" name="password" id="inputPassword" class="form-control" required>
 
-                    <input type="hidden" name="_csrf_token"
-                        value="{{ csrf_token('authenticate') }}"
-                    >
+                            <input type="hidden" name="_csrf_token"
+                                value="{{ csrf_token('authenticate') }}"
+                            >
 
-                    <button class="btn btn-lg btn-primary" type="submit">
-                        Se connecter
-                    </button>
-                {% endif %}
-            </form>
+                            <button class="btn btn-primary mt-4" type="submit">
+                                Se connecter
+                            </button>
+                        {% endif %}
+                    </form>                
+                
+                </main>
+
+            </div>
+
         </div>
 
 

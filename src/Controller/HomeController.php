@@ -239,8 +239,12 @@ class HomeController extends AbstractController
 
         $categories=[];
         foreach ($themeSlugs as $themeSlug) {
-            $categories[] = $categoriesRepository->findOneBy(['slug'=>$themeSlug]);
+            if($categoriesRepository->findOneBy(['slug'=>$themeSlug])){
+                $categories[] = $categoriesRepository->findOneBy(['slug'=>$themeSlug]);
+            }
         }
+
+        // dd($categories);
 
         return $this->render('home/themes.html.twig', [
             'categories' => $categories

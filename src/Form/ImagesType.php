@@ -26,7 +26,6 @@ class ImagesType extends AbstractType
                         'maxSizeMessage' => 'Votre image dépasse les 2Mo',
                         'mimeTypes' => ['image/png', 'image/gif', 'image/jpeg'],
                         'mimeTypesMessage' => 'Votre image doit être de type PNG, GIF ou JPEG',
-                        // 'groups' => ['new', 'update']
                     ])
                 ]
             ]);

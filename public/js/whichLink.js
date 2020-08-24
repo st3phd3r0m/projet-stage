@@ -46,8 +46,8 @@ function ajaxCall(){
         items = JSON.parse(response);
         if (items.length == 0) {
             let option = document.createElement("option");
-            option.value = "Aucun élément de type en bdd";
-            option.textContent = "Aucun élément de type en bdd";
+            option.value = "Aucun élément de ce type en bdd";
+            option.textContent = "Aucun élément de ce type en bdd";
             targetElement.children.appendChild(option);
     
         } else {
@@ -59,9 +59,15 @@ function ajaxCall(){
                 option.value = item.slug;
                 option.textContent = item.title;
                 $(targetElement).find('select')[0].appendChild(option);
+                $(option).on('click', fillTextInput);
             }
         }
     });
+}
+
+function fillTextInput(){
+    $("#links_title").val(this.textContent);
+    $("#links_content").val(this.textContent);
 }
 
 

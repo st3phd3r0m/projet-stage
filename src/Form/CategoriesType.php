@@ -65,12 +65,15 @@ class CategoriesType extends AbstractType
             ])
             ->add('images', CollectionType::class, [
                 'required' => false,
-                'label' => 'Ajoutez une ou des images d\'illustration',
+                'label' => 'Images d\'illustration',
                 'entry_type' => ImagesType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
-                'by_reference'=> false
+                'by_reference'=> false,
+                'attr'=>[
+                    'class'=>'w-50'
+                ],
             ])
             ->add('slug', TextType::class, [
                 'required' => true,

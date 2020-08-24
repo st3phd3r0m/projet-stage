@@ -47,7 +47,7 @@ class AttributesType extends AbstractType
                         new NotBlank([
                             'message' => 'Veuillez saisir le contenu de l\'attribut',
                         ])
-                    ]
+                    ],
                 ]);
 
         }else{

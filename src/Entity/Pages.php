@@ -31,9 +31,9 @@ class Pages
     private $content;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image = [];
+    private $image;
 
     /**
      * @ORM\Column(type="json", nullable=true)
@@ -105,12 +105,12 @@ class Pages
         return $this;
     }
 
-    public function getImage(): ?array
+    public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function setImage(?array $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 

@@ -64,7 +64,7 @@ class CategoriesController extends AbstractController
             //Et pour chacune de ces instances,
             foreach ($images as $key => $image) {
                 //on fait le lien avec l'objet category
-                $image->setProduct($category);
+                $image->setCategory($category);
                 $images->set($key, $image);
             }
 

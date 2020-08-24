@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Ludo et Sophie -
-	{{ category.title ?? '' }}
+	{{ category.meta_tag_title ?? '' }}
 {% endblock %}
 
 {% block body %}
@@ -78,9 +78,9 @@
 			{# Filtre recherche par catégories #}
 			{% if subCategoryTitlesAndSlugs|length > 1 %}
 				<h3 class="text-dark">Affiner votre recherche</h3>
-				<ul>
+				<ul class="my-5">
 					{% for subCategoryTitleAndSlug in subCategoryTitlesAndSlugs|sort((a, b) => a.categoryTitle <=> b.categoryTitle) %}
-					<li>
+					<li class="d-inline-block mr-5 my-2">
 						<a class="text-decoration-none red" href="{{ path('home_category', {slug: subCategoryTitleAndSlug.categorySlug }) }}">{{ subCategoryTitleAndSlug.categoryTitle }} ({{ subCategoryTitleAndSlug.nbrOfOccurences }})</a>
 					</li>
 					{% endfor %}

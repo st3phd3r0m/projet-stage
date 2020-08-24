@@ -112,6 +112,20 @@ function addAnotherCollectionWidget(event) {
     //Ajout d'un écouteur d'évenements sur les balises option de la première balise select dans le nouvel élément
     let selectElement = $(newElement).children()[0];
 
+
+    if(selectElement.id.includes('_images_')){
+
+        //Champ input d'ajout d'image
+        let input = $(selectElement).find('input')[0];
+        //Création d'une balise <img>
+        let img = document.createElement('img');
+        $(img).addClass('img-fluid w-25 ml-5 mb-1 d-none');
+        //Insertion de l'élément <img> dans le parent
+        selectElement.appendChild(img);
+        //Ecouteur d'événements sur le champ <input>
+        $(input).on('change', pickFileName);
+    }
+
     //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'attribut
     if(selectElement.id.includes('products_category')){
         let deleteLink = document.createElement('a');
@@ -262,3 +276,16 @@ function showField(){
     $(this).next().on('keyup',showField);
 }
 
+function pickFileName(){
+    var reader = new FileReader();
+    reader.readAsDataURL(this.files[0]);
+
+    //Récupération de l'élément <img>
+    let img = $($(this).parents('fieldset')[0]).next()[0];
+
+    reader.addEventListener("load", function () {
+        img.src = reader.result;
+      }, false);
+
+    $(img).removeClass('d-none').addClass('d-inline');
+}
