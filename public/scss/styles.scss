@@ -76,11 +76,6 @@ body{
                     width: 20%;
                 }
             }
-
-            
-
-
-
         }
 
         //Barre navigation et dropdown
@@ -94,7 +89,6 @@ body{
                 transition-duration: 0.3s;
                 transition-property: left, width;
                 >button{
-
                     &:hover{
                         box-shadow: 0px 0px 5px rgb(128, 128, 128);
                     }
@@ -109,20 +103,17 @@ body{
                 left: 50% !important;
                 width: 70% !important;
                 >img{
-
                     @media screen and (max-width: 576px) {
                         display: none !important;
                     }
-
                     @media screen and (min-width: 577px) {
                         display: unset !important;
                     }
-
                 }
             }
 
             .offcanvas-collapse {
-                z-index:2040;
+                z-index:1040;
                 position: fixed;
                 top:0;
                 right: 100%;

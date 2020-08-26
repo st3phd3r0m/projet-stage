@@ -1,0 +1,29 @@
+<html>
+    <head>
+        {# Chargement CDNs #}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    </head>
+    <body>
+
+        <div class="container">
+
+            <main>
+                <h2>Vous avez reçu un nouveau message de {{post.name}} </h2>
+
+                <p>Objet : {{post.subject}} </p>
+                {% if post.wished_date is defined %}
+                    <p>Date de réservation souhaitée : {{ post.wished_date|date('d-m-Y') }} </p>
+                {% endif %}
+
+                <p class="my-5">{{ post.message }}</p>
+
+                <p>Adresse e-mail du contact : {{post.email}}</p>
+                <p>Téléphone du contact : {{post.phone}}</p>           
+            
+            </main>
+
+        </div>
+
+    </body>
+</html>
+

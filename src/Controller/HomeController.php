@@ -43,11 +43,10 @@ class HomeController extends AbstractController
     public function index(LinksRepository $linksRepository, PagesRepository $pagesRepository, UsersRepository $usersRepository)
     {
 
-        if($pagesRepository->findBy(['title'=>'Accueil'])){
-            
-            $page = $pagesRepository->findBy(['title'=>'Accueil'])[0];
+        if ($pagesRepository->findBy(['title' => 'Accueil'])) {
 
-        }else{
+            $page = $pagesRepository->findBy(['title' => 'Accueil'])[0];
+        } else {
             //Instanciation entité Pages
             $page = new Pages;
 
@@ -56,12 +55,12 @@ class HomeController extends AbstractController
             $page->setContent('Contenu à éditer');
             $page->setMetaTagDescription('Contenu à éditer');
 
-            $keywords=["Contenu à éditer"];
+            $keywords = ["Contenu à éditer"];
             $page->setKeyWords($keywords);
             $page->setMetaTagKeywords($keywords);
             $page->setCreatedAt(new \DateTime('now'));
             $page->setUpdatedAt(new \DateTime('now'));
-            
+
             $page->setUser($usersRepository->findAll()[0]);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -77,16 +76,15 @@ class HomeController extends AbstractController
     /**
      * @Route("/home/{slug}", name="foreign")
      */
-    public function foreignIndex(string $slug, LinksRepository $linksRepository, PagesRepository $pagesRepository, UsersRepository $usersRepository)
+    public function foreignIndex(string $slug, PagesRepository $pagesRepository, UsersRepository $usersRepository)
     {
 
-        $title = ucwords(str_replace('-',' ',$slug));
+        $title = ucwords(str_replace('-', ' ', $slug));
 
-        if($pagesRepository->findBy(['title'=>$title])){
-                
-            $page = $pagesRepository->findBy(['title'=>$title])[0];
+        if ($pagesRepository->findBy(['title' => $title])) {
 
-        }else{
+            $page = $pagesRepository->findBy(['title' => $title])[0];
+        } else {
             //Instanciation entité Pages
             $page = new Pages;
 
@@ -95,12 +93,12 @@ class HomeController extends AbstractController
             $page->setContent('Contenu à éditer');
             $page->setMetaTagDescription('Contenu à éditer');
 
-            $keywords=["Contenu à éditer"];
+            $keywords = ["Contenu à éditer"];
             $page->setKeyWords($keywords);
             $page->setMetaTagKeywords($keywords);
             $page->setCreatedAt(new \DateTime('now'));
             $page->setUpdatedAt(new \DateTime('now'));
-            
+
             $page->setUser($usersRepository->findAll()[0]);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -117,7 +115,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/send/email", name="send_email", methods={"GET","POST"})
      */
-    public function sendEmail(Request $request, MailerInterface $mailer)
+    public function processEmailForm(Request $request, \Swift_Mailer $mailer, UsersRepository $usersRepository)
     {
 
         if ($request->getMethod() == 'POST') {
@@ -133,6 +131,7 @@ class HomeController extends AbstractController
                     return $this->redirectToRoute('home');
                 }
 
+                //Instanciation Messages pour enregistrement en bdd du message envoyé par l'utilisateur
                 $message = new Messages;
                 $message->setName($post['name']);
                 $message->setEmail($post['email']);
@@ -141,24 +140,13 @@ class HomeController extends AbstractController
                 $message->setMessage($post['message']);
                 $message->setSentAt(new \DateTime('now'));
 
+                //Expedition du message
+                $this->sendEmails($post, $mailer, $usersRepository);
+
+                //Enregistrement en bdd du message
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($message);
                 $entityManager->flush();
-
-                //
-                $email = (new Email())
-                    ->from($post['email'])
-                    // ->to()
-                    //->cc('cc@example.com')
-                    //->bcc('bcc@example.com')
-                    //->replyTo('fabien@example.com')
-                    //->priority(Email::PRIORITY_HIGH)
-                    ->subject($post['subject'])
-                    ->text($post['message']);
-                // ->html('<p>See Twig integration for better HTML integration!</p>');
-
-                // $mailer->send($email);
-
 
                 //Envoi d'un message utilisateur
                 $this->addFlash('success', 'Votre nous avons bien reçu votre message. Nous vous répondrons dans les plus brefs délais.');
@@ -237,10 +225,10 @@ class HomeController extends AbstractController
             "les-grandes-expositions-en-famille"
         ];
 
-        $categories=[];
+        $categories = [];
         foreach ($themeSlugs as $themeSlug) {
-            if($categoriesRepository->findOneBy(['slug'=>$themeSlug])){
-                $categories[] = $categoriesRepository->findOneBy(['slug'=>$themeSlug]);
+            if ($categoriesRepository->findOneBy(['slug' => $themeSlug])) {
+                $categories[] = $categoriesRepository->findOneBy(['slug' => $themeSlug]);
             }
         }
 
@@ -303,7 +291,7 @@ class HomeController extends AbstractController
                     "categoryId" => $category->getId(),
                     "categoryTitle" => $category->getTitle(),
                     //Dans ce paramêtre, on insère les slugs des catégories précédemment séléctionnées tout au long de la navigation via la zone de filtre par catégorie dans le template : les catégories précédemment sélectionnées sont mémorisés dans categorySlug.
-                    "categorySlug" => explode($categorySlug, $slug)[0].$categorySlug,
+                    "categorySlug" => explode($categorySlug, $slug)[0] . $categorySlug,
                 ];
 
                 //on récolte les identifiants de tous les produits qui partagent l'ensemble des catégories sélectionnées par l'utilisateur.
@@ -360,7 +348,7 @@ class HomeController extends AbstractController
                     $subCategoryTitleAndSlug["nbrOfOccurences"] = $nbrOccurences;
                     $subCategoryTitlesAndSlugs[] = $subCategoryTitleAndSlug;
                 }
-                unset( $subCategoryTitleAndSlug);
+                unset($subCategoryTitleAndSlug);
             }
 
 
@@ -391,25 +379,25 @@ class HomeController extends AbstractController
     /**
      * @Route("/sortie/{slugCategory}/{slugProduct}", name="home_product", requirements={"slugCategory"=".+"}, methods={"GET","POST"})
      */
-    public function showProduct(string $slugCategory, string $slugProduct, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository, AttributesRepository $attributesRepository, Request $request): Response
+    public function showProduct(string $slugCategory, string $slugProduct, CategoriesRepository $categoriesRepository, ProductsRepository $productsRepository, AttributesRepository $attributesRepository, Request $request, \Swift_Mailer $mailer, UsersRepository $usersRepository): Response
     {
 
-        if (isset($slugCategory) && !empty($slugCategory) && 
+        if (
+            isset($slugCategory) && !empty($slugCategory) &&
             isset($slugProduct) && !empty($slugProduct)
         ) {
             $product = $productsRepository->findOneBy(['slug' => $slugProduct]);
 
-            if($slugCategory === "toutes-les-***REMOVED***"){
+            if ($slugCategory === "toutes-les-***REMOVED***") {
 
                 $topCategoryTitlesAndSlugs = [];
                 $category = null;
                 $formAllProducts = true;
-
             } else {
 
                 $formAllProducts = false;
 
-                $categorySlugs = explode('/',$slugCategory);
+                $categorySlugs = explode('/', $slugCategory);
                 $category = $categoriesRepository->findOneBy(['slug' => end($categorySlugs)]);
 
                 $topCategoryTitlesAndSlugs = [];
@@ -427,10 +415,9 @@ class HomeController extends AbstractController
                     $topCategoryTitlesAndSlugs[] = [
                         "categoryId" => $category->getId(),
                         "categoryTitle" => $category->getTitle(),
-                        "categorySlug" => explode($categorySlug, $slugCategory)[0].$categorySlug,
+                        "categorySlug" => explode($categorySlug, $slugCategory)[0] . $categorySlug,
                     ];
                 }
-
             }
 
             //Récupération des attributs
@@ -451,7 +438,7 @@ class HomeController extends AbstractController
             $comment = new Comments();
             $formComment = $this->createForm(CommentsType::class, $comment);
             $formComment->handleRequest($request);
-            
+
             //Instanciation de Messages, création formulaire de contact 
             $message = new Messages();
             $formContact = $this->createForm(MessagesType::class, $message);
@@ -471,9 +458,9 @@ class HomeController extends AbstractController
                 //Envoi d'un message utilisateur
                 $this->addFlash('success', 'Votre commentaire pour la sortie "' . $product->getTitle() . '" a été enregistré et est en attente de modération.');
 
-                return $this->redirectToRoute('home_product',[
-                    'slugCategory'=>$slugCategory,
-                    'slugProduct'=>$slugProduct
+                return $this->redirectToRoute('home_product', [
+                    'slugCategory' => $slugCategory,
+                    'slugProduct' => $slugProduct
                 ]);
             }
 
@@ -484,16 +471,31 @@ class HomeController extends AbstractController
                 $message->setProduct($product);
                 $message->setSentAt(new \DateTime('now'));
 
+                //Préparation des données pour l'expedition d'email
+                $post['name'] = $message->getName();
+                $post['subject'] = $product->getTitle();
+                $post['email'] = $message->getEmail();
+                $post['phone'] = $message->getPhone();
+                $post['message'] = $message->getMessage();
+                $post['wished_date'] = $message->getWishedDate();
+                //Expedition du message
+                $this->sendEmails($post, $mailer, $usersRepository);
+
+
+                //Enregistrement du message en bdd
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($message);
                 $entityManager->flush();
 
+
+
+
                 //Envoi d'un message utilisateur
                 $this->addFlash('success', 'Votre nous avons bien reçu votre message pour la sortie "' . $product->getTitle() . '". Nous vous répondrons dans les plus brefs délais.');
 
-                return $this->redirectToRoute('home_product',[
-                    'slugCategory'=>$slugCategory,
-                    'slugProduct'=>$slugProduct
+                return $this->redirectToRoute('home_product', [
+                    'slugCategory' => $slugCategory,
+                    'slugProduct' => $slugProduct
                 ]);
             }
 
@@ -501,7 +503,7 @@ class HomeController extends AbstractController
                 'product' => $product,
                 'category' => $category,
                 'formAllProducts' => $formAllProducts,
-                'topCategoryTitlesAndSlugs'=>$topCategoryTitlesAndSlugs,
+                'topCategoryTitlesAndSlugs' => $topCategoryTitlesAndSlugs,
                 'attributes' => $attributes,
                 'moderatedComments' => $moderatedComments,
                 'form' => $formComment->createView(),
@@ -563,5 +565,37 @@ class HomeController extends AbstractController
             return false;
         }
         return true;
+    }
+
+
+    private function sendEmails(array $post, \Swift_Mailer $mailer, UsersRepository $usersRepository )
+    {
+
+        //On récupère les emails de tous les administrateurs du site
+        $admin_emails = [];
+        foreach ($usersRepository->findAll() as $user) {
+            $role =  $user->getRoles();
+            if (in_array("ROLE_ADMIN", $role)) {
+                $admin_emails[] = $user->getEmail();
+            }
+        }
+
+        $email = (new \Swift_Message('Vous avez reçu un nouvel email de '.$post['name']))
+            //Objet du message
+            ->setSubject($post['subject'])
+            // On attribue l'expéditeur
+            ->setFrom($post['email'])
+            // On attribue le destinataire
+            ->setTo($admin_emails)
+            // On crée le texte avec la vue
+            ->setBody(
+                $this->renderView(
+                    'emails/emailBody.html.twig',
+                    compact('post')
+                ),
+                'text/html'
+            );
+
+        $mailer->send($email);
     }
 }

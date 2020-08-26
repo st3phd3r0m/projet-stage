@@ -126,7 +126,7 @@ body header nav > .pushButton {
 }
 
 body header nav .offcanvas-collapse {
-  z-index: 2040;
+  z-index: 1040;
   position: fixed;
   top: 0;
   right: 100%;
