@@ -30,9 +30,9 @@ $(document).ready(function () {
         //On met un écouteur d'événements sur chacun des champs <select> de selection d'un groupe d'attributs
         $(firstSelectElement).on('click', getOptionElement);
 
-        //Unne balise <a> dans le template sert accéssoirement à supprimer un attribut du produit
+        //Une balise <a> dans le template sert accéssoirement à supprimer un attribut du produit
         //Un écouteur d'événement y est adossé
-        $(attributesFormElement).find('a').on('click', removeAttributeFromProduct);
+        $(attributesFormElement).parent().find('a').on('click', removeElementFromProduct);
     }
 
     //Pour les champs catégorie pré-remplis (mapping des catégories qui sont déjà liés au produit en bdd) :
@@ -42,9 +42,18 @@ $(document).ready(function () {
     for (let categoriesFormElement of categoriesFormElements) {
         //Unne balise <a> dans le template sert accéssoirement à supprimer une catégorie du produit
         //Un écouteur d'événement y est adossé
-        $(categoriesFormElement).find('a').on('click', removeCategoryFromProduct);
+        $(categoriesFormElement).find('a').on('click', removeElementFromProduct);
     }
 
+    //Pour les champs images pré-remplis (mapping des images qui sont déjà liés au produit en bdd) :
+    //Selection des éléments li de la collection des images
+    let imagesFormElements = $('#images-fields-list>li');
+    
+    for (let imagesFormElement of imagesFormElements) {
+        //Unne balise <a> dans le template sert accéssoirement à supprimer une catégorie du produit
+        //Un écouteur d'événement y est adossé
+        $(imagesFormElement).find('a').on('click', removeElementFromProduct);
+    }
 });
 
 /**
@@ -95,9 +104,9 @@ function addAnotherAttributeCollectionWidget(event) {
         let deleteLink = document.createElement('a');
         deleteLink.setAttribute('href','#');
         deleteLink.classList.add("float-right");
-        deleteLink.textContent ="Enlever l\'attribut du produit ?";
-        divElement.prepend(deleteLink);
-        deleteLink.addEventListener('click', removeAttributeFromProduct);
+        deleteLink.textContent ="Retirer l\'attribut du produit ?";
+        divElement.parentElement.prepend(deleteLink);
+        deleteLink.addEventListener('click', removeElementFromProduct);
     }
 
 }
@@ -141,11 +150,19 @@ function addAnotherCollectionWidget(event) {
         let input = $(selectElement).find('input')[0];
         //Création d'une balise <img>
         let img = document.createElement('img');
-        $(img).addClass('img-fluid w-25 ml-5 mb-1 d-none');
+        $(img).css('width', '200px').addClass('img-fluid mb-1 d-none');
         //Insertion de l'élément <img> dans le parent
         selectElement.appendChild(img);
         //Ecouteur d'événements sur le champ <input>
         $(input).on('change', pickFileName);
+
+        //Insertion dans le DOM d'une balise <a> pour la suppression individuelle d'images
+        let deleteLink = document.createElement('a');
+        deleteLink.setAttribute('href','#');
+        deleteLink.classList.add("ml-5");
+        deleteLink.textContent ="Retirer l'image ?";
+        newElement.prepend(deleteLink);
+        deleteLink.addEventListener('click', removeElementFromProduct);
     }
 
     //Insertion dans le DOM d'une balise <a> pour la suppression individuelle de catégories
@@ -153,9 +170,9 @@ function addAnotherCollectionWidget(event) {
         let deleteLink = document.createElement('a');
         deleteLink.setAttribute('href','#');
         deleteLink.classList.add("float-right");
-        deleteLink.textContent ="Enlever la catégorie du produit ?";
+        deleteLink.textContent ="Retirer la catégorie du produit ?";
         newElement.prepend(deleteLink);
-        deleteLink.addEventListener('click', removeCategoryFromProduct);
+        deleteLink.addEventListener('click', removeElementFromProduct);
     }
 }
 
@@ -204,9 +221,6 @@ function ajaxCall() {
 function fillAttributeNames(response){
     //élément select cible
     let attributeNamesDatalist = $(attributesFormElements[id]).find('select')[1];
-
-    //Apparition du champ Nom d'attribut
-    $($(attributesFormElements[id]).children()[2]).show();
 
     //On vide l'élément de ses balises option
     attributeNamesDatalist.innerHTML = '';
@@ -274,7 +288,7 @@ function fillAttributeContents($value){
     let attributeContentsDatalist = $(attributesFormElements[id]).find('select')[2];
 
     //Apparition du champ Contenu d'attribut
-    $($(attributesFormElements[id]).children()[3]).show();
+    $($(attributesFormElements[id]).children()[2]).show();
 
     //On vide l'élément de ses balises option
     attributeContentsDatalist.innerHTML = '';
@@ -307,17 +321,9 @@ function fillAttributeContentsInput(){
 }
 
 /**
- * Fonction qui efface du DOM tous les champs d'un attribut (même ceux mappés par les collectionType sur symfony) que l'utilisateur veut enlever d'un produit
+ * Fonction qui efface un par un les champs d'une catégorie, d'une image ou d'un attribut (même ceux mappés par les collectionType sur symfony) que l'utilisateur veut enlever d'un produit
  */
-function removeAttributeFromProduct(event){
-    event.preventDefault();
-    this.parentElement.parentElement.remove();
-}
-
-/**
- * Fonction qui efface du DOM tous les champs d'une catégorie (même ceux mappés par les collectionType sur symfony) que l'utilisateur veut enlever d'un produit
- */
-function removeCategoryFromProduct(event){
+function removeElementFromProduct(event){
     event.preventDefault();
     this.parentElement.remove();
 }
@@ -331,7 +337,7 @@ function showField(){
 }
 
 /**
- * Fonction qui affiche l'image sélectionnée par l'utilisateur dans
+ * Fonction qui affiche l'image sélectionnée par l'utilisateur dans le formulaire
  */
 function pickFileName(){
     //Instanciation de FileReader

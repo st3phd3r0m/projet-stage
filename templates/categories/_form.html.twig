@@ -15,6 +15,7 @@
             <ul id="images-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.images|length }}">
                 {% for imagesField in form.images %}
                     <li>
+                        <a href="#" class="ml-5">Retirer l'image de la catégorie ?</a>
                         {{ form_errors(imagesField) }}
                         {{ form_widget(imagesField) }}
                     </li>

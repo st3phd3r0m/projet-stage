@@ -20,6 +20,7 @@
 		<ul id="images-fields-list" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.images|length }}">
 			{% for imagesField in form.images %}
 				<li>
+					<a href="#" class="ml-5">Retirer l'image du produit ?</a>
 					{{ form_errors(imagesField) }}
 					{{ form_widget(imagesField) }}
 
@@ -43,7 +44,7 @@
 		<ul id="categories-fields-list" data-prototype="{{ form_widget(form.category.vars.prototype)|e }}" data-widget-tags="{{ '<li></li>'|e }}" data-widget-counter="{{ form.category|length }}">
 			{% for categoryField in form.category %}
 				<li>
-					<a href="#" class="float-right">Enlever la catégorie du produit ?</a>
+					<a href="#" class="float-right">Retirer la catégorie du produit ?</a>
 					{{ form_errors(categoryField) }}
 					{{ form_widget(categoryField) }}
 
@@ -69,8 +70,8 @@
 			{% set counter = 0 %}
 			{% for attribute in form.attribute %}
 				<li>
+					<a href="#" class="float-right">Retirer l'attribut du produit ?</a>
 					<div id="{{ form.attribute.vars.id }}_{{ counter }}">
-						<a href="#" class="float-right">Enlever l'attribut du produit ?</a>
 						{{ form_row(attribute.attribute_group) }}
 						{{ form_row(attribute.name) }}
 						{{ form_row(attribute.value) }}
