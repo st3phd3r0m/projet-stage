@@ -67,17 +67,17 @@
 						<th>
 							{{ knp_pagination_sortable(pages, 'Titre', 'title') }}
 						</th>
-						<th>
+						<th class="d-none d-md-table-cell">
 							{{ knp_pagination_sortable(pages, 'Créée le', 'created_at') }}
 						</th>
-						<th>
+						<th class="d-none d-lg-table-cell">
 							{{ knp_pagination_sortable(pages, 'Modifiée le', 'updated_at') }}
 
 						</th>
-						<th>
+						<th class="d-none d-sm-table-cell">
 							{{ knp_pagination_sortable(pages, 'Auteur', 'user.lastname') }}
 						</th>
-						<th>
+						<th class="d-none d-lg-table-cell">
 							{{ knp_pagination_sortable(pages, 'SEO URL', 'slug') }}
 						</th>
 						<th>actions</th>
@@ -87,16 +87,16 @@
 					{% for page in pages %}
 						<tr>
 							<td>{{ page.title }}</td>
-							<td>{{ page.createdAt ? page.createdAt|date('d-m-Y H:i:s') : '' }}</td>
-							<td>{{ page.updatedAt ? page.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
-							<td>
+							<td class="d-none d-md-table-cell">{{ page.createdAt ? page.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+							<td class="d-none d-lg-table-cell">{{ page.updatedAt ? page.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+							<td class="d-none d-sm-table-cell">
 								{% if page.user.email is defined %}
 									<a href="{{ path('users_show', {'id': page.user.id}) }}" title="Voir l'auteur de la publication">{{ page.user.firstname }} {{ page.user.lastname }}</a>
 								{% else %}
 									Pas d'auteur enregistré pour cette publication
 								{% endif %}
 							</td>
-							<td>{{ page.slug }}</td>
+							<td class="d-none d-lg-table-cell">{{ page.slug }}</td>
 							<td>
 								<a href="{{ path('pages_show', {'id': page.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 								<a href="{{ path('pages_edit', {'id': page.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>

@@ -33,16 +33,16 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link" data-toggle="dropdown" href="#">
+                        <a class="nav-link" data-toggle="dropdown" title="Accueil et déconnexion" href="#">
                             <i class="fas fa-user fa-fw"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <div class="dropdown-divider"></div>
-                            <a href="{{ path('home') }}" class="dropdown-item">
+                            <a href="{{ path('home') }}" class="dropdown-item" title="Aller à l'accueil du site">
                                 <i class="nav-icon fas fa-home"></i>Accueil du site
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="{{ path('app_logout') }}" class="dropdown-item">
+                            <a href="{{ path('app_logout') }}" class="dropdown-item" title="Se déconnecter de l'administration du site">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>Déconnexion
                             </a>
                         </div>
@@ -74,7 +74,7 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             {# Comptes utilisateurs #}
                             <li class="nav-item has-treeview">
-                                <a href="#" class="nav-link">
+                                <a title="Les utilisateurs de l'administration du site" href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-cog"></i>
                                 <p>
                                     Utilisateurs
@@ -83,13 +83,13 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="{{ path('users_index') }}" class="nav-link">
+                                        <a title="Liste de utilisateurs" href="{{ path('users_index') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Liste des utilisateurs</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ path('users_new') }}" class="nav-link">
+                                        <a title="Nouvel utilisateur" href="{{ path('users_new') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Nouvel utilisateur</p>
                                         </a>

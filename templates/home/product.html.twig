@@ -1,7 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+	<meta http-equiv="Content-Language" content="{{ product.language ?? '' }}">
+	{% if product.metaTagDescription is defined %}
+		<meta name="description" content="{{ product.metaTagDescription }}">
+	{% endif %}
+{% endblock %}
+
+
 {% block title %}Ludo et Sophie -
-	{{ product.metaTagTitle ?? '' }}
+	{{ product.metaTagTitle ?? '' }} - 
+	{% for metaTagKeyword in product.metaTagKeywords %}
+		{{ metaTagKeyword }} -
+	{% endfor %}
+{% endblock %}
 {% endblock %}
 
 {% block body %}
@@ -78,16 +90,16 @@
 				{# Onglets decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="nav-item" role="presentation">
-						<a href="#description" id="description-tab" data-toggle="tab" class="nav-link active" role="tab" aria-controls="description" aria-selected="true">Description</a>
+						<a href="#description" id="description-tab" data-toggle="tab" class="nav-link active" role="tab" aria-controls="description" aria-selected="true" title="Description de cet évènement">Description</a>
 					</li>
 					<li class="nav-item">
-						<a href="#specification" id="specification-tab" data-toggle="tab" class="nav-link" role="tab" aria-controls="specification" aria-selected="false">Informations pratiques</a>
+						<a href="#specification" id="specification-tab" data-toggle="tab" class="nav-link" role="tab" aria-controls="specification" aria-selected="false" title="Informations pratiques de cet évènement">Informations pratiques</a>
 					</li>
 					<li class="nav-item">
-						<a href="#reserver" id="reserver-tab" data-toggle="tab" class="nav-link" role="tab" aria-controls="reserver" aria-selected="false">Réserver</a>
+						<a href="#reserver" id="reserver-tab" data-toggle="tab" class="nav-link" role="tab" aria-controls="reserver" aria-selected="false" title="Réserver cet évènement">Réserver</a>
 					</li>
 					<li class="nav-item">
-						<a href="#review" id="review-tab" data-toggle="tab" class="nav-link" role="tab" aria-controls="review" aria-selected="false">Avis ({{ moderatedComments|length }})</a>
+						<a href="#review" id="review-tab" data-toggle="tab" class="nav-link" role="tab" aria-controls="review" aria-selected="false" title="Avis sur cet évènement">Avis ({{ moderatedComments|length }})</a>
 					</li>
 				</ul>
 				{# Fin Onglets decription, infos pratiques (attributs), Formulaire reservation, Formulaire commentaire #}
@@ -135,7 +147,7 @@
 						{% if product.weezeevent is not empty %}
 							<a class="btn p-3 m-5 text-white font-weight-bold" title="Réserver sur weezevent.com" href="{{ product.weezeevent }}" target="_blank" rel="noopener noreferrer">Réserver sur weezevent.com</a>
 						{% else %}
-                        	{{ include('home/_formMessages.html.twig') }}							
+                        	{{ include('home/_formMessages.html.twig') }}
 						{% endif %}
 					</section>
 					{# Fin Formulaire réservation/contact #}
@@ -169,7 +181,7 @@
 						{# Formulaire commentaire #}
 						<div class="my-3">
 							<h4>Écrire un Avis</h4>
-							{{ include('comments/_form.html.twig', {'button_label': 'Envoyer'}) }}						
+							{{ include('comments/_form.html.twig', {'button_label': 'Envoyer'}) }}
 						</div>
 						{# Fin Formulaire commentaire #}
 

@@ -74,16 +74,16 @@
 					<th>
 						{{ knp_pagination_sortable(products, 'Titre', 'title') }}
 					</th>
-					<th>
+					<th class="d-none d-md-table-cell">
 						{{ knp_pagination_sortable(products, 'Reference', 'reference') }}
 					</th>
-					<th>
+					<th class="d-none d-lg-table-cell">
 						{{ knp_pagination_sortable(products, 'Créé le', 'createdAt') }}
 					</th>
-					<th>
+					<th class="d-none d-lg-table-cell">
 						{{ knp_pagination_sortable(products, 'Modifié le', 'updatedAt') }}
 					</th>
-					<th>
+					<th class="d-none d-sm-table-cell">
 						Catégories
 					</th>
 					<th>
@@ -99,10 +99,10 @@
 				{% for product in products %}
 					<tr>
 						<td>{{ (product.title is defined)? product.title :'Pas de titre pour ce produit' }}</td>
-						<td>{{ (product.reference is defined)? product.reference :'Pas de référence pour ce produit' }}</td>
-						<td>{{ product.createdAt ? product.createdAt|date('d-m-Y H:i:s') : '' }}</td>
-						<td>{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
-						<td>
+						<td class="d-none d-md-table-cell">{{ (product.reference is defined)? product.reference :'Pas de référence pour ce produit' }}</td>
+						<td class="d-none d-lg-table-cell">{{ product.createdAt ? product.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+						<td class="d-none d-lg-table-cell">{{ product.updatedAt ? product.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+						<td class="d-none d-sm-table-cell">
 							<ul>
 								{% for category in product.category %}
 								<li>

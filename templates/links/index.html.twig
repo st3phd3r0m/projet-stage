@@ -49,13 +49,13 @@
                     <th>
                         {{ knp_pagination_sortable(links, 'Titre', 'title') }}                   
                     </th>
-                    <th>
+                    <th class="d-none d-sm-table-cell">
                         {{ knp_pagination_sortable(links, 'Type', 'type') }}       
                     </th>
-					<th>
+					<th class="d-none d-md-table-cell">
                         {{ knp_pagination_sortable(links, 'Position', 'position') }}
                     </th>
-                    <th>
+                    <th class="d-none d-md-table-cell">
 						{{ knp_pagination_sortable(links, 'Ordre d\'apparition', 'positionOrder') }}
 					</th>
                     <th>actions</th>
@@ -65,9 +65,9 @@
             {% for link in links %}
                 <tr>
 				    <td>{{ link.title }}</td>
-                    <td>{{ link.type }}</td>
-                    <td>{{ link.position }}</td>
-					<td>{{ link.positionOrder }}</td>
+                    <td class="d-none d-sm-table-cell">{{ link.type }}</td>
+                    <td class="d-none d-md-table-cell">{{ link.position }}</td>
+					<td class="d-none d-md-table-cell">{{ link.positionOrder }}</td>
                     <td>
                     	<a href="{{ path('links_show', {'id': link.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 						<a href="{{ path('links_edit', {'id': link.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>

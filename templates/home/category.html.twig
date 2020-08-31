@@ -1,7 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+	
+	{% if category.metaTagDescription is defined %}
+		<meta name="description" content="{{ category.metaTagDescription }}">
+	{% endif %}
+{% endblock %}
+
+
 {% block title %}Ludo et Sophie -
-	{{ category.metaTagTitle ?? '' }}
+	{{ category.metaTagTitle ?? '' }} -
+	{% for metaTagKeyword in category.metaTagKeywords %}
+		{{ metaTagKeyword }} -
+	{% endfor %}
 {% endblock %}
 
 {% block body %}

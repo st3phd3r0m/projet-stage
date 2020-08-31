@@ -8,7 +8,6 @@ use App\Form\ProductsType;
 use App\Repository\AttributeGroupsRepository;
 use App\Repository\AttributesRepository;
 use App\Repository\CategoriesRepository;
-use App\Repository\ImagesRepository;
 use App\Repository\ProductsRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,17 +28,17 @@ class ProductsController extends AbstractController
     {
 
         if ($request->get('categoryId')) {
-            
+            //Récupération des produits correspondant à la catégorie sélectionnée par l'utilisateur
             $productsBuffer = $categoriesRepository->find($request->get('categoryId'))->getProducts();
 
         } else if( $request->get('search') || $request->get('categoryFilter') ){
-
             //Récupération des données de la requete GET
             $criteria = $request->query->all();
             //Appel de la méthode de requete DQL de recherche
             $productsBuffer = $productsRepository->searchFilter($criteria);
 
         } else {
+            //Tous les produits
             $productsBuffer = $productsRepository->findAll();
         }
 
@@ -242,62 +241,62 @@ class ProductsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="products_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Products $product, Filesystem $filesystem): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
+/**
+ * @Route("/{id}", name="products_delete", methods={"DELETE"})
+ */
+public function delete(Request $request, Products $product, Filesystem $filesystem): Response
+{
+    if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
 
+        //Appel du manager de Doctrine
+        $entityManager = $this->getDoctrine()->getManager();
 
-            // dd($request->request->get('delete_related'));
-
-            $entityManager = $this->getDoctrine()->getManager();
-
-            //Suppression des images et des miniatures associés au produit
-            $images = $product->getImages();
-            foreach ($images as $image) {
-                $miniature = '../public/media/cache/miniatures/images/products/' . $image->getName();
-                //Si le fichier existe
-                if ($filesystem->exists($miniature)) {
-                    //Alors on supprime la miniature correspondante
-                    $filesystem->remove($miniature);
-                }
-                $product->removeImage($image);
-                $entityManager->remove($image);
+        //Suppression des images et des miniatures associés au produit
+        $images = $product->getImages();
+        foreach ($images as $image) {
+            $miniature = '../public/media/cache/miniatures/images/products/' . $image->getName();
+            //Si le fichier existe
+            if ($filesystem->exists($miniature)) {
+                //Alors on supprime la miniature correspondante
+                $filesystem->remove($miniature);
             }
-
-            //Commentaires associés au produit
-            $comments = $product->getComments();
-            foreach ($comments as $comment) {
-                //Rupture entre les commentaires et le produit
-                $product->removeComment($comment);
-                //Suppression des commentaires si l'utilisateur le décide
-                if ($request->request->get('delete_related') === "true") {
-                    $entityManager->remove($comment);
-                }
-            }
-
-            //Messages associés au produit
-            $messages = $product->getMessages();
-            foreach ($messages as $message) {
-                //Rupture entre les messages et le produit
-                $product->removeMessage($message);
-                //Suppression des messages si l'utilisateur le décide
-                if ($request->request->get('delete_related') === "true") {
-                    $entityManager->remove($message);
-                }
-            }
-
-            $entityManager->remove($product);
-            $entityManager->flush();
-
-            //Envoi d'un message utilisateur
-            $this->addFlash('success', 'La sortie a bien été supprimée.');
+            $product->removeImage($image);
+            $entityManager->remove($image);
         }
 
-        return $this->redirectToRoute('products_index');
+        //Commentaires associés au produit
+        $comments = $product->getComments();
+        foreach ($comments as $comment) {
+            //Rupture entre les commentaires et le produit
+            $product->removeComment($comment);
+            //Suppression des commentaires si l'utilisateur le décide
+            if ($request->request->get('delete_related') === "true") {
+                $entityManager->remove($comment);
+            }
+        }
+
+        //Messages associés au produit
+        $messages = $product->getMessages();
+        foreach ($messages as $message) {
+            //Rupture entre les messages et le produit
+            $product->removeMessage($message);
+            //Suppression des messages si l'utilisateur le décide
+            if ($request->request->get('delete_related') === "true") {
+                $entityManager->remove($message);
+            }
+        }
+
+        //On supprime le produit
+        $entityManager->remove($product);
+        //La ligne ci-dessous rend la suppression en BDD effective
+        $entityManager->flush();
+
+        //Envoi d'un message utilisateur
+        $this->addFlash('success', 'La sortie a bien été supprimée.');
     }
+
+    return $this->redirectToRoute('products_index');
+}
 
     /**
      * Méthode qui fait persister les attributs saisis par l'utilisateur lors de la création/édition d'un produit

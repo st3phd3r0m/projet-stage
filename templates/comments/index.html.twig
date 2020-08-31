@@ -65,19 +65,19 @@
 						<th>
 							{{ knp_pagination_sortable(comments, 'Ecrit par', 'pseudo') }}
 						</th>
-						<th>
+						<th class="d-none d-lg-table-cell">
 							{{ knp_pagination_sortable(comments, 'Contenu', 'content') }}
 						</th>
-						<th>
+						<th class="d-none d-sm-table-cell">
 							{{ knp_pagination_sortable(comments, 'Concernant la sortie', 'product.title') }}
 						</th>
-						<th>
+						<th class="d-none d-md-table-cell">
 							{{ knp_pagination_sortable(comments, 'Note', 'mark') }}
 						</th>
 						<th>
 							{{ knp_pagination_sortable(comments, 'Date', 'created_at') }}
 						</th>
-						<th>
+						<th class="d-none d-sm-table-cell">
 							{{ knp_pagination_sortable(comments, 'Commentaire modéré', 'isModerated') }}
 						</th>
 						<th>actions</th>
@@ -87,19 +87,19 @@
 					{% for comment in comments %}
 						<tr>
 							<td>{{ comment.pseudo }}</td>
-							<td>{{ comment.content }}</td>
-							<td>
+							<td class="d-none d-lg-table-cell">{{ comment.content }}</td>
+							<td class="d-none d-sm-table-cell">
 								{% if comment.product != null %}
 									<a title="Voir la sortie associée" href="{{ path('products_show', {id:comment.product.id}) }}">{{ comment.product.title }}</a>
 								{% else %}
 									Commentaire associé à aucune sortie
 								{% endif %}
 							</td>
-							<td>
+							<td class="d-none d-md-table-cell">
 								{{ (comment.mark != null)?(comment.mark ~'/5'):'Pas de note donnée pour ce produit.' }}
 							</td>
 							<td>{{ comment.createdAt|date('d-m-Y H:i:s') }}</td>
-							<td>
+							<td class="d-none d-sm-table-cell">
 								{{ (comment.isModerated)?'Oui':'Non' }}
 							</td>
 							<td>

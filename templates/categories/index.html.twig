@@ -62,16 +62,16 @@
 						<th>
 							{{ knp_pagination_sortable(categories, 'Titre', 'title') }}
 						</th>
-						<th>
+						<th class="d-none d-md-table-cell">
 							{{ knp_pagination_sortable(categories, 'Créée le', 'created_at') }}
 						</th>
-						<th>
+						<th class="d-none d-md-table-cell">
 							{{ knp_pagination_sortable(categories, 'Modifiée le', 'updated_at') }}
 						</th>
 						<th>
 							{{ knp_pagination_sortable(categories, 'Nombre de produits associés', 'products.count' ) }}
 						</th>
-						<th>
+						<th class="d-none d-lg-table-cell">
 							{{ knp_pagination_sortable(categories, 'SEO URL', 'slug') }}
 						</th>
 						<th>actions</th>
@@ -81,14 +81,14 @@
 					{% for category in categories %}
 						<tr>
 							<td>{{ category.title }}</td>
-							<td>{{ category.createdAt|date('d-m-Y H:i:s') }}</td>
-							<td>{{ category.updatedAt|date('d-m-Y H:i:s') }}</td>
+							<td class="d-none d-md-table-cell">{{ category.createdAt|date('d-m-Y H:i:s') }}</td>
+							<td class="d-none d-md-table-cell">{{ category.updatedAt|date('d-m-Y H:i:s') }}</td>
 							<td>{{ category.products | length }}
 								{% if category.products | length > 0 %}
 									<a title="Voir les produits associés à cette catégorie" href="{{ path('products_index', {categoryId:category.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
 								{% endif %}
 							</td>
-							<td>
+							<td class="d-none d-lg-table-cell">
 								{{ category.slug }}
 							</td>
 							<td>

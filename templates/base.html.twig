@@ -3,6 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Ludo & Sophie">
+        <meta name="copyright" content="Copyright © 2016-2020 Ludo&Sophie. All rights reserved.">
+
+        {% block head %}{% endblock %}
         <link rel="shortcut icon" href="{{ asset('images/icones/logo_footer.jpg') }}" type="image/x-icon">
         <title>{% block title %}Ludo et Sophie Accueil{% endblock %}</title>
 
@@ -50,7 +54,7 @@
                         <div class="row mt-5">
                             {% for foreignLanguage in foreignLanguages() %} 
                             <div class="col-lg-6 p-1">
-                                <a href="{{ path('foreign', { slug: foreignLanguage.slug}) }}" title="English and Spanish family tours">
+                                <a href="{{ path('foreign', {lang:foreignLanguage.name, slug: foreignLanguage.slug }) }}" title="English and Spanish family tours">
                                     <img class="d-block mx-auto img-fluid" src="{{ asset('images/languages/' ~ foreignLanguage.flag ) | imagine_filter('flag') }}" alt="Icone de la langue {{ foreignLanguage.name }}">
                                 </a>
                             </div>
@@ -105,7 +109,7 @@
                                         aria-expanded="false">
                                         {{ link.content }}
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                    <div class="dropdown-menu">
                                         {% for link in links()|filter( link => link.position == 'dropdown' )|sort((a, b) => a.positionOrder <=> b.positionOrder) %}
                                             <a class="dropdown-item px-2" 
                                                 href="{{ link.url }}" 
@@ -235,6 +239,9 @@
         {% block javascripts %}{% endblock %}
     </body>
 </html>
+
+
+
 
 
 

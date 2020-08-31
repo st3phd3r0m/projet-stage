@@ -63,7 +63,7 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>
+						<th class="d-none d-md-table-cell">
 							{{ knp_pagination_sortable(messages, 'Adresse email', 'email') }}
 						</th>
 						<th>
@@ -72,10 +72,10 @@
 						<th>
 							{{ knp_pagination_sortable(messages, 'Objet', 'subject') }}
 						</th>
-						<th>
+						<th class="d-none d-sm-table-cell">
 							{{ knp_pagination_sortable(messages, 'Concernant la sortie', 'product') }}
 						</th>
-						<th>
+						<th class="d-none d-lg-table-cell">
 							{{ knp_pagination_sortable(messages, 'Date de réservation désirée', 'wished_date') }}
 						</th>
 						<th>
@@ -87,17 +87,17 @@
 				<tbody>
 					{% for message in messages %}
 						<tr>
-							<td>{{ message.email }}</td>
+							<td class="d-none d-md-table-cell">{{ message.email }}</td>
 							<td>{{ message.name }}</td>
 							<td>{{ message.subject }}</td>
-							<td>
+							<td class="d-none d-sm-table-cell">
 								{% if message.product != null %}
 									<a title="Voir la sortie associée" href="{{ path('products_show', {id:message.product.id}) }}">{{ message.product.title }}</a>
 								{% else %}
 									associé à aucune sortie
 								{% endif %}
 							</td>
-							<td>
+							<td class="d-none d-lg-table-cell">
 								{% if message.wishedDate != null %}
 									{{ message.wishedDate|date('d-m-Y') }}
 								{% else %}

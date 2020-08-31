@@ -2,17 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Categories;
 use App\Entity\Comments;
 use App\Entity\Messages;
 use App\Entity\Pages;
-use App\Entity\Products;
 use App\Form\CommentsType;
 use App\Form\MessagesType;
 use App\Repository\AttributesRepository;
 use App\Repository\CategoriesRepository;
 use App\Repository\FrequentlyAskedQuestionsRepository;
-use App\Repository\LinksRepository;
 use App\Repository\PagesRepository;
 use App\Repository\PeopleRepository;
 use App\Repository\ProductsRepository;
@@ -23,8 +20,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 class HomeController extends AbstractController
 {
@@ -40,12 +35,12 @@ class HomeController extends AbstractController
     /**
      * @Route("/accueil", name="home")
      */
-    public function index(LinksRepository $linksRepository, PagesRepository $pagesRepository, UsersRepository $usersRepository)
+    public function index(PagesRepository $pagesRepository, UsersRepository $usersRepository)
     {
+        $page = $pagesRepository->findBy(['title' => 'Accueil']);
 
-        if ($pagesRepository->findBy(['title' => 'Accueil'])) {
-
-            $page = $pagesRepository->findBy(['title' => 'Accueil'])[0];
+        if ($page) {
+            $page = $page[0];
         } else {
             //Instanciation entité Pages
             $page = new Pages;
@@ -74,9 +69,9 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/home/{slug}", name="foreign")
+     * @Route("/home/{lang}/{slug}", name="foreign")
      */
-    public function foreignIndex(string $slug, PagesRepository $pagesRepository, UsersRepository $usersRepository)
+    public function foreignIndex(string $slug, string $lang, PagesRepository $pagesRepository, UsersRepository $usersRepository)
     {
 
         $title = ucwords(str_replace('-', ' ', $slug));
@@ -108,6 +103,7 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'page' => $page,
+            'lang'=>$lang,
         ]);
     }
 
@@ -487,9 +483,6 @@ class HomeController extends AbstractController
                 $entityManager->persist($message);
                 $entityManager->flush();
 
-
-
-
                 //Envoi d'un message utilisateur
                 $this->addFlash('success', 'Votre nous avons bien reçu votre message pour la sortie "' . $product->getTitle() . '". Nous vous répondrons dans les plus brefs délais.');
 
@@ -517,14 +510,13 @@ class HomeController extends AbstractController
 
 
     /**
-     * Vérifie que les champs du formulaire contiennent tous au moins 5 caractères
-     *
+     * Vérifie que les champs du formulaire de contact contiennent tous au moins 5 caractères
      * @param $post
      * @return bool|string
      */
     private function isFormValid($post)
     {
-        //On vérifie si les données à stocker comportent tous au moins 5 caractères. Si ce n'est pas le cas, on renvoie une chaine de carctères.
+        //On vérifie si les données à stocker comportent tous au moins 5 caractères.
         $fields = ['name', 'email', 'phone', 'subject', 'message'];
         foreach ($fields as $field) {
             if (iconv_strlen(htmlspecialchars($post[$field])) < 5) {
@@ -532,7 +524,7 @@ class HomeController extends AbstractController
             }
         }
 
-        //Pot de miel : on vérifie si la variable-pot de miel est bien dans le tableau associatif est si elle est vide. Si ce n'est pas le cas, on renvoie une chaine de carctères
+        //Pot de miel : on vérifie si la variable-pot de miel est bien dans le tableau associatif et si elle est vide.
         if (
             !isset($post['nosiar']) || !empty(htmlspecialchars($post['nosiar']))
         ) {
@@ -543,13 +535,12 @@ class HomeController extends AbstractController
 
     /**
      * Vérifie si les champs d'un formulaire sont remplis
-     *
      * @param $post array
      * @return bool|string
      */
     private function isFormFilled($post)
     {
-        //On vérifie si les données à stocker sont vides, si c'est le cas, on renvoie une chaine de carctères
+        //On vérifie si les données à stocker sont vides.
         $fields = ['name', 'email', 'phone', 'subject', 'message'];
         foreach ($fields as $field) {
             if (
@@ -558,7 +549,7 @@ class HomeController extends AbstractController
                 return false;
             }
         }
-        //Pot de miel : on vérifie si la variable-pot de miel est bien dans le tableau associatif est si elle est vide. Si ce n'est pas le cas, on renvoie une chaine de carctères
+        //Pot de miel : on vérifie si la variable-pot de miel est bien dans le tableau associatif et si elle est vide.
         if (
             !isset($post['nosiar']) || !empty(htmlspecialchars($post['nosiar']))
         ) {

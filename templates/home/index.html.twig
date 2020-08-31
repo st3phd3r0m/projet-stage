@@ -1,6 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ludo et Sophie Accueil
+{% block head %}
+	{% if page.metaTagDescription is defined %}
+		<meta name="description" content="{{ page.metaTagDescription }}">
+	{% endif %}
+{% endblock %}
+
+{% block title %}Ludo et Sophie -
+	{{ page.metaTagTitle ?? '' }} -
+	{% for metaTagKeyword in page.metaTagKeywords %}
+		{{ metaTagKeyword }} -
+	{% endfor %}
 {% endblock %}
 
 
@@ -21,3 +31,4 @@
 		</div>
 	</article>
 {% endblock %}
+

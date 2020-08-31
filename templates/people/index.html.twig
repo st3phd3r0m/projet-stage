@@ -49,11 +49,11 @@
                         <th>
 							{{ knp_pagination_sortable(people, 'Nom', 'name') }}
 						</th>
-                        <th>Photo</th>
-                        <th>
+                        <th class="d-none d-lg-table-cell">Photo</th>
+                        <th class="d-none d-sm-table-cell">
 							{{ knp_pagination_sortable(people, 'Fonction', 'function') }}
 						</th>
-                        <th>
+                        <th class="d-none d-md-table-cell">
 							{{ knp_pagination_sortable(people, 'Fait parti de la direction ?', 'isHead') }}						
 						</th>
                         <th>Actions</th>
@@ -63,15 +63,15 @@
                 {% for person in people %}
                     <tr>
                         <td>{{ person.name }}</td>
-                        <td>
+                        <td class="d-none d-lg-table-cell">
                             {% if person.picture is not empty %}
                             <img src="{{ asset('images/people/'~ person.picture ) | imagine_filter('miniatures') }}" alt="Photo de : '{{ person.name }}'">
                             {% else %}
                             <img src="{{ asset('images/people/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo de : '{{ person.name }}'">
                             {% endif %}
                         </td>
-                        <td>{{ person.function }}</td>
-                        <td>{{ person.isHead ? 'Oui' : 'Non' }}</td>
+                        <td class="d-none d-sm-table-cell">{{ person.function }}</td>
+                        <td class="d-none d-md-table-cell">{{ person.isHead ? 'Oui' : 'Non' }}</td>
                         <td>
                             <a href="{{ path('people_show', {'id': person.id}) }}" class="btn btn-primary" ><i class="fas fa-glasses"></i></a>
                             <a href="{{ path('people_edit', {'id': person.id}) }}" class="btn btn-warning" ><i class="fas fa-edit"></i></a>
