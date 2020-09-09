@@ -3,10 +3,33 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Ludo & Sophie">
-        <meta name="copyright" content="Copyright © 2016-2020 Ludo&Sophie. All rights reserved.">
+        <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <![endif]-->
+        <meta name="author" content="Ludo et Sophie">
+        <meta name="copyright" content="Copyright © 2016-{{ 'now' | date('Y') }} Ludo&amp;Sophie. All rights reserved.">
+
+        {# Réseaux sociaux #}
+        {# Pinterest #}
+        <meta name="p:domain_verify" content="***REMOVED***">
+        {# Fin Pinterest #}
+
+        {# Twitter #}
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@Ludo_et_Sophie">
+        <meta name="twitter:creator" content="@Ludo_et_Sophie">
+        {# Fin Twitter #}
+
+        {# Facebook #}
+        <meta property="fb:app_id" content="***REMOVED***">
+        <meta property="og:site_name" content="Ludo et Sophie">
+        <meta property="og:image" content="{{ asset('images/icones/header_logo-300x300.jpg') }}">
+	    <meta property="og:image:width" content="300">
+	    <meta property="og:image:height" content="300">
+        {# Fin Facebook #}
 
         {% block head %}{% endblock %}
+
         <link rel="shortcut icon" href="{{ asset('images/icones/logo_footer.jpg') }}" type="image/x-icon">
         <title>{% block title %}Ludo et Sophie Accueil{% endblock %}</title>
 
@@ -17,6 +40,7 @@
         <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         {% block stylesheets %}{% endblock %}
+
     </head>
     <body>
 

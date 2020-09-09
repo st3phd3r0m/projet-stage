@@ -1,16 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block head %}
-	{% if page.metaTagDescription is defined %}
-		<meta name="description" content="{{ page.metaTagDescription }}">
-	{% endif %}
+{# Facebook #}
+<meta property="og:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="og:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+<meta property="og:type" content="website">
+{# Fin Facebook #}
+
+{# Twitter #}
+<meta property="twitter:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="twitter:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="twitter:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+{# Fin Twitter #}
+
+<meta name="description" content="{{ page.metaTagDescription ?? '' }}">
 {% endblock %}
 
-{% block title %}Ludo et Sophie -
-	{{ page.metaTagTitle ?? '' }} -
-	{% for metaTagKeyword in page.metaTagKeywords %}
+{% block title %}
+	{# {% for metaTagKeyword in page.metaTagKeywords %}
 		{{ metaTagKeyword }} -
-	{% endfor %}
+	{% endfor %} #}
+	{{ page.metaTagTitle ?? '' }} -
+	Ludo et Sophie
 {% endblock %}
 
 

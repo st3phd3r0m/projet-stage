@@ -443,6 +443,10 @@ class HomeController extends AbstractController
             //Soumission formulaire commentaire
             if ($formComment->isSubmitted() && $formComment->isValid()) {
 
+                if($formComment->getData()->getMark() === null){
+                    $comment->setMark(0);
+                }
+
                 $comment->setProduct($product);
                 $comment->setCreatedAt(new \DateTime('now'));
                 $comment->setIsModerated(0);

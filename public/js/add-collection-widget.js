@@ -120,7 +120,7 @@ function addAnotherCollectionWidget(event) {
     event.preventDefault();
 
     let list = $($(this).data('list-selector'));
-    //Donne le nombre d'éléments dans la liste de collection, soit via le data dans l'élémént 'list', soit
+    //Donne le nombre d'éléments dans la liste de collection, soit via le data dans l'élément 'list', soit
     //en utilisant la méthode children
     counter = list.data('widget-counter') || list.children().length;
 
@@ -140,7 +140,7 @@ function addAnotherCollectionWidget(event) {
     //Insertion du nouvel élément dans l'élément 'list' 
     newElement.appendTo(list);
 
-    //Ajout d'un écouteur d'évenements sur les balises option de la première balise select dans le nouvel élément
+    //Ajout d'un écouteur d'évènements sur les balises option de la première balise select dans le nouvel élément
     let selectElement = $(newElement).children()[0];
 
 
@@ -350,7 +350,7 @@ function pickFileName(){
 
     //On met un écouteur d'événements sur l'instance reader
     reader.addEventListener("load", function () {
-        //Une fois la lecture du fichier image par reader est terminée, on récupére l'url de l'image que l'on charge dans l'attribut src de la balise <img>
+        //Une fois la lecture du fichier image par reader est terminée, on récupère l'url de l'image que l'on charge dans l'attribut src de la balise <img>
         img.src = reader.result;
       }, false);
 

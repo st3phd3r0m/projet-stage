@@ -115,11 +115,15 @@ class AttributeGroupsController extends AbstractController
      */
     public function giveAttributes(Request $request, AttributeGroupsRepository $attributeGroupRepository)
     {
+        //S’agit-il d’une requête xmlHttp ?
         if($request->isXmlHttpRequest()){
+            //Récupération de l’identifiant du groupe d’attributs
             $id = $request->get('id');
+            //Récupération en bdd des attributs correspondants
             $attributesCollection = $attributeGroupRepository->find($id)->getAttributes();
             $attributes = [];
             foreach ($attributesCollection as $key => $value) {
+                //Pour chaque attribut, on récupère l’identifiant, le nom et la valeur
                 $attributes[] = [
                     'id'=> $value->getId(),
                     'name'=> $value->getName(),

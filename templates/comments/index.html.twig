@@ -96,7 +96,7 @@
 								{% endif %}
 							</td>
 							<td class="d-none d-md-table-cell">
-								{{ (comment.mark != null)?(comment.mark ~'/5'):'Pas de note donnée pour ce produit.' }}
+								{{ comment.mark ~'/5' }}
 							</td>
 							<td>{{ comment.createdAt|date('d-m-Y H:i:s') }}</td>
 							<td class="d-none d-sm-table-cell">

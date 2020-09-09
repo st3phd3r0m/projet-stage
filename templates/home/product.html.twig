@@ -1,24 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block head %}
-	<meta http-equiv="Content-Language" content="{{ product.language ?? '' }}">
-	{% if product.metaTagDescription is defined %}
-		<meta name="description" content="{{ product.metaTagDescription }}">
-	{% endif %}
+{# Facebook #}
+<meta property="og:title" content="{{ product.metaTagTitle ?? '' }}">
+<meta property="og:description" content="{{ product.metaTagDescription ?? '' }}">
+<meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+<meta property="og:type" content="article">
+{# Fin Facebook #}
+
+{# Twitter #}
+<meta property="twitter:title" content="{{ product.metaTagTitle ?? '' }}">
+<meta property="twitter:description" content="{{ product.metaTagDescription ?? '' }}">
+<meta property="twitter:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+{# Fin Twitter #}
+
+<meta name="description" content="{{ product.metaTagDescription ?? '' }}">
 {% endblock %}
 
 
-{% block title %}Ludo et Sophie -
-	{{ product.metaTagTitle ?? '' }} - 
-	{% for metaTagKeyword in product.metaTagKeywords %}
+{% block title %}
+	{# {% for metaTagKeyword in product.metaTagKeywords %}
 		{{ metaTagKeyword }} -
-	{% endfor %}
-{% endblock %}
+	{% endfor %} #}
+	{{ product.metaTagTitle ?? '' }} - Ludo et Sophie
 {% endblock %}
 
 {% block body %}
 
-	{# Arborescence de filtrage par cétagories #}
+	{# Arborescence de filtrage par catégories #}
 	<ol class="breadcrumb bg-white">
 		<li class="breadcrumb-item">
 			<a class="text-muted" href="{{ path('home') }}" title="Ludo et Sophie : Accueil">
@@ -168,7 +177,11 @@
 									{{ comment.content }}
 								</p>
 								<p class="card-text m-2">
-									Note : <span class="font-italic">{{ (comment.mark != null)?(comment.mark ~'/5'):'Aucune note pour ce produit.' }}</span> 
+
+									{% for compt in 1..5 %}
+										{{ (compt <= comment.mark) ? '&#9733;' : '&#9734;' }}
+									{% endfor %}
+
 								</p>
 							</div>
 							<!-- /.card -->
