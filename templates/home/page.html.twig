@@ -1,17 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
 {% block head %}
 {# Facebook #}
 <meta property="og:title" content="{{ page.metaTagTitle ?? '' }}">
 <meta property="og:description" content="{{ page.metaTagDescription ?? '' }}">
-<meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+<meta property="og:url" content="{{ currentUrl }}">
 <meta property="og:type" content="article">
 {# Fin Facebook #}
 
 {# Twitter #}
 <meta property="twitter:title" content="{{ page.metaTagTitle ?? '' }}">
 <meta property="twitter:description" content="{{ page.metaTagDescription ?? '' }}">
-<meta property="twitter:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+<meta property="twitter:url" content="{{ currentUrl }}">
 {# Fin Twitter #}
 
 <meta name="description" content="{{ page.metaTagDescription ?? '' }}">

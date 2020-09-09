@@ -1,17 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
 {% block head %}
 {# Facebook #}
 <meta property="og:title" content="{{ category.metaTagTitle ?? '' }}">
 <meta property="og:description" content="{{ category.metaTagDescription ?? '' }}">
-<meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+<meta property="og:url" content="{{ currentUrl }}">
 <meta property="og:type" content="article">
 {# Fin Facebook #}
 
 {# Twitter #}
 <meta property="twitter:title" content="{{ category.metaTagTitle ?? '' }}">
 <meta property="twitter:description" content="{{ category.metaTagDescription ?? '' }}">
-<meta property="twitter:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+<meta property="twitter:url" content="{{ currentUrl }}">
 {# Fin Twitter #}
 
 <meta name="description" content="{{ category.metaTagDescription ?? '' }}">
@@ -47,7 +49,6 @@
 
 	{# Boutons grille/liste #}
 	<div class="row d-none d-md-block">
-        <div class="col-lg-12 my-3">
             <div class="pull-right">
                 <div class="btn-group">
 					<button type="button" class="btn btn-light border" id="list" data-toggle="tooltip" data-placement="top" title="List">
@@ -58,19 +59,18 @@
 					</button>
                 </div>
             </div>
-        </div>
     </div> 
 	{# Fin Boutons grille/liste #}
 
 	{# Présentation catégorie #}
 	<article>
-		<h2 class="font-italic blue">{{ category.title ?? '' }}</h2>
+		<h2 class="font-italic blue">{{ category.metaTagTitle ?? '' }}</h2>
 
 		{# Illustration de la catégorie #}
 		{% if category.images|length > 0 %}
 			<div class="w-50 mx-auto my-5">
 				{% for image in category.images %}
-					<img class="img-fluid" src="{{ asset('images/products/' ~ image.name )| imagine_filter('medium_size') }}" alt="Immage d'illustration {{ category.title ?? '' }}">
+					<img class="img-fluid" src="{{ asset('images/products/' ~ image.name )| imagine_filter('medium_size') }}" alt="Immage d'illustration {{ category.metaTagTitle ?? '' }}">
 				{% endfor %}
 			</div>
 		{% endif %}
