@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Messages;
-use App\Form\MessagesType;
 use App\Repository\MessagesRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

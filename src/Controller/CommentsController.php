@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Comments;
-use App\Entity\Products;
 use App\Form\CommentsType;
 use App\Repository\CommentsRepository;
 use Knp\Component\Pager\PaginatorInterface;

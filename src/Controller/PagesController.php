@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Pages;
 use App\Form\PagesType;
-use App\Form\FirmPagesType;
 use App\Repository\LanguagesRepository;
 use App\Repository\PagesRepository;
 use App\Repository\UsersRepository;
