@@ -41,7 +41,7 @@ class YounglingsController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $this->forward('App\Controller\PagesController::newMetaData', [
+        $this->forward('App\Controller\PagesController::newFirmPage', [
             'slug'  => 'equipe-petits-eclaireurs'
         ]);
 

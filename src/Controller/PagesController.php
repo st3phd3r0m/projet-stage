@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Pages;
 use App\Form\PagesType;
-use App\Form\MetaDataType;
+use App\Form\FirmPagesType;
 use App\Repository\LanguagesRepository;
 use App\Repository\PagesRepository;
 use App\Repository\UsersRepository;
@@ -202,7 +202,7 @@ class PagesController extends AbstractController
      * @param UsersRepository $usersRepository
      * @return void
      */
-    public function newMetaData(string $slug = null, string $lang = 'fr', PagesRepository $pagesRepository, LanguagesRepository $languagesRepository, UsersRepository $usersRepository)
+    public function newFirmPage(string $slug = null, string $lang = 'fr', PagesRepository $pagesRepository, LanguagesRepository $languagesRepository, UsersRepository $usersRepository)
     {
         $page = $pagesRepository->findOneBy(['slug' => $slug]);
 
@@ -233,52 +233,6 @@ class PagesController extends AbstractController
 
         }
 
-    }
-
-    /**
-     * Fonction qui édite les metadonnées et contenu de publications d' "usine"
-     * 
-     * @Route("/edit/MetaData/{slug}", name="metadata_edit", requirements={"slug"=".+"}, methods={"GET","POST"})
-     */
-    public function editMetaData(string $slug = null, Request $request, Pages $page): Response
-    {
-        if ($this->getUser()) {
-            $form = $this->createForm(MetaDataType::class, $page);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
-                $keywords = $form->get("keywords")->getData();
-                $keywords = explode("#", $keywords);
-                $keywords = array_filter($keywords);
-                $page->setKeywords($keywords);
-
-                $keywords = $form->get("meta_tag_keywords")->getData();
-                $keywords = explode("#", $keywords);
-                $keywords = array_filter($keywords);
-                $page->setMetaTagKeywords($keywords);
-
-                $page->setUpdatedAt(new \DateTime('now'));
-
-                $page->setUser($this->getUser());
-
-                $this->getDoctrine()->getManager()->flush();
-
-                //Envoi d'un message utilisateur
-                $this->addFlash('success', 'Les méta données de la page ont bien été modifiées.');
-                return $this->redirectToRoute('pages_index');
-            }
-
-            return $this->render('metaData/edit.html.twig', [
-                'page' => $page,
-                'form' => $form->createView(),
-            ]);
-        }
-
-        //Envoi d'un message utilisateur
-        $this->addFlash('fail', 'Vous devez être connecté pour éditer les méta données de la page.');
-        return $this->redirectToRoute('pages_index');
     }
 
 }

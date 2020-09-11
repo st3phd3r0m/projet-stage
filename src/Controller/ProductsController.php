@@ -61,7 +61,7 @@ class ProductsController extends AbstractController
     public function new(Request $request, ProductsRepository $productsRepository, AttributesRepository $attributesRepository, AttributeGroupsRepository $attributeGroupsRepository): Response
     {
         //Création d'une publication 'Toutes les ***REMOVED***' dès la création d'un produit
-        $this->forward('App\Controller\PagesController::newMetaData', [
+        $this->forward('App\Controller\PagesController::newFirmPage', [
             'slug'  => 'toutes-les-***REMOVED***'
         ]);
 

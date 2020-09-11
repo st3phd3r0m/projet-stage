@@ -32,26 +32,36 @@ class CategoriesType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'required' => true,
-                'label' => 'Titre de la catégorie : ',
-
+                'label' => 'Nom de la catégorie : ',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un nom.',
+                    ]),
+                    new Length([
+                        'min' => 4,
+                        'minMessage' => "Le nom doit comporter au minimum {{ limit }} caractères.",
+                    ])
+                ]
+            ])
+            ->add('meta_tag_title', TextType::class, [
+                'required' => true,
+                'label' => 'Titre méta-donnée de la catégorie : ',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un titre.',
                     ]),
                     new Length([
-                        'min' => 4,
+                        'min' => 50,
                         'minMessage' => "Le titre doit comporter au minimum {{ limit }} caractères.",
+                        'max' => 70,
+                        'maxMessage' => "Le titre doit comporter au maximum {{ limit }} caractères.",
                     ])
                 ]
-            ])
-            ->add('meta_tag_title', TextType::class, [
-                'required' => false,
-                'label' => 'Titre de la sortie en méta-données : ',
             ])
             ->add('description', CKEditorType::class, [  
                 'config_name'=> 'main_config',  
                 'required' => true,
-                'label'=>'Description de la catégorie : ',
+                'label'=>'Description/contenu de la catégorie : ',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir la description de la catégorie',
@@ -59,8 +69,19 @@ class CategoriesType extends AbstractType
                 ]
             ])
             ->add('meta_tag_description', TextareaType::class, [
-                'required' => false,
-                'label' => 'Description de la sortie en méta-données: ',
+                'required' => true,
+                'label' => 'Description méta-donnée de la catégorie : ',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir une description.',
+                    ]),
+                    new Length([
+                        'min' => 150,
+                        'minMessage' => "La description doit comporter au minimum {{ limit }} caractères.",
+                        'max' => 200,
+                        'maxMessage' => "La description doit comporter au maximum {{ limit }} caractères.",
+                    ])
+                ]
             ])
             ->add('keywords', TextType::class, [
                 'required' => false,

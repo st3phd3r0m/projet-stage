@@ -38,7 +38,7 @@ class HomeController extends AbstractController
     public function index(PagesRepository $pagesRepository)
     {
 
-        $this->forward('App\Controller\PagesController::newMetaData', [
+        $this->forward('App\Controller\PagesController::newFirmPage', [
             'slug'  => 'accueil'
         ]);
 
@@ -55,7 +55,7 @@ class HomeController extends AbstractController
     public function foreignIndex(string $slug, string $lang, PagesRepository $pagesRepository)
     {
 
-        $this->forward('App\Controller\PagesController::newMetaData', [
+        $this->forward('App\Controller\PagesController::newFirmPage', [
             'slug'  => $slug,
             'lang' => $lang
         ]);
@@ -173,7 +173,7 @@ class HomeController extends AbstractController
      */
     public function showThemes(CategoriesRepository $categoriesRepository, PagesRepository $pagesRepository): Response
     {
-        $this->forward('App\Controller\PagesController::newMetaData', [
+        $this->forward('App\Controller\PagesController::newFirmPage', [
             'slug'  => '***REMOVED***-thematiques'
         ]);
 

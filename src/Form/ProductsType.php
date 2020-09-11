@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductsType extends AbstractType
@@ -38,7 +39,6 @@ class ProductsType extends AbstractType
             ->add('title', TextType::class, [
                 'required' => true,
                 'label' => 'Titre de la sortie : ',
-
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un titre.',
@@ -46,13 +46,24 @@ class ProductsType extends AbstractType
                 ]
             ])
             ->add('meta_tag_title', TextType::class, [
-                'required' => false,
-                'label' => 'Titre de la sortie en méta-données : ',
+                'required' => true,
+                'label' => 'Titre méta-donnée de la sortie : ',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un titre.',
+                    ]),
+                    new Length([
+                        'min' => 50,
+                        'minMessage' => "Le titre doit comporter au minimum {{ limit }} caractères.",
+                        'max' => 70,
+                        'maxMessage' => "Le titre doit comporter au maximum {{ limit }} caractères.",
+                    ])
+                ]
             ])
             ->add('description', CKEditorType::class, [
                 'config_name'=> 'main_config', 
                 'required' => true,
-                'label' => 'Description de la sortie : ',
+                'label' => 'Description/contenu de la sortie : ',
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir la description de la sortie',
@@ -60,8 +71,19 @@ class ProductsType extends AbstractType
                 ]
             ])
             ->add('meta_tag_description', TextareaType::class, [
-                'required' => false,
-                'label' => 'Description de la sortie en méta-données: ',
+                'required' => true,
+                'label' => 'Description méta-donnée de la sortie : ',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir une description.',
+                    ]),
+                    new Length([
+                        'min' => 150,
+                        'minMessage' => "La description doit comporter au minimum {{ limit }} caractères.",
+                        'max' => 200,
+                        'maxMessage' => "La description doit comporter au maximum {{ limit }} caractères.",
+                    ])
+                ]
             ])
             ->add('keywords', TextType::class, [
                 'required' => false,

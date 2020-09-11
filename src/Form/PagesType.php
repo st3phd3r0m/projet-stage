@@ -26,11 +26,19 @@ class PagesType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $firmSlugs=[
+            'accueil',
+            'qui-sommes-nous',
+            'equipe-petits-eclaireurs',
+            'foire-aux-questions',
+            '***REMOVED***-thematiques',
+            'toutes-les-***REMOVED***'
+        ];
+
         $builder
             ->add('title', TextType::class, [
                 'required' => true,
                 'label' => 'Titre de la publication : ',
-
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir un titre.',
@@ -38,8 +46,19 @@ class PagesType extends AbstractType
                 ]
             ])
             ->add('meta_tag_title', TextType::class, [
-                'required' => false,
-                'label' => 'Titre de la publication en méta-données : ',
+                'required' => true,
+                'label' => 'Titre méta-donnée de la publication : ',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un titre.',
+                    ]),
+                    new Length([
+                        'min' => 50,
+                        'minMessage' => "Le titre doit comporter au minimum {{ limit }} caractères.",
+                        'max' => 70,
+                        'maxMessage' => "Le titre doit comporter au maximum {{ limit }} caractères.",
+                    ])
+                ]
             ])
             ->add('content', CKEditorType::class, [  
                 // 'config_name'=> 'main_config',  
@@ -52,8 +71,19 @@ class PagesType extends AbstractType
                 ]
             ])
             ->add('meta_tag_description', TextareaType::class, [
-                'required' => false,
+                'required' => true,
                 'label' => 'Description en méta-données: ',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir une description.',
+                    ]),
+                    new Length([
+                        'min' => 150,
+                        'minMessage' => "La description doit comporter au minimum {{ limit }} caractères.",
+                        'max' => 200,
+                        'maxMessage' => "La description doit comporter au maximum {{ limit }} caractères.",
+                    ])
+                ]
             ])
             ->add('keywords', TextType::class, [
                 'required' => false,
@@ -73,16 +103,20 @@ class PagesType extends AbstractType
                 'class' => Languages::class,
                 'choice_label' => 'name',
                 'data' => $this->languagesRepository->findOneBy(['name' => 'fr']),
-            ])
-            ->add('slug', TextType::class, [
-                'required' => true,
-                'label' => 'titre ("slug") en barre d\'url : ',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir un slug.',
-                    ])
-                ]
             ]);
+
+            if( !in_array($options['data']->getSlug(), $firmSlugs) ){
+                $builder->add('slug', TextType::class, [
+                        'required' => true,
+                        'label' => 'titre ("slug") en barre d\'url : ',
+                        'constraints' => [
+                            new NotBlank([
+                                'message' => 'Veuillez saisir un slug.',
+                            ])
+                        ]
+                    ]);                
+            }
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
