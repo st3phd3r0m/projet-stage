@@ -35,33 +35,14 @@ class HomeController extends AbstractController
     /**
      * @Route("/accueil", name="home")
      */
-    public function index(PagesRepository $pagesRepository, UsersRepository $usersRepository)
+    public function index(PagesRepository $pagesRepository)
     {
-        $page = $pagesRepository->findBy(['title' => 'Accueil']);
 
-        if ($page) {
-            $page = $page[0];
-        } else {
-            //Instanciation entité Pages
-            $page = new Pages;
+        $this->forward('App\Controller\PagesController::newMetaData', [
+            'slug'  => 'accueil'
+        ]);
 
-            $page->setTitle('Accueil');
-            $page->setMetaTagTitle('Contenu à éditer');
-            $page->setContent('Contenu à éditer');
-            $page->setMetaTagDescription('Contenu à éditer');
-
-            $keywords = ["Contenu à éditer"];
-            $page->setKeyWords($keywords);
-            $page->setMetaTagKeywords($keywords);
-            $page->setCreatedAt(new \DateTime('now'));
-            $page->setUpdatedAt(new \DateTime('now'));
-
-            $page->setUser($usersRepository->findAll()[0]);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($page);
-            $entityManager->flush();
-        }
+        $page = $pagesRepository->findOneBy(['slug' => 'accueil']);
 
         return $this->render('home/index.html.twig', [
             'page' => $page,
@@ -71,42 +52,20 @@ class HomeController extends AbstractController
     /**
      * @Route("/home/{lang}/{slug}", name="foreign")
      */
-    public function foreignIndex(string $slug, string $lang, PagesRepository $pagesRepository, UsersRepository $usersRepository)
+    public function foreignIndex(string $slug, string $lang, PagesRepository $pagesRepository)
     {
 
-        $title = ucwords(str_replace('-', ' ', $slug));
+        $this->forward('App\Controller\PagesController::newMetaData', [
+            'slug'  => $slug,
+            'lang' => $lang
+        ]);
 
-        if ($pagesRepository->findBy(['title' => $title])) {
-
-            $page = $pagesRepository->findBy(['title' => $title])[0];
-        } else {
-            //Instanciation entité Pages
-            $page = new Pages;
-
-            $page->setTitle($title);
-            $page->setMetaTagTitle('Contenu à éditer');
-            $page->setContent('Contenu à éditer');
-            $page->setMetaTagDescription('Contenu à éditer');
-
-            $keywords = ["Contenu à éditer"];
-            $page->setKeyWords($keywords);
-            $page->setMetaTagKeywords($keywords);
-            $page->setCreatedAt(new \DateTime('now'));
-            $page->setUpdatedAt(new \DateTime('now'));
-
-            $page->setUser($usersRepository->findAll()[0]);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($page);
-            $entityManager->flush();
-        }
+        $page = $pagesRepository->findOneBy(['slug' => $slug]);
 
         return $this->render('home/index.html.twig', [
-            'page' => $page,
-            'lang'=>$lang,
+            'page' => $page
         ]);
     }
-
 
     /**
      * @Route("/send/email", name="send_email", methods={"GET","POST"})
@@ -163,10 +122,13 @@ class HomeController extends AbstractController
     /**
      * @Route("/qui-sommes-nous", name="home_people", methods={"GET"})
      */
-    public function indexPeople(PeopleRepository $peopleRepository): Response
+    public function indexPeople(PeopleRepository $peopleRepository, PagesRepository $pagesRepository): Response
     {
+        $page = $pagesRepository->findOneBy(['slug'=>'qui-sommes-nous']);
+
         return $this->render('home/people.html.twig', [
             'people' => $peopleRepository->findAll(),
+            'page' => $page
         ]);
     }
 
@@ -175,8 +137,7 @@ class HomeController extends AbstractController
      */
     public function indexYounglings(YounglingsRepository $younglingsRepository, PagesRepository $pagesRepository): Response
     {
-
-        $page = $pagesRepository->findOneBy(['title' => 'Découvrez toute l\'équipe des petits éclaireurs']);
+        $page = $pagesRepository->findOneBy(['slug'=>'equipe-petits-eclaireurs']);
 
         return $this->render('home/younglings.html.twig', [
             'younglings' => $younglingsRepository->findAll(),
@@ -185,12 +146,15 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/faq", name="home_faq", methods={"GET"})
+     * @Route("/foire-aux-questions", name="home_faq", methods={"GET"})
      */
-    public function indexFAQ(FrequentlyAskedQuestionsRepository $faqRepository): Response
+    public function indexFAQ(FrequentlyAskedQuestionsRepository $faqRepository, PagesRepository $pagesRepository): Response
     {
+        $page = $pagesRepository->findOneBy(['slug'=>'foire-aux-questions']);
+
         return $this->render('home/faq.html.twig', [
             'faqs' => $faqRepository->findAll(),
+            'page' => $page
         ]);
     }
 
@@ -207,8 +171,14 @@ class HomeController extends AbstractController
     /**
      * @Route("/***REMOVED***-thematiques", name="home_theme", methods={"GET"})
      */
-    public function showThemes(CategoriesRepository $categoriesRepository): Response
+    public function showThemes(CategoriesRepository $categoriesRepository, PagesRepository $pagesRepository): Response
     {
+        $this->forward('App\Controller\PagesController::newMetaData', [
+            'slug'  => '***REMOVED***-thematiques'
+        ]);
+
+        $page = $pagesRepository->findOneBy(['slug' => '***REMOVED***-thematiques']);
+
         $themeSlugs = [
             "art",
             "comment-ca-marche",
@@ -228,18 +198,19 @@ class HomeController extends AbstractController
             }
         }
 
-        // dd($categories);
-
         return $this->render('home/themes.html.twig', [
-            'categories' => $categories
+            'categories' => $categories,
+            'page' => $page
         ]);
     }
 
     /**
      * @Route("/toutes-les-***REMOVED***", name="home_all_products", methods={"GET"})
      */
-    public function showAllProducts(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request): Response
+    public function showAllProducts(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request, PagesRepository $pagesRepository): Response
     {
+
+        $page = $pagesRepository->findOneBy(['slug'=>'toutes-les-***REMOVED***']);
 
         $products = $paginator->paginate(
             $productsRepository->findAll(),
@@ -250,7 +221,8 @@ class HomeController extends AbstractController
         );
 
         return $this->render('home/allProducts.html.twig', [
-            'products' => $products
+            'products' => $products,
+            'page' => $page
         ]);
     }
 
@@ -510,8 +482,6 @@ class HomeController extends AbstractController
 
         return $this->redirectToRoute('home');
     }
-
-
 
     /**
      * Vérifie que les champs du formulaire de contact contiennent tous au moins 5 caractères

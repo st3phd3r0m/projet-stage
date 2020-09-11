@@ -68,6 +68,12 @@
 						</td>
 					</tr>
 					<tr>
+						<th>Langue de publication</th>
+						<td>
+							{{ category.language.name ?? ''}}
+						</td>
+					</tr>
+					<tr>
 						<th>Images d'illustration</th>
 						<td>
 						{% for image in category.images %}

@@ -3,12 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Categories;
+use App\Entity\Languages;
+use App\Repository\LanguagesRepository;
 use Symfony\Component\Form\AbstractType;
 use App\Form\ImagesType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -16,6 +19,14 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CategoriesType extends AbstractType
 {
+
+    private $languagesRepository;
+
+    public function __construct(LanguagesRepository $languagesRepository)
+    {
+        $this->languagesRepository = $languagesRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -62,6 +73,13 @@ class CategoriesType extends AbstractType
                 'label' => 'Ajouter des mots-clés en méta-données, délimités par des hashtags ("#"), afin de référencer votre produit : ',
                 'mapped' => false,
                 'data' => implode('#', $builder->getData()->getMetaTagKeywords())
+            ])
+            ->add('language', EntityType::class, [
+                'required' => true,
+                'label' => 'Choisir la langue de publication',
+                'class' => Languages::class,
+                'choice_label' => 'name',
+                'data' => $this->languagesRepository->findOneBy(['name' => 'fr']),
             ])
             ->add('images', CollectionType::class, [
                 'required' => false,

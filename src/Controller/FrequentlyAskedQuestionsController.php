@@ -40,6 +40,11 @@ class FrequentlyAskedQuestionsController extends AbstractController
      */
     public function new(Request $request): Response
     {
+
+        $this->forward('App\Controller\PagesController::newMetaData', [
+            'slug'  => 'foire-aux-questions'
+        ]);
+
         $frequentlyAskedQuestion = new FrequentlyAskedQuestions();
         $form = $this->createForm(FrequentlyAskedQuestionsType::class, $frequentlyAskedQuestion);
         $form->handleRequest($request);

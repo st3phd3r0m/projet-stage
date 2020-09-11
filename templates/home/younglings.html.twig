@@ -1,19 +1,51 @@
 {% extends 'base.html.twig' %}
 
+{% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
 {% block head %}
-	<meta name="description" content="Ils ont entre 7 et 14 ans et sont “convoqués” régulièrement pour découvir de nouvelles activités avant qu'elles n'entrent dans nos programmes.
-Avec eux nous testons l'existant, tentons de l'améliorer si nécessaire ou nous créons de nouvelles ***REMOVED*** de toutes pièces.
-Ils sont les garants de la qualité pédagogique et ludique de nos ***REMOVED***. Merci à eux !">
+{# Facebook #}
+<meta property="og:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="og:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="og:url" content="{{ currentUrl }}">
+<meta property="og:type" content="article">
+{# Fin Facebook #}
+
+{# Twitter #}
+<meta property="twitter:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="twitter:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="twitter:url" content="{{ currentUrl }}">
+{# Fin Twitter #}
+
+<meta name="description" content="{{ page.metaTagDescription ?? '' }}">
 {% endblock %}
 
-{% block title %}Découvrez toute l'équipe des petits éclaireurs - Ludo et Sophie
+{% block title %}	
+	{# {% for metaTagKeyword in page.metaTagKeywords %}
+		{{ metaTagKeyword }} -
+	{% endfor %} #}
+	{{ page.metaTagTitle ?? '' }} -
+	Ludo et Sophie
 {% endblock %}
 
 {% block body %}
 
-    <h2 class="blue text-center">Découvrez toute l'équipe des petits éclaireurs</h2>
+    <article>
+		<h2 class="blue text-center">{{ page.metaTagTitle ?? '' }}</h2>
+		<div class="container">
 
-    <p>{{ ( page.content ?? '')|raw }}</p>
+			<div>
+				{{ ( page.content ?? '')|raw }}
+			</div>
+
+			{% if page.keywords is defined %}
+				<p class="my-5 ml-5">
+					{% for keyWords in page.keywords %}
+						# <strong>{{ keyWords }}</strong>
+					{% endfor %}
+				</p>
+			{% endif %}
+		</div>
+	</article>
 
     <div class="row my-5">
         {% for youngling in younglings %}

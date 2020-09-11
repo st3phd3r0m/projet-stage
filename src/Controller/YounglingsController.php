@@ -41,6 +41,10 @@ class YounglingsController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->forward('App\Controller\PagesController::newMetaData', [
+            'slug'  => 'equipe-petits-eclaireurs'
+        ]);
+
         $youngling = new Younglings();
         $form = $this->createForm(YounglingsType::class, $youngling);
         $form->handleRequest($request);

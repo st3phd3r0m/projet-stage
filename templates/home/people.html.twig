@@ -1,16 +1,35 @@
 {% extends 'base.html.twig' %}
 
+{% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
 {% block head %}
-	
-	<meta name="description" content="L'idée en tête, elles mûrissent progressivement le concept avec l'objectif de créer un “doublé d’heureux” : la ludo-culture pour les ***REMOVED***s, le plus simple et rassurant pour leurs parents et lancent l'agence et son club ***REMOVED***s en 2016.  Ludo &amp; Sophie idéalement, ça aurait dû exister quand elles étaient petites, mais on n’en n’est pas si loin... les ***REMOVED***s, c’est une super excuse pour rester jeune ;-). Ludo&amp;Sophie ne serait rien sans ses conférenciers, médiateurs scientifiques et animatrices encadrantes. Découvrez-les ici.">
+{# Facebook #}
+<meta property="og:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="og:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="og:url" content="{{ currentUrl }}">
+<meta property="og:type" content="article">
+{# Fin Facebook #}
+
+{# Twitter #}
+<meta property="twitter:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="twitter:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="twitter:url" content="{{ currentUrl }}">
+{# Fin Twitter #}
+
+<meta name="description" content="{{ page.metaTagDescription ?? '' }}">
 {% endblock %}
 
-{% block title %}Qui sommes-nous ? - Ludo et Sophie
+{% block title %}	
+	{# {% for metaTagKeyword in page.metaTagKeywords %}
+		{{ metaTagKeyword }} -
+	{% endfor %} #}
+	{{ page.metaTagTitle ?? '' }} -
+	Ludo et Sophie
 {% endblock %}
 
 {% block body %}
 
-<h2 class="blue text-center my-5">Qui sommes-nous ?</h2>
+<h2 class="blue text-center">{{ page.metaTagTitle ?? '' }}</h2>
 
 <section class="row">
     {% for person in people %}
@@ -41,9 +60,17 @@
 </section>
 
 <section class="border-top border-bottom py-5 my-5">
-    <p>L'idée en tête, elles mûrissent progressivement le concept avec l'objectif de créer un “doublé d’heureux” : la ludo-culture pour les ***REMOVED***s, le plus simple et rassurant pour leurs parents et lancent l'agence et son club ***REMOVED***s en 2016.  Ludo &amp; Sophie idéalement, ça aurait dû exister quand elles étaient petites, mais on n’en n’est pas si loin... les ***REMOVED***s, c’est une super excuse pour rester jeune ;-)</p>
-    <p>Ludo&amp;Sophie ne serait rien sans ses conférenciers, médiateurs scientifiques et animatrices encadrantes.</p>
-    <p>Découvrez-les ci-dessous.</p>
+        <div>
+            {{ ( page.content ?? '')|raw }}
+        </div>
+
+        {% if page.keywords is defined %}
+            <p class="my-5 ml-5">
+                {% for keyWords in page.keywords %}
+                    # <strong>{{ keyWords }}</strong>
+                {% endfor %}
+            </p>
+        {% endif %}
 </section>
 
 <section class="row mb-5">

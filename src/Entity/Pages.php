@@ -76,6 +76,11 @@ class Pages
      */
     private $slug;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Languages::class, inversedBy="pages")
+     */
+    private $language;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -209,6 +214,18 @@ class Pages
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getLanguage(): ?Languages
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(?Languages $language): self
+    {
+        $this->language = $language;
 
         return $this;
     }

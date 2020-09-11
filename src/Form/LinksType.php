@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Links;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -18,6 +17,8 @@ class LinksType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // dd($options['data']->getType());
+
         $builder
             ->add('position', ChoiceType::class,[
                 'label'=>'Où voulez-vous placer le lien ?',
@@ -50,14 +51,14 @@ class LinksType extends AbstractType
                     'Accueil (page éditable dans le menu "Gestion des pages")'=>'/accueil',
                     'Qui sommes nous'=>'/qui-sommes-nous',
                     'Petits éclaireurs'=>'/equipe-petits-eclaireurs',
-                    'Foire aux questions'=>'/faq',
+                    'Foire aux questions'=>'/foire-aux-questions',
                     'Sorties thématiques'=>'/***REMOVED***-thematiques',
                     'Toutes les ***REMOVED***'=>'/toutes-les-***REMOVED***',
                     'Page de publication'=>'/page/',
                     'Catégorie'=>'/categorie/',
                     'Lien sortant'=>'external',
                 ],
-                'data' => '/accueil',
+                'data' => $options['data']->getType(), //'/accueil',
                 'constraints' => [
 					new NotBlank([
 						'message' => 'Veuillez choisir un type de lien'

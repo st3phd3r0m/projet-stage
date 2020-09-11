@@ -6,10 +6,19 @@ $(document).ready(function () {
 
     //Suivant le type de liens que souhaite ajouter l'utilisateur, on
     //fait apparaître ultérieurement les champs corespondants
-    $('#categories-fields-list').hide();
-    $('#pages-fields-list').hide();
-    $('#external-link-field').hide();
-    
+
+    if( $($('#categories-fields-list').find('option')[0]).val() == '' ){
+        $('#categories-fields-list').hide();
+    }
+
+    if( $($('#pages-fields-list').find('option')[0]).val() == '' ){
+        $('#pages-fields-list').hide();
+    }
+
+    if( $($('#external-link-field').find('input')[0]).val() == '' ){
+        $('#external-link-field').hide();
+    }
+
     //Ecouteur d'événements sur le champ "type de liens"
     $('#links_type').on('click',ajaxCall);
 });

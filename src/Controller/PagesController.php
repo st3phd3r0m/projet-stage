@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Pages;
 use App\Form\PagesType;
+use App\Form\MetaDataType;
+use App\Repository\LanguagesRepository;
 use App\Repository\PagesRepository;
 use App\Repository\UsersRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -188,4 +190,95 @@ class PagesController extends AbstractController
         }
         return new JsonResponse('Méthode non-autorisée', 405);
     }
+
+    /**
+     * 
+     * Fonction qui initialise les metadonnées et le contenu de publications d' "usine"
+     *
+     * @param string $slug
+     * @param string $lang
+     * @param PagesRepository $pagesRepository
+     * @param LanguagesRepository $languagesRepository
+     * @param UsersRepository $usersRepository
+     * @return void
+     */
+    public function newMetaData(string $slug = null, string $lang = 'fr', PagesRepository $pagesRepository, LanguagesRepository $languagesRepository, UsersRepository $usersRepository)
+    {
+        $page = $pagesRepository->findOneBy(['slug' => $slug]);
+
+        $slug = ucfirst(str_replace('-',' ',$slug));
+
+        if (!$page) {
+            //Instanciation entité Pages
+            $page = new Pages;
+
+            $page->setTitle($slug);
+            $page->setMetaTagTitle($slug);
+            $page->setContent($slug);
+            $page->setMetaTagDescription($slug);
+
+            $keywords = [$slug];
+            $page->setKeyWords($keywords);
+            $page->setMetaTagKeywords($keywords);
+            $page->setCreatedAt(new \DateTime('now'));
+            $page->setUpdatedAt(new \DateTime('now'));
+
+            $page->setLanguage($languagesRepository->findOneBy(['name'=> $lang]));
+
+            $page->setUser($usersRepository->findAll()[0]);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($page);
+            $entityManager->flush();
+
+        }
+
+    }
+
+    /**
+     * Fonction qui édite les metadonnées et contenu de publications d' "usine"
+     * 
+     * @Route("/edit/MetaData/{slug}", name="metadata_edit", requirements={"slug"=".+"}, methods={"GET","POST"})
+     */
+    public function editMetaData(string $slug = null, Request $request, Pages $page): Response
+    {
+        if ($this->getUser()) {
+            $form = $this->createForm(MetaDataType::class, $page);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                //Récupération des mots-clés en tant que chaine de caractères et séparation en array avec un délimiteur ";"
+                $keywords = $form->get("keywords")->getData();
+                $keywords = explode("#", $keywords);
+                $keywords = array_filter($keywords);
+                $page->setKeywords($keywords);
+
+                $keywords = $form->get("meta_tag_keywords")->getData();
+                $keywords = explode("#", $keywords);
+                $keywords = array_filter($keywords);
+                $page->setMetaTagKeywords($keywords);
+
+                $page->setUpdatedAt(new \DateTime('now'));
+
+                $page->setUser($this->getUser());
+
+                $this->getDoctrine()->getManager()->flush();
+
+                //Envoi d'un message utilisateur
+                $this->addFlash('success', 'Les méta données de la page ont bien été modifiées.');
+                return $this->redirectToRoute('pages_index');
+            }
+
+            return $this->render('metaData/edit.html.twig', [
+                'page' => $page,
+                'form' => $form->createView(),
+            ]);
+        }
+
+        //Envoi d'un message utilisateur
+        $this->addFlash('fail', 'Vous devez être connecté pour éditer les méta données de la page.');
+        return $this->redirectToRoute('pages_index');
+    }
+
 }

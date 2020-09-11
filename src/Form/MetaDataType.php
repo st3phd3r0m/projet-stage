@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class PagesType extends AbstractType
+class MetaDataType extends AbstractType
 {
     private $languagesRepository;
 
@@ -29,7 +29,7 @@ class PagesType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'required' => true,
-                'label' => 'Titre de la publication : ',
+                'label' => 'Titre de la page : ',
 
                 'constraints' => [
                     new NotBlank([
@@ -39,15 +39,15 @@ class PagesType extends AbstractType
             ])
             ->add('meta_tag_title', TextType::class, [
                 'required' => false,
-                'label' => 'Titre de la publication en méta-données : ',
+                'label' => 'Titre de la page en méta-données : ',
             ])
             ->add('content', CKEditorType::class, [  
                 // 'config_name'=> 'main_config',  
                 'required' => true,
-                'label'=>'Contenu de la publication : ',
+                'label'=>'Contenu de la page : ',
                 'constraints' => [
                     new NotBlank([
-                        'message'=>'Veuillez saisir le contenu de la publication',
+                        'message'=>'Veuillez saisir le contenu de la page',
                     ]),
                 ]
             ])
@@ -57,13 +57,13 @@ class PagesType extends AbstractType
             ])
             ->add('keywords', TextType::class, [
                 'required' => false,
-                'label' => 'Ajouter des mots-clés, délimités par des hashtags ("#"), afin de référencer votre publication : ',
+                'label' => 'Ajouter des mots-clés, délimités par des hashtags ("#"), afin de référencer la page : ',
                 'mapped' => false,
                 'data' => implode('#', $builder->getData()->getKeywords())
             ])
             ->add('meta_tag_keywords', TextType::class, [
                 'required' => false,
-                'label' => 'Ajouter des mots-clés en méta-données, délimités par des hashtags ("#"), afin de référencer votre publication : ',
+                'label' => 'Ajouter des mots-clés en méta-données, délimités par des hashtags ("#"), afin de référencer la page : ',
                 'mapped' => false,
                 'data' => implode('#', $builder->getData()->getMetaTagKeywords())
             ])
@@ -73,15 +73,6 @@ class PagesType extends AbstractType
                 'class' => Languages::class,
                 'choice_label' => 'name',
                 'data' => $this->languagesRepository->findOneBy(['name' => 'fr']),
-            ])
-            ->add('slug', TextType::class, [
-                'required' => true,
-                'label' => 'titre ("slug") en barre d\'url : ',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir un slug.',
-                    ])
-                ]
             ]);
     }
 

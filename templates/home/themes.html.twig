@@ -1,15 +1,51 @@
 {% extends 'base.html.twig' %}
 
+{% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
 {% block head %}
-	
-	<meta name="description" content="La ludo-culture tous azimuts : Arts, Sciences, Histoire, coulisses, ateliers créatifs... À vous de choisir !">
+{# Facebook #}
+<meta property="og:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="og:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="og:url" content="{{ currentUrl }}">
+<meta property="og:type" content="article">
+{# Fin Facebook #}
+
+{# Twitter #}
+<meta property="twitter:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="twitter:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="twitter:url" content="{{ currentUrl }}">
+{# Fin Twitter #}
+
+<meta name="description" content="{{ page.metaTagDescription ?? '' }}">
 {% endblock %}
 
-{% block title %}Ludo-culture, Arts, Sciences, Histoire, ateliers créatifs... - Ludo et Sophie{% endblock %}
+{% block title %}	
+	{# {% for metaTagKeyword in page.metaTagKeywords %}
+		{{ metaTagKeyword }} -
+	{% endfor %} #}
+	{{ page.metaTagTitle ?? '' }} -
+	Ludo et Sophie
+{% endblock %}
 
 {% block body %}
 
-<h2 class="text-center blue">La ludo-culture tous azimuts : Arts, Sciences, Histoire, coulisses, ateliers créatifs... À vous de choisir !</h2>
+<h2 class="text-center blue">{{ page.metaTagTitle ?? '' }}</h2>
+
+<article>
+    <div class="container">
+
+        <div>
+            {{ ( page.content ?? '')|raw }}
+        </div>
+
+        <p class="my-5 ml-5">
+            {% for keyWords in page.keywords %}
+                #
+                <strong>{{ keyWords }}</strong>
+            {% endfor %}
+        </p>
+    </div>
+</article>
 
 
 <section>

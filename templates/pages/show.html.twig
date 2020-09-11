@@ -71,6 +71,12 @@
 						</td>
 					</tr>
 					<tr>
+						<th>Langue de publication</th>
+						<td>
+							{{ page.language.name ?? ''}}
+						</td>
+					</tr>
+					<tr>
 						<th>Créé le</th>
 						<td>{{ page.createdAt ? page.createdAt|date('d-m-Y H:i:s') : '' }}</td>
 					</tr>

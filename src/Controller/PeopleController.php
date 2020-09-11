@@ -41,6 +41,10 @@ class PeopleController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $this->forward('App\Controller\PagesController::newMetaData', [
+            'slug'  => 'qui-sommes-nous'
+        ]);
+
         $person = new People();
         $form = $this->createForm(PeopleType::class, $person);
         $form->handleRequest($request);

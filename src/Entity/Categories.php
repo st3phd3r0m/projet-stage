@@ -76,6 +76,11 @@ class Categories
      */
     private $images;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Languages::class, inversedBy="categories")
+     */
+    private $language;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -254,6 +259,18 @@ class Categories
                 $image->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLanguage(): ?Languages
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(?Languages $language): self
+    {
+        $this->language = $language;
 
         return $this;
     }

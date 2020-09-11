@@ -1,15 +1,51 @@
 {% extends 'base.html.twig' %}
 
+{% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
 {% block head %}
-	<meta name="description" content="Page dédiée aux questions souvent posées.">
+{# Facebook #}
+<meta property="og:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="og:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="og:url" content="{{ currentUrl }}">
+<meta property="og:type" content="article">
+{# Fin Facebook #}
+
+{# Twitter #}
+<meta property="twitter:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="twitter:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="twitter:url" content="{{ currentUrl }}">
+{# Fin Twitter #}
+
+<meta name="description" content="{{ page.metaTagDescription ?? '' }}">
 {% endblock %}
 
-{% block title %}Foire aux Questions - Ludo et Sophie
+{% block title %}	
+	{# {% for metaTagKeyword in page.metaTagKeywords %}
+		{{ metaTagKeyword }} -
+	{% endfor %} #}
+	{{ page.metaTagTitle ?? '' }} -
+	Ludo et Sophie
 {% endblock %}
 
 {% block body %}
 
-	<h2 class="text-center blue">Foire aux Questions</h2>
+	<article>
+		<h2 class="blue text-center">{{ page.metaTagTitle ?? '' }}</h2>
+		<div class="container">
+
+			<div>
+				{{ ( page.content ?? '')|raw }}
+			</div>
+
+			{% if page.keywords is defined %}
+				<p class="my-5 ml-5">
+					{% for keyWords in page.keywords %}
+						# <strong>{{ keyWords }}</strong>
+					{% endfor %}
+				</p>
+			{% endif %}
+		</div>
+	</article>
 
 	<section class="accordion my-5" id="accordion">
 		{% for faq in faqs %}
@@ -30,7 +66,5 @@
 			</article>
 		{% endfor %}
 	</section>
-
-
 
 {% endblock %}

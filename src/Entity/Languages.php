@@ -53,9 +53,21 @@ class Languages
      */
     private $products;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Pages::class, mappedBy="language")
+     */
+    private $pages;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Categories::class, mappedBy="language")
+     */
+    private $categories;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->pages = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,6 +165,68 @@ class Languages
             // set the owning side to null (unless already changed)
             if ($product->getLanguage() === $this) {
                 $product->setLanguage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pages[]
+     */
+    public function getPages(): Collection
+    {
+        return $this->pages;
+    }
+
+    public function addPage(Pages $page): self
+    {
+        if (!$this->pages->contains($page)) {
+            $this->pages[] = $page;
+            $page->setLanguage($this);
+        }
+
+        return $this;
+    }
+
+    public function removePage(Pages $page): self
+    {
+        if ($this->pages->contains($page)) {
+            $this->pages->removeElement($page);
+            // set the owning side to null (unless already changed)
+            if ($page->getLanguage() === $this) {
+                $page->setLanguage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Categories[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categories $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->setLanguage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categories $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+            // set the owning side to null (unless already changed)
+            if ($category->getLanguage() === $this) {
+                $category->setLanguage(null);
             }
         }
 

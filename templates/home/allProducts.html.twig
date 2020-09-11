@@ -1,10 +1,32 @@
 {% extends 'base.html.twig' %}
 
+{% set currentUrl = url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+
 {% block head %}
-	<meta name="description" content="Visites guidées, scolaires, tous publics, ; Tous les évènements proposés par Ludo &amp; Sophie">
+{# Facebook #}
+<meta property="og:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="og:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="og:url" content="{{ currentUrl }}">
+<meta property="og:type" content="article">
+{# Fin Facebook #}
+
+{# Twitter #}
+<meta property="twitter:title" content="{{ page.metaTagTitle ?? '' }}">
+<meta property="twitter:description" content="{{ page.metaTagDescription ?? '' }}">
+<meta property="twitter:url" content="{{ currentUrl }}">
+{# Fin Twitter #}
+
+<meta name="description" content="{{ page.metaTagDescription ?? '' }}">
 {% endblock %}
 
-{% block title %}Visites guidées, scolaires, privées, tous publics - Ludo &amp; Sophie{% endblock %}
+{% block title %}	
+	{# {% for metaTagKeyword in page.metaTagKeywords %}
+		{{ metaTagKeyword }} -
+	{% endfor %} #}
+	{{ page.metaTagTitle ?? '' }} -
+	Ludo et Sophie
+{% endblock %}
+
 
 {% block body %}
 
@@ -37,6 +59,25 @@
 		</div>
     </div> 
 	{# Fin Boutons grille/liste #}
+
+	<article>
+		<h2 class="blue text-center">{{ page.metaTagTitle ?? '' }}</h2>
+		<div class="container">
+
+			<div>
+				{{ ( page.content ?? '')|raw }}
+			</div>
+
+			{% if page.keywords is defined %}
+				<p class="my-5 ml-5">
+					{% for keyWords in page.keywords %}
+						# <strong>{{ keyWords }}</strong>
+					{% endfor %}
+				</p>
+			{% endif %}
+		</div>
+	</article>
+
 
 	{# Boucle sur tous les Produits #}
 	{% if products|length > 0 %}
