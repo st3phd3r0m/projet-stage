@@ -104,7 +104,7 @@ class HomeController extends AbstractController
                 $entityManager->flush();
 
                 //Envoi d'un message utilisateur
-                $this->addFlash('success', 'Votre nous avons bien reçu votre message. Nous vous répondrons dans les plus brefs délais.');
+                $this->addFlash('success', 'Nous avons bien reçu votre message. Nous vous répondrons dans les plus brefs délais.');
 
                 return $this->redirectToRoute('home');
             }
@@ -460,7 +460,7 @@ class HomeController extends AbstractController
                 $entityManager->flush();
 
                 //Envoi d'un message utilisateur
-                $this->addFlash('success', 'Votre nous avons bien reçu votre message pour la sortie "' . $product->getTitle() . '". Nous vous répondrons dans les plus brefs délais.');
+                $this->addFlash('success', 'Nous avons bien reçu votre message pour la sortie "' . $product->getTitle() . '". Nous vous répondrons dans les plus brefs délais.');
 
                 return $this->redirectToRoute('home_product', [
                     'slugCategory' => $slugCategory,
