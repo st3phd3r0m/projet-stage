@@ -89,13 +89,13 @@ class ProductsType extends AbstractType
                 'required' => false,
                 'label' => 'Ajouter des mots-clés, délimités par des hashtags ("#"), afin de référencer votre produit : ',
                 'mapped' => false,
-                'data' => implode('#', $builder->getData()->getKeywords())
+                'data' => ($builder->getData()->getKeywords()!= null)? implode('#', $builder->getData()->getKeywords()) : ''
             ])
             ->add('meta_tag_keywords', TextType::class, [
                 'required' => false,
                 'label' => 'Ajouter des mots-clés en méta-données, délimités par des hashtags ("#"), afin de référencer votre produit : ',
                 'mapped' => false,
-                'data' => implode('#', $builder->getData()->getMetaTagKeywords())
+                'data' => ($builder->getData()->getKeywords()!= null)? implode('#', $builder->getData()->getMetaTagKeywords()) : ''
             ])
             ->add('weezeevent', TextType::class, [
                 'required' => false,
