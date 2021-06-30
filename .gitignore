@@ -1,6 +1,8 @@
 
 ###> symfony/framework-bundle ###
+/src/DataFixtures/
 .env
+/.env
 /.env.local
 /.env.local.php
 /.env.*.local
