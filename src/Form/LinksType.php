@@ -50,10 +50,10 @@ class LinksType extends AbstractType
                 'choices'=>[
                     'Accueil (page éditable dans le menu "Gestion des pages")'=>'/accueil',
                     'Qui sommes nous (page éditable dans le menu "Gestion des pages")'=>'/qui-sommes-nous',
-                    ' Beta testers(page éditable dans le menu "Gestion des pages")'=>'/equipe-petits-eclaireurs',
+                    'Beta testers (page éditable dans le menu "Gestion des pages")'=>'/equipe-beta-testers',
                     'Foire aux questions (page éditable dans le menu "Gestion des pages")'=>'/foire-aux-questions',
-                    ' Produits thématiques(page éditable dans le menu "Gestion des pages")'=>'/***REMOVED***-thematiques',
-                    ' Tous les produits(page éditable dans le menu "Gestion des pages")'=>'/toutes-les-***REMOVED***',
+                    'Produits thématiques (page éditable dans le menu "Gestion des pages")'=>'/produits-thematiques',
+                    'Tous les produits (page éditable dans le menu "Gestion des pages")'=>'/tous-les-produits',
                     'Page de publication'=>'/page/',
                     'Catégorie'=>'/categorie/',
                     'Lien sortant'=>'external',

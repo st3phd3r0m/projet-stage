@@ -133,11 +133,11 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/equipe-petits-eclaireurs", name="home_younglings", methods={"GET"})
+     * @Route("/equipe-beta-testers", name="home_younglings", methods={"GET"})
      */
     public function indexYounglings(YounglingsRepository $younglingsRepository, PagesRepository $pagesRepository): Response
     {
-        $page = $pagesRepository->findOneBy(['slug'=>'equipe-petits-eclaireurs']);
+        $page = $pagesRepository->findOneBy(['slug'=>'equipe-beta-testers']);
 
         return $this->render('home/younglings.html.twig', [
             'younglings' => $younglingsRepository->findAll(),
@@ -169,15 +169,15 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/***REMOVED***-thematiques", name="home_theme", methods={"GET"})
+     * @Route("/produits-thematiques", name="home_theme", methods={"GET"})
      */
     public function showThemes(CategoriesRepository $categoriesRepository, PagesRepository $pagesRepository): Response
     {
         $this->forward('App\Controller\PagesController::newFirmPage', [
-            'slug'  => '***REMOVED***-thematiques'
+            'slug'  => 'produits-thematiques'
         ]);
 
-        $page = $pagesRepository->findOneBy(['slug' => '***REMOVED***-thematiques']);
+        $page = $pagesRepository->findOneBy(['slug' => 'produits-thematiques']);
 
         $themeSlugs = [
             "art",
@@ -205,12 +205,12 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/toutes-les-***REMOVED***", name="home_all_products", methods={"GET"})
+     * @Route("/tous-les-produits", name="home_all_products", methods={"GET"})
      */
     public function showAllProducts(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request, PagesRepository $pagesRepository): Response
     {
 
-        $page = $pagesRepository->findOneBy(['slug'=>'toutes-les-***REMOVED***']);
+        $page = $pagesRepository->findOneBy(['slug'=>'tous-les-produits']);
 
         $products = $paginator->paginate(
             $productsRepository->findAll(),
@@ -356,7 +356,7 @@ class HomeController extends AbstractController
         ) {
             $product = $productsRepository->findOneBy(['slug' => $slugProduct]);
 
-            if ($slugCategory === "toutes-les-***REMOVED***") {
+            if ($slugCategory === "tous-les-produits") {
 
                 $topCategoryTitlesAndSlugs = [];
                 $category = null;

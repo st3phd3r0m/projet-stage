@@ -60,9 +60,9 @@ class ProductsController extends AbstractController
      */
     public function new(Request $request, ProductsRepository $productsRepository, AttributesRepository $attributesRepository, AttributeGroupsRepository $attributeGroupsRepository): Response
     {
-        //Création d'une publication 'Toutes les ***REMOVED***' dès la création d'un produit
+        //Création d'une publication 'Tous les produits' dès la création d'un produit
         $this->forward('App\Controller\PagesController::newFirmPage', [
-            'slug'  => 'toutes-les-***REMOVED***'
+            'slug'  => 'tous-les-produits'
         ]);
 
         //On créé la référence du produit et on l'incrémente par rapport

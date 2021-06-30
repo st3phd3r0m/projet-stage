@@ -38,8 +38,8 @@
 			</a>
 		</li>
 		<li class="breadcrumb-item">
-			<a class="text-muted text-decoration-none" href="{{ path('home_all_products') }}" title="Voir toutes les ***REMOVED***">
-				<p>Toutes les ***REMOVED***</p>
+			<a class="text-muted text-decoration-none" href="{{ path('home_all_products') }}" title="Voir Tous les produits">
+				<p>Tous les produits</p>
 			</a>
 		</li>
 	</ol>
@@ -96,7 +96,7 @@
 						<div class="img-event p-3">
 							{# Illustration produit #}
 							{% if product.images is not empty %}
-								<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'toutes-les-***REMOVED***' , slugProduct: product.slug}) }}">
+								<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'tous-les-produits' , slugProduct: product.slug}) }}">
 									<img class="group list-group-image img-fluid d-block mx-auto" src="{{ asset('images/products/' ~ product.images[0].name )| imagine_filter('miniatures') }}" alt="Immage d'illustration {{ product.title ?? '' }}"> 		
 								</a>  
 							{% endif %}    
@@ -105,7 +105,7 @@
 
 						<div class="caption card-body pb-0">
 							{# Description produit #}
-							<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'toutes-les-***REMOVED***', slugProduct: product.slug}) }}">
+							<a class="text-decoration-none" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'tous-les-produits', slugProduct: product.slug}) }}">
 								<h3 class="card-title inner list-group-item-heading font-weight-bold blue">
 									{{ product.title }}
 								</h3>
@@ -127,7 +127,7 @@
 								</div>
 								<div class="col-xs-12 col-md-6 p-0">
 									{# Liens vers produit #}
-										<a class="text-decoration-none border-left border-top p-3 font-weight-bold float-right wantToKnowMore blue" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'toutes-les-***REMOVED***', slugProduct: product.slug}) }}">En savoir plus...</a> 
+										<a class="text-decoration-none border-left border-top p-3 font-weight-bold float-right wantToKnowMore blue" title="Aller à la page de {{ product.title }}" href="{{ path('home_product', { slugCategory: 'tous-les-produits', slugProduct: product.slug}) }}">En savoir plus...</a> 
 									{# Fin Liens vers produit #}
 								</div>
 							</div>

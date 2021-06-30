@@ -51,9 +51,9 @@
         {% for youngling in younglings %}
             <div class="col-md-4 col-lg-3 my-3">
                 {% if youngling.picture is not empty %}
-                    <img class="d-block img-fluid mx-auto" src="{{ asset('images/younglings/'~ youngling.picture ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des petits éclaireurs">
+                    <img class="d-block img-fluid mx-auto" src="{{ asset('images/younglings/'~ youngling.picture ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des Beta testers">
                 {% else %}
-                    <img class="d-block img-fluid mx-auto" src="{{ asset('images/younglings/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des petits éclaireurs">
+                    <img class="d-block img-fluid mx-auto" src="{{ asset('images/younglings/noone.jpg' ) | imagine_filter('miniatures') }}" alt="Photo d'un membre des Beta testers">
                 {% endif %}
                     <div class="text-center">{{ youngling.name }}</div>
             </div>                    

@@ -29,10 +29,10 @@ class PagesType extends AbstractType
         $firmSlugs=[
             'accueil',
             'qui-sommes-nous',
-            'equipe-petits-eclaireurs',
+            'equipe-beta-testers',
             'foire-aux-questions',
-            '***REMOVED***-thematiques',
-            'toutes-les-***REMOVED***'
+            'produits-thematiques',
+            'tous-les-produits'
         ];
 
         $builder
