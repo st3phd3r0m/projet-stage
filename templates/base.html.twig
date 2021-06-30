@@ -6,8 +6,8 @@
         <!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <![endif]-->
-        <meta name="author" content="Ludo et Sophie">
-        <meta name="copyright" content="Copyright © 2016-{{ 'now' | date('Y') }} Ludo&amp;Sophie. All rights reserved.">
+        <meta name="author" content="Timothy et Timothé">
+        <meta name="copyright" content="Copyright © 2016-{{ 'now' | date('Y') }} Timothy&amp;Timothé. All rights reserved.">
 
         {# Réseaux sociaux #}
         {# Pinterest #}
@@ -16,13 +16,13 @@
 
         {# Twitter #}
         <meta name="twitter:card" content="summary">
-        <meta name="twitter:site" content="@Ludo_et_Sophie">
-        <meta name="twitter:creator" content="@Ludo_et_Sophie">
+        <meta name="twitter:site" content="@Timothy_et_Timothé">
+        <meta name="twitter:creator" content="@Timothy_et_Timothé">
         {# Fin Twitter #}
 
         {# Facebook #}
         <meta property="fb:app_id" content="***REMOVED***">
-        <meta property="og:site_name" content="Ludo et Sophie">
+        <meta property="og:site_name" content="Timothy et Timothé">
         <meta property="og:image" content="{{ asset('images/icones/header_logo-300x300.jpg') }}">
 	    <meta property="og:image:width" content="300">
 	    <meta property="og:image:height" content="300">
@@ -31,7 +31,7 @@
         {% block head %}{% endblock %}
 
         <link rel="shortcut icon" href="{{ asset('images/icones/logo_footer.jpg') }}" type="image/x-icon">
-        <title>{% block title %}Ludo et Sophie Accueil{% endblock %}</title>
+        <title>{% block title %}Timothy et Timothé Accueil{% endblock %}</title>
 
         {# Chargement CDNs #}        
         <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
@@ -46,17 +46,17 @@
         {
             "@context": "http://schema.org",
             "@type": "EducationalOrganization",
-            "name": "Ludo & Sophie",
-            "description": "Ludo & Sophie organise depuis 2016 à Paris, Dijon et Nantes, des activités ludiques et culturelles passionnantes pour les FAMILLES et SCOLAIRES !",
+            "name": "Timothy & Timothé",
+            "description": "Timothy & Timothé organise depuis 2016 à Paris, Dijon et Nantes, des activités ludiques et culturelles passionnantes pour les FAMILLES et SCOLAIRES !",
             "image": "{{ asset('images/icones/header_logo-300x300.jpg') }}",
             "logo": "{{ asset('images/icones/logo_footer.jpg') }}",
             "url": "{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}",
             "telephone": "06 74 97 39 03",
             "sameAs": [
-                "https://twitter.com/ludo_et_sophie",
-                "https://fr.linkedin.com/company/ludo&sophie",
-                "https://fr-fr.facebook.com/LudoetSophieParis",
-                "https://www.instagram.com/ludoetsophie",
+                "https://twitter.com/Timothy_et_Timothé",
+                "https://fr.linkedin.com/company/Timothy&Timothé",
+                "https://fr-fr.facebook.com/TimothyetTimothéParis",
+                "https://www.instagram.com/TimothyetTimothé",
                 "https://www.pinterest.fr/pin/307441112063894353"
             ],
             "address": {
@@ -128,8 +128,8 @@
                     </div>
                     {# Image header #}
                     <div class="col-md-8 mt-5">
-                        <a href="{{ path('home') }}" title="Ludo et Sophie : Accueil" >
-                            <img class="d-block img-fluid w-50 mx-auto" src="{{ asset('images/icones/nouveaulogo2.png') }}" alt="Image d'accueil du site Ludo et Sophie">
+                        <a href="{{ path('home') }}" title="Timothy et Timothé : Accueil" >
+                            <img class="d-block img-fluid w-50 mx-auto" src="{{ asset('images/icones/nouveaulogo2.png') }}" alt="Image d'accueil du site Timothy et Timothé">
                         </a>
                         <h1 class="font-italic"><span class="red">et la culture devient</span> <span class="blue">un jeu d'***REMOVED***</span><span class="orange">(s)</span><span class="blue">!</span></h1>
                     </div>
@@ -160,7 +160,7 @@
                         <button class="navbar-toggler p-2 border my-2 mx-2" type="button" data-toggle="offcanvas">
                             <span class="navbar-toggler-icon"></span>
                         </button>   
-                        <img id="logoMobile" src="{{ asset('images/icones/logo_mobile.png' ) }}" alt="Version mobile du logo Ludo et Sophie">
+                        <img id="logoMobile" src="{{ asset('images/icones/logo_mobile.png' ) }}" alt="Version mobile du logo Timothy et Timothé">
                     
                     </div>
 
@@ -270,11 +270,11 @@
                         <h4 class="mb-4 red font-weight-bold">Une question ? Une idée ?</h4>
                         <div class="row">
                             <div class="col-6 col-md-12 col-xl-6">
-                                <img class="img-fluid" src="{{ asset('images/icones/logo_footer.jpg')| imagine_filter('miniatures') }}" alt="Logo footer Ludo et Sophie">                            
+                                <img class="img-fluid" src="{{ asset('images/icones/logo_footer.jpg')| imagine_filter('miniatures') }}" alt="Logo footer Timothy et Timothé">                            
                             </div>
                             <address class="col-6 col-md-12 col-xl-6 text-left p-0 m-0 ml-md-4 ml-xl-0">
                                 <ul class="p-0 m-0 mt-3">
-                                    <li>Ludo &amp; Sophie SAS</li>
+                                    <li>Timothy &amp; Timothé SAS</li>
                                     <li>49 rue de Ponthieu</li>
                                     <li>75008 Paris</li>
                                 </ul>            
@@ -302,7 +302,7 @@
                 </ul>
 
             
-                <p class="text-center blue my-5">Copyright &copy; 2016-2020 Ludo&amp;Sophie. Tous droits réservés.</p>
+                <p class="text-center blue my-5">Copyright &copy; 2016-2020 Timothy&amp;Timothé. Tous droits réservés.</p>
             </div>
         
         </footer>    
