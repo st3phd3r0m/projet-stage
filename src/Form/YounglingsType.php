@@ -18,7 +18,7 @@ class YounglingsType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'label' => 'nom de l\'***REMOVED*** : ',
+                'label' => 'nom du tester : ',
 
                 'constraints' => [
                     new NotBlank([
@@ -28,7 +28,7 @@ class YounglingsType extends AbstractType
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
-                'label' => 'Photo de l\'***REMOVED***',
+                'label' => 'Photo du tester',
                 'download_uri' => false,
                 'imagine_pattern' => 'miniatures',
                 'constraints' => [

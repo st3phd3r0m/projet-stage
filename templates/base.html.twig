@@ -11,7 +11,7 @@
 
         {# Réseaux sociaux #}
         {# Pinterest #}
-        <meta name="p:domain_verify" content="***REMOVED***">
+        <meta name="p:domain_verify" content="">
         {# Fin Pinterest #}
 
         {# Twitter #}
@@ -21,7 +21,7 @@
         {# Fin Twitter #}
 
         {# Facebook #}
-        <meta property="fb:app_id" content="***REMOVED***">
+        <meta property="fb:app_id" content="">
         <meta property="og:site_name" content="Timothy et Timothé">
         <meta property="og:image" content="{{ asset('images/icones/header_logo-300x300.jpg') }}">
 	    <meta property="og:image:width" content="300">
@@ -131,19 +131,19 @@
                         <a href="{{ path('home') }}" title="Timothy et Timothé : Accueil" >
                             <img class="d-block img-fluid w-50 mx-auto" src="{{ asset('images/icones/nouveaulogo2.png') }}" alt="Image d'accueil du site Timothy et Timothé">
                         </a>
-                        <h1 class="font-italic"><span class="red">et la culture devient</span> <span class="blue">un jeu d'***REMOVED***</span><span class="orange">(s)</span><span class="blue">!</span></h1>
+                        <h1 class="font-italic"><span class="red">et la culture devient</span> <span class="blue">un jeu de tester</span><span class="orange">(s)</span><span class="blue">!</span></h1>
                     </div>
                     {# Fin Image header #}
                     <div class="d-none d-md-block col-md-2 mt-0">
                         <div class="row mt-5">
                             {% for foreignLanguage in foreignLanguages() %} 
                             <div class="col-lg-6 p-1">
-                                <a href="{{ path('foreign', {lang:foreignLanguage.name, slug: foreignLanguage.slug }) }}" title="English and Spanish family tours">
+                                <a href="{{ path('foreign', {lang:foreignLanguage.name, slug: foreignLanguage.slug }) }}" title="Expéditions de groupe">
                                     <img class="d-block mx-auto img-fluid" src="{{ asset('images/languages/' ~ foreignLanguage.flag ) | imagine_filter('flag') }}" alt="Icone de la langue {{ foreignLanguage.name }}">
                                 </a>
                             </div>
                             {% endfor %}
-                            <p class="d-none d-lg-block text-center">English and Spanish family tours</p>                        
+                            <p class="d-none d-lg-block text-center">Expéditions de groupe</p>                        
                         </div>
 
                     </div>

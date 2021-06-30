@@ -123,7 +123,7 @@ class PeopleController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $person->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            //Suppression du fichier miniature associé à l'***REMOVED***
+            //Suppression du fichier miniature associé au tester
             $miniature = '../public/media/cache/miniatures/images/people/' . $person->getPicture();
             //Si le fichier existe
             if ($filesystem->exists($miniature)) {

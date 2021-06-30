@@ -58,7 +58,7 @@ class YounglingsController extends AbstractController
             $entityManager->flush();
 
             //Envoi d'un message utilisateur
-            $this->addFlash('success', 'Les infos de l\'***REMOVED*** ont bien été enregistrées.');
+            $this->addFlash('success', 'Les infos du tester ont bien été enregistrées.');
             return $this->redirectToRoute('younglings_index');
         }
 
@@ -93,7 +93,7 @@ class YounglingsController extends AbstractController
             }
 
             //Envoi d'un message utilisateur
-            $this->addFlash('success', 'Les infos de l\'***REMOVED*** ont bien été modifiée.');
+            $this->addFlash('success', 'Les infos du tester ont bien été modifiée.');
 
             return $this->redirectToRoute('younglings_index');
         }
@@ -112,7 +112,7 @@ class YounglingsController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$youngling->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            //Suppression du fichier miniature associé à l'***REMOVED***
+            //Suppression du fichier miniature associé au tester
             $miniature = '../public/media/cache/miniatures/images/younglings/' . $youngling->getPicture();
             //Si le fichier existe
             if ($filesystem->exists($miniature)) {
@@ -124,7 +124,7 @@ class YounglingsController extends AbstractController
             $entityManager->flush();
 
             //Envoi d'un message utilisateur
-            $this->addFlash('success', 'Les infos de l\'***REMOVED*** ont bien été supprimées.');
+            $this->addFlash('success', 'Les infos du tester ont bien été supprimées.');
         }
 
         return $this->redirectToRoute('younglings_index');
