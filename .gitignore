@@ -21,5 +21,6 @@
 ###> liip/imagine-bundle ###
 /public/media/cache/
 /public/images/
+/public/adminlte
 ###< liip/imagine-bundle ###
 # /public/images/products
